@@ -25,21 +25,21 @@ export class AccountController {
   @ApiResponse({ status: 200, type: Account })
   getByID(@Param() params) {
     const id: number = +params.id;
-    return this.accountService.getByIdAccount(id);
+    return this.accountService.getById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Просмотр всех аккаунтов' })
   @ApiResponse({ status: 200, type: [Account] })
   getAll() {
-    return this.accountService.getAllAccount();
+    return this.accountService.getAll();
   }
 
   @Post()
   @ApiOperation({ summary: 'Создание нового аккаунта' })
   @ApiResponse({ status: 200, type: Account })
   create(@Body() accountDto: createAccountDto) {
-    return this.accountService.createAccount(accountDto);
+    return this.accountService.create(accountDto);
   }
 
   @Put(':id')
@@ -48,7 +48,7 @@ export class AccountController {
   @ApiResponse({ status: 204 })
   update(@Param() params, @Body() dto: createAccountDto) {
     const id: number = +params.id;
-    this.accountService.updateAccount(id, dto);
+    return this.accountService.update(id, dto);
   }
 
   @Delete(':id')
@@ -57,6 +57,6 @@ export class AccountController {
   @ApiResponse({ status: 204 })
   delete(@Param() params) {
     const id: number = +params.id;
-    this.accountService.deleteAccount(id);
+    return this.accountService.delete(id);
   }
 }

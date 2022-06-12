@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, Validate } from 'sequelize-typescript';
 
 interface RoleCreateAttr {
   name: string;

@@ -37,11 +37,12 @@ export class RoleService {
   }
 
   async deleteRole(id) {
-    try {
-      const role = await this.roleRepository.findByPk(id);
+    const role = await this.roleRepository.findByPk(id);
+    console.log(role);
+    if (role) {
       await role.destroy();
       return role;
-    } catch {
+    } else {
       throw new HttpException('Ошибка удаления', HttpStatus.BAD_REQUEST);
     }
   }

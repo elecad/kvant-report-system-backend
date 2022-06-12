@@ -9,42 +9,65 @@ export class AccountService {
     @InjectModel(Account) private accountRepository: typeof Account,
   ) {}
 
-  async getAllAccount() {
+  async getAll() {
     const accounts = await this.accountRepository.findAll();
     return accounts;
   }
 
-  async getByIdAccount(id: number) {
+  async getById(id: number) {
     const accounts = await this.accountRepository.findByPk(id);
     return accounts;
   }
 
-  async createAccount(dto: createAccountDto) {
-    try {
+  async getByEmail(email: string) {
+    return await this.accountRepository.findOne({
+      where: { mail: email },
+    });
+  }
+
+  async create(dto: createAccountDto) {
+    const candidat = await this.getByEmail(dto.mail);
+    if (!candidat) {
       const account = await this.accountRepository.create(dto);
-      return account;
-    } catch {
-      throw new HttpException('Ошибка добавления', HttpStatus.BAD_REQUEST);
+      return { id: account.id };
     }
+    throw new HttpException(
+      'Аккаунт с такой электронной почтой уже существует',
+      HttpStatus.BAD_REQUEST,
+    );
   }
 
-  async updateAccount(id, dto) {
-    try {
-      const account = await this.accountRepository.findByPk(id);
-      await account.update(dto);
-      return account;
-    } catch {
-      throw new HttpException('Ошибка изменения', HttpStatus.BAD_REQUEST);
-    }
+  async update(id, dto) {
+    const candidat = await this.getById(id);
+    const emailCheck = await this.getByEmail(dto.mail);
+
+    if (!candidat)
+      throw new HttpException(
+        'Аккаунт с таким ID не найден',
+        HttpStatus.NOT_FOUND,
+      );
+
+    if (emailCheck)
+      throw new HttpException(
+        'Аккаунт с такой электронной почтой уже существует',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    candidat.update(dto);
+    return;
   }
 
-  async deleteAccount(id) {
-    try {
-      const account = await this.accountRepository.findByPk(id);
-      await account.destroy();
-      return account;
-    } catch {
-      throw new HttpException('Ошибка удаления', HttpStatus.BAD_REQUEST);
+  async delete(id) {
+    const candidat = await this.getById(id);
+
+    if (candidat) {
+      candidat.destroy();
+      return;
     }
+
+    throw new HttpException(
+      'Аккаунт с таким ID не найден',
+      HttpStatus.NOT_FOUND,
+    );
   }
 }
