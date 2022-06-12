@@ -5,7 +5,7 @@ interface RoleCreateAttr {
   name: string;
 }
 
-@Table({ tableName: 'account' })
+@Table({ tableName: 'role' })
 export class Role extends Model<Role, RoleCreateAttr> {
   @ApiProperty({ example: '1', description: 'ID Роли' })
   @Column({

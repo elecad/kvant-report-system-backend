@@ -48,7 +48,7 @@ export class AccountController {
   @ApiResponse({ status: 204 })
   update(@Param() params, @Body() dto: createAccountDto) {
     const id: number = +params.id;
-    return this.accountService.updateAccount(id, dto);
+    this.accountService.updateAccount(id, dto);
   }
 
   @Delete(':id')
@@ -57,6 +57,6 @@ export class AccountController {
   @ApiResponse({ status: 204 })
   delete(@Param() params) {
     const id: number = +params.id;
-    return this.accountService.deleteAccount(id);
+    this.accountService.deleteAccount(id);
   }
 }
