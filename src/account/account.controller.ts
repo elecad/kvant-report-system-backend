@@ -7,14 +7,16 @@ import {
   Param,
   Post,
   Put,
+  UsePipes,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ValidationPipe } from 'src/pipes/validator.pipe';
 import { Account } from './account.model';
 import { AccountService } from './account.service';
 import { createAccountDto } from './dto/create-account.dto';
 
-@ApiTags('Аккаунты')
 @Controller('account')
+@ApiTags('Аккаунты')
 export class AccountController {
   constructor(private accountService: AccountService) {}
 

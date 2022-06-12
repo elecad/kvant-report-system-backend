@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-interface AccountCraateAttr {
+interface AccountCreateAttr {
   mail: string;
   password: string;
   FIO: string;
 }
 
 @Table({ tableName: 'account' })
-export class Account extends Model<Account, AccountCraateAttr> {
+export class Account extends Model<Account, AccountCreateAttr> {
   @ApiProperty({ example: '1', description: 'ID Аккаунта' })
   @Column({
     type: DataType.INTEGER,
