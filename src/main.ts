@@ -10,7 +10,6 @@ async function bootstrap() {
       'Документация API для проекта в рамках производственной практики',
     )
     .setVersion('1.0.0')
-    .addTag('elecad')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
