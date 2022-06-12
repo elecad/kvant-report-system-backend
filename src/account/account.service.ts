@@ -39,7 +39,7 @@ export class AccountService {
 
   async update(id, dto) {
     const candidat = await this.getById(id);
-    const emailCheck = await this.getByEmail(dto.mail);
+    const check = await this.getByEmail(dto.mail);
 
     if (!candidat)
       throw new HttpException(
@@ -47,14 +47,13 @@ export class AccountService {
         HttpStatus.NOT_FOUND,
       );
 
-    if (emailCheck)
+    if (check)
       throw new HttpException(
         'Аккаунт с такой электронной почтой уже существует',
         HttpStatus.BAD_REQUEST,
       );
 
     candidat.update(dto);
-    return;
   }
 
   async delete(id) {

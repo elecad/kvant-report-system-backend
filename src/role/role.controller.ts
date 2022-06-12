@@ -23,21 +23,21 @@ export class RoleController {
   @ApiResponse({ status: 200, type: Role })
   getByID(@Param() params) {
     const id: number = +params.id;
-    return this.roleService.getByIdRole(id);
+    return this.roleService.getById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Просмотр всех аккаунтов' })
   @ApiResponse({ status: 200, type: [Role] })
   getAll() {
-    return this.roleService.getAllRole();
+    return this.roleService.getAll();
   }
 
   @Post()
   @ApiOperation({ summary: 'Создание нового аккаунта' })
   @ApiResponse({ status: 200, type: Role })
   create(@Body() accountDto: createRoleDto) {
-    return this.roleService.createRole(accountDto);
+    return this.roleService.create(accountDto);
   }
 
   @Put(':id')
@@ -46,7 +46,7 @@ export class RoleController {
   @ApiResponse({ status: 204 })
   update(@Param() params, @Body() dto: createRoleDto) {
     const id: number = +params.id;
-    this.roleService.updateRole(id, dto);
+    return this.roleService.update(id, dto);
   }
 
   @Delete(':id')
@@ -55,6 +55,6 @@ export class RoleController {
   @ApiResponse({ status: 204 })
   delete(@Param() params) {
     const id: number = +params.id;
-    this.roleService.deleteRole(id);
+    return this.roleService.delete(id);
   }
 }

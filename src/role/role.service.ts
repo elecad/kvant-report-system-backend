@@ -7,43 +7,61 @@ import { Role } from './role.model';
 export class RoleService {
   constructor(@InjectModel(Role) private roleRepository: typeof Role) {}
 
-  async getAllRole() {
-    const role = await this.roleRepository.findAll();
-    return role;
+  async getAll() {
+    const roles = await this.roleRepository.findAll();
+    return roles;
   }
 
-  async getByIdRole(id: number) {
+  async getById(id: number) {
     const role = await this.roleRepository.findByPk(id);
     return role;
   }
 
-  async createRole(dto: createRoleDto) {
-    try {
+  async getByName(name: string) {
+    return await this.roleRepository.findOne({
+      where: { name: name },
+    });
+  }
+
+  async create(dto: createRoleDto) {
+    const candidat = await this.getByName(dto.name);
+    if (!candidat) {
       const role = await this.roleRepository.create(dto);
-      return role;
-    } catch {
-      throw new HttpException('Ошибка добавления', HttpStatus.BAD_REQUEST);
+      return { id: role.id };
     }
+    throw new HttpException(
+      'Роль с таким названием уже существует',
+      HttpStatus.BAD_REQUEST,
+    );
   }
 
-  async updateRole(id, dto) {
-    try {
-      const role = await this.roleRepository.findByPk(id);
-      await role.update(dto);
-      return role;
-    } catch {
-      throw new HttpException('Ошибка изменения', HttpStatus.BAD_REQUEST);
-    }
+  async update(id, dto) {
+    const candidat = await this.getById(id);
+    const check = await this.getByName(dto.name);
+
+    if (!candidat)
+      throw new HttpException(
+        'Роль с таким ID не найдена',
+        HttpStatus.NOT_FOUND,
+      );
+
+    if (check)
+      throw new HttpException(
+        'Роль с таким названием уже существует',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    candidat.update(dto);
   }
 
-  async deleteRole(id) {
-    const role = await this.roleRepository.findByPk(id);
-    console.log(role);
-    if (role) {
-      await role.destroy();
-      return role;
-    } else {
-      throw new HttpException('Ошибка удаления', HttpStatus.BAD_REQUEST);
+  async delete(id) {
+    const candidat = await this.getById(id);
+
+    if (candidat) {
+      candidat.destroy();
+      return;
     }
+
+    throw new HttpException('Роль с таким ID не найдена', HttpStatus.NOT_FOUND);
   }
 }
