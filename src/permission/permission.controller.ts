@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, HttpCode, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { PermissionService } from './permission.service';
@@ -11,5 +11,13 @@ export class PermissionController {
   @ApiResponse({ status: 200 })
   create(@Body() permissionDto: addPermissionDto) {
     return this.permissionService.add(permissionDto);
+  }
+
+  @Delete()
+  @HttpCode(204)
+  @ApiOperation({ summary: 'Удаление роли у аккаунта' })
+  @ApiResponse({ status: 204 })
+  remove(@Body() permissionDto: addPermissionDto) {
+    return this.permissionService.remove(permissionDto);
   }
 }

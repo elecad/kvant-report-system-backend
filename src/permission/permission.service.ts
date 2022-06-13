@@ -49,5 +49,30 @@ export class PermissionService {
     return { id: permission.id };
   }
 
-  async remove(dto: addPermissionDto) {}
+  async remove(dto: addPermissionDto) {
+    const account = await this.accountRepository.findOne({
+      where: { mail: dto.mail },
+      include: { all: true },
+    });
+    if (!account)
+      throw new HttpException(
+        'Аккаунт с такой электронной почтой не существует',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const role = account.permissions.find((r) => {
+      return r.name === dto.name;
+    });
+    console.log(role);
+
+    if (!role)
+      throw new HttpException(
+        'Роль у аккаунта не найдена',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    await role.destroy();
+
+    return;
+  }
 }
