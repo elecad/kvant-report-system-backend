@@ -9,6 +9,8 @@ import { PermissionModule } from './permission/permission.module';
 import { Permission } from './permission/permission.model';
 import { PlaceModule } from './place/place.module';
 import { Place } from './place/place.model';
+import { SchoolTypeModule } from './school_type/school_type.module';
+import { SchoolType } from './school_type/school_type.model';
 
 @Module({
   controllers: [],
@@ -24,13 +26,14 @@ import { Place } from './place/place.model';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Permission, Place],
+      models: [Account, Role, Permission, Place, SchoolType],
       autoLoadModels: true,
     }),
     AccountModule,
     RoleModule,
     PermissionModule,
     PlaceModule,
+    SchoolTypeModule,
   ],
 })
 export class AppModule {}
