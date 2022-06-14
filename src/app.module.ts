@@ -7,6 +7,8 @@ import { RoleModule } from './role/role.module';
 import { Role } from './role/role.model';
 import { PermissionModule } from './permission/permission.module';
 import { Permission } from './permission/permission.model';
+import { PlaceModule } from './place/place.module';
+import { Place } from './place/place.model';
 
 @Module({
   controllers: [],
@@ -22,12 +24,13 @@ import { Permission } from './permission/permission.model';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Permission],
+      models: [Account, Role, Permission, Place],
       autoLoadModels: true,
     }),
     AccountModule,
     RoleModule,
     PermissionModule,
+    PlaceModule,
   ],
 })
 export class AppModule {}
