@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, HttpCode, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { PermissionService } from './permission.service';
 
 @Controller('permission')
+@ApiTags('Привелегии')
 export class PermissionController {
   constructor(private permissionService: PermissionService) {}
   @Post()
