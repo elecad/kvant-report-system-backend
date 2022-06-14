@@ -1,21 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
 
 export class addPermissionDto {
   @ApiProperty({
-    example: 'mail@mail.ru',
-    description: 'Электронная почта аккаунта, к которому добавляется роль',
+    example: 1,
+    description: 'ID Аккаунта',
   })
-  @IsString({ message: 'Электронная почта должна быть строкой' })
-  @IsEmail({}, { message: 'Некорректная электронная почта' })
-  @IsNotEmpty({ message: 'Необходима электронная почта' })
-  mail: string;
+  @IsNotEmpty({ message: 'Необходим ID Аккаунта' })
+  @IsPositive({ message: 'ID должен быть положительным числом' })
+  @IsNumber({ allowNaN: false }, { message: 'ID должен быть числом' })
+  account_id: number;
 
   @ApiProperty({
-    example: 'Администратор',
-    description: 'Наименование роли',
+    example: 1,
+    description: 'ID Роли',
   })
-  @IsString({ message: 'Наименование должно быть строкой' })
-  @IsNotEmpty({ message: 'Необходимо наименование' })
-  name: string;
+  @IsNotEmpty({ message: 'Необходим ID Роли' })
+  @IsPositive({ message: 'ID должен быть положительным числом' })
+  @IsNumber({ allowNaN: false }, { message: 'ID должен быть числом' })
+  role_id: number;
 }

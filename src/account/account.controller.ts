@@ -23,7 +23,7 @@ export class AccountController {
   @ApiResponse({ status: 200, type: Account })
   getByID(@Param() params) {
     const id: number = +params.id;
-    return this.accountService.getById(id);
+    return this.accountService.getById(id, true);
   }
 
   @Get()

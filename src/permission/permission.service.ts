@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Account } from 'src/account/account.model';
-import { Role } from 'src/role/role.model';
+import { AccountService } from 'src/account/account.service';
+import { RoleService } from 'src/role/role.service';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { Permission } from './permission.model';
 
@@ -9,27 +9,13 @@ import { Permission } from './permission.model';
 export class PermissionService {
   constructor(
     @InjectModel(Permission) private permissionRepository: typeof Permission,
-    @InjectModel(Account) private accountRepository: typeof Account,
-    @InjectModel(Role) private roleRepository: typeof Role,
+    private accountService: AccountService,
+    private roleService: RoleService,
   ) {}
 
   async add(dto: addPermissionDto) {
-    const account = await this.accountRepository.findOne({
-      where: { mail: dto.mail },
-      include: { all: true },
-    });
-    if (!account)
-      throw new HttpException(
-        'Аккаунт с такой электронной почтой не существует',
-        HttpStatus.BAD_REQUEST,
-      );
-
-    const role = await this.roleRepository.findOne({
-      where: { name: dto.name },
-    });
-
-    if (!role)
-      throw new HttpException('Роль не найдена', HttpStatus.BAD_REQUEST);
+    const account = await this.accountService.getById(dto.account_id, true);
+    const role = await this.roleService.getById(dto.role_id);
 
     if (
       account.permissions.findIndex((r) => {
@@ -40,39 +26,40 @@ export class PermissionService {
         'Такая роль у аккаунта уже имеется',
         HttpStatus.BAD_REQUEST,
       );
-
-    const permission = await this.permissionRepository.create({
-      account_id: account.id,
-      role_id: role.id,
-    });
+    const permission = await this.permissionRepository.create(dto);
 
     return { id: permission.id };
   }
 
   async remove(dto: addPermissionDto) {
-    const account = await this.accountRepository.findOne({
-      where: { mail: dto.mail },
-      include: { all: true },
-    });
-    if (!account)
+    const account = await this.accountService.getById(dto.account_id, true);
+
+    const role = await this.roleService.getById(dto.role_id);
+
+    const permission = await this.getByAccountAndRole(account.id, role.id);
+
+    permission.destroy();
+  }
+
+  async getById(id: number) {
+    const permission = await this.permissionRepository.findByPk(id);
+    if (!permission)
       throw new HttpException(
-        'Аккаунт с такой электронной почтой не существует',
+        'Привелегии с таким ID не найдено',
         HttpStatus.BAD_REQUEST,
       );
+    return permission;
+  }
 
-    const role = account.permissions.find((r) => {
-      return r.name === dto.name;
+  async getByAccountAndRole(account_id: number, role_id: number) {
+    const permission = await this.permissionRepository.findOne({
+      where: { account_id, role_id },
     });
-    console.log(role);
-
-    if (!role)
+    if (!permission)
       throw new HttpException(
-        'Роль у аккаунта не найдена',
+        'Аккаунт не имеет такую роль',
         HttpStatus.BAD_REQUEST,
       );
-
-    await role.destroy();
-
-    return;
+    return permission;
   }
 }

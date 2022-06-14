@@ -14,9 +14,17 @@ export class AccountService {
     return accounts;
   }
 
-  async getById(id: number) {
-    const accounts = await this.accountRepository.findByPk(id);
-    return accounts;
+  async getById(id: number, withRole: boolean) {
+    const account = await this.accountRepository.findByPk(
+      id,
+      withRole ? { include: { all: true } } : {},
+    );
+    if (!account)
+      throw new HttpException(
+        'Аккаунт с таким ID не найден',
+        HttpStatus.BAD_REQUEST,
+      );
+    return account;
   }
 
   async getByEmail(email: string) {
@@ -27,6 +35,7 @@ export class AccountService {
 
   async create(dto: createAccountDto) {
     const candidat = await this.getByEmail(dto.mail);
+
     if (!candidat) {
       const account = await this.accountRepository.create(dto);
       return { id: account.id };
@@ -38,14 +47,8 @@ export class AccountService {
   }
 
   async update(id, dto) {
-    const candidat = await this.getById(id);
+    const candidat = await this.getById(id, false);
     const check = await this.getByEmail(dto.mail);
-
-    if (!candidat)
-      throw new HttpException(
-        'Аккаунт с таким ID не найден',
-        HttpStatus.NOT_FOUND,
-      );
 
     if (check)
       throw new HttpException(
@@ -57,16 +60,10 @@ export class AccountService {
   }
 
   async delete(id) {
-    const candidat = await this.getById(id);
+    const candidat = await this.getById(id, false);
 
     if (candidat) {
       candidat.destroy();
-      return;
     }
-
-    throw new HttpException(
-      'Аккаунт с таким ID не найден',
-      HttpStatus.NOT_FOUND,
-    );
   }
 }

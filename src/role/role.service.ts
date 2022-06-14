@@ -14,6 +14,11 @@ export class RoleService {
 
   async getById(id: number) {
     const role = await this.roleRepository.findByPk(id);
+    if (!role)
+      throw new HttpException(
+        'Роль с таким ID не найдена',
+        HttpStatus.BAD_REQUEST,
+      );
     return role;
   }
 
