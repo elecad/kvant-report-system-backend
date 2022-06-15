@@ -11,9 +11,13 @@ export class createAccountDto {
   @IsString({ message: 'Электронная почта должна быть строкой' })
   @IsEmail({}, { message: 'Некорректная электронная почта' })
   @IsNotEmpty({ message: 'Необходима электронная почта' })
-  @Validate(isUnique, [{ model: Account, where: 'mail' }], {
-    message: 'Аккаунт с такой электронной почтой уже существует',
-  })
+  @Validate(
+    isUnique,
+    [{ model: Account, where: 'mail' } as { model; where?: string }],
+    {
+      message: 'Аккаунт с такой электронной почтой уже существует',
+    },
+  )
   mail: string;
 
   @ApiProperty({
