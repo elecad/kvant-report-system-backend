@@ -12,15 +12,11 @@ export class isUnique implements ValidatorConstraintInterface {
   async validate(text: string | number, args: ValidationArguments) {
     const { model, where }: { model; where: string } = args.constraints[0];
 
-    let check = false;
-
     if (where)
-      check = !!(await model.findOne({
+      return !!!(await model.findOne({
         where: { [where]: text },
       }));
-    else check = !!(await model.findByPk(text));
-
-    return !check;
+    return !!!(await model.findByPk(text));
   }
 
   defaultMessage(args: ValidationArguments) {
