@@ -2,10 +2,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
   ValidationArguments,
-  ValidationOptions,
-  registerDecorator,
 } from 'class-validator';
-import { DataTypes } from 'src/data_types/data_types.model';
 
 @ValidatorConstraint({ name: 'isUnique', async: false })
 export class isUnique implements ValidatorConstraintInterface {
