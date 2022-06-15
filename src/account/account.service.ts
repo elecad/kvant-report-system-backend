@@ -40,21 +40,11 @@ export class AccountService {
       const account = await this.accountRepository.create(dto);
       return { id: account.id };
     }
-    throw new HttpException(
-      'Аккаунт с такой электронной почтой уже существует',
-      HttpStatus.BAD_REQUEST,
-    );
   }
 
   async update(id, dto) {
     const candidat = await this.getById(id, false);
     const check = await this.getByEmail(dto.mail);
-
-    if (check)
-      throw new HttpException(
-        'Аккаунт с такой электронной почтой уже существует',
-        HttpStatus.BAD_REQUEST,
-      );
 
     candidat.update(dto);
   }
