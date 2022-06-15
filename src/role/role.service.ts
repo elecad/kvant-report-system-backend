@@ -29,33 +29,17 @@ export class RoleService {
   }
 
   async create(dto: createRoleDto) {
-    const candidat = await this.getByName(dto.name);
-    if (!candidat) {
-      const role = await this.roleRepository.create(dto);
-      return { id: role.id };
-    }
-    throw new HttpException(
-      'Роль с таким названием уже существует',
-      HttpStatus.BAD_REQUEST,
-    );
+    const role = await this.roleRepository.create(dto);
+    return { id: role.id };
   }
 
   async update(id, dto) {
     const candidat = await this.getById(id);
-    const check = await this.getByName(dto.name);
-
     if (!candidat)
       throw new HttpException(
         'Роль с таким ID не найдена',
         HttpStatus.NOT_FOUND,
       );
-
-    if (check)
-      throw new HttpException(
-        'Роль с таким названием уже существует',
-        HttpStatus.BAD_REQUEST,
-      );
-
     candidat.update(dto);
   }
 
