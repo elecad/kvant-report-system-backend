@@ -8,12 +8,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { createSchoolTypeDto } from './dto/create-school_type.dto';
 import { SchoolType } from './school_type.model';
 import { SchoolTypeService } from './school_type.service';
 
 @Controller('school-type')
+@ApiTags('Тип учреждения')
 export class SchoolTypeController {
   constructor(private schoolTypeService: SchoolTypeService) {}
 

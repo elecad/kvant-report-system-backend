@@ -11,6 +11,7 @@ import { PlaceModule } from './place/place.module';
 import { Place } from './place/place.model';
 import { SchoolTypeModule } from './school_type/school_type.module';
 import { SchoolType } from './school_type/school_type.model';
+import { DirectionModule } from './direction/direction.module';
 
 @Module({
   controllers: [],
@@ -34,6 +35,7 @@ import { SchoolType } from './school_type/school_type.model';
     PermissionModule,
     PlaceModule,
     SchoolTypeModule,
+    DirectionModule,
   ],
 })
 export class AppModule {}
