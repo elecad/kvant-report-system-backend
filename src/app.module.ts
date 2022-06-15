@@ -12,6 +12,9 @@ import { Place } from './place/place.model';
 import { SchoolTypeModule } from './school_type/school_type.module';
 import { SchoolType } from './school_type/school_type.model';
 import { DirectionModule } from './direction/direction.module';
+import { DataTypesModule } from './data_types/data_types.module';
+import { Direction } from './direction/direction.model';
+import { DataTypes } from './data_types/data_types.model';
 
 @Module({
   controllers: [],
@@ -27,7 +30,15 @@ import { DirectionModule } from './direction/direction.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Permission, Place, SchoolType],
+      models: [
+        Account,
+        Role,
+        Permission,
+        Place,
+        SchoolType,
+        Direction,
+        DataTypes,
+      ],
       autoLoadModels: true,
     }),
     AccountModule,
@@ -36,6 +47,7 @@ import { DirectionModule } from './direction/direction.module';
     PlaceModule,
     SchoolTypeModule,
     DirectionModule,
+    DataTypesModule,
   ],
 })
 export class AppModule {}
