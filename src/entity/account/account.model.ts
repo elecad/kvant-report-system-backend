@@ -6,8 +6,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Permission } from 'src/permission/permission.model';
-import { Role } from 'src/role/role.model';
+import { Permission } from '../permission/permission.model';
+import { Role } from '../role/role.model';
 
 interface AccountCreateAttr {
   mail: string;

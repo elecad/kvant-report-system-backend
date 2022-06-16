@@ -5,10 +5,9 @@ import {
   DataType,
   Model,
   Table,
-  Validate,
 } from 'sequelize-typescript';
-import { Account } from 'src/account/account.model';
-import { Permission } from 'src/permission/permission.model';
+import { Account } from 'src/entity/account/account.model';
+import { Permission } from '../permission/permission.model';
 
 interface RoleCreateAttr {
   name: string;

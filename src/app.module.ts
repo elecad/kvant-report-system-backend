@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AccountModule } from './account/account.module';
+import { AccountModule } from './entity/account/account.module';
 import { ConfigModule } from '@nestjs/config';
-import { Account } from './account/account.model';
-import { RoleModule } from './role/role.module';
-import { Role } from './role/role.model';
-import { PermissionModule } from './permission/permission.module';
-import { Permission } from './permission/permission.model';
-import { PlaceModule } from './place/place.module';
-import { Place } from './place/place.model';
-import { SchoolTypeModule } from './school_type/school_type.module';
-import { SchoolType } from './school_type/school_type.model';
-import { DirectionModule } from './direction/direction.module';
-import { DataTypesModule } from './data_types/data_types.module';
-import { Direction } from './direction/direction.model';
-import { DataTypes } from './data_types/data_types.model';
+import { Account } from './entity/account/account.model';
+import { Role } from './entity/role/role.model';
+import { Permission } from './entity/permission/permission.model';
+import { Place } from './entity/place/place.model';
+import { SchoolType } from './entity/school_type/school_type.model';
+import { Direction } from './entity/direction/direction.model';
+import { DataTypes } from './entity/data_types/data_types.model';
+import { RoleModule } from './entity/role/role.module';
+import { PermissionModule } from './entity/permission/permission.module';
+import { PlaceModule } from './entity/place/place.module';
+import { SchoolTypeModule } from './entity/school_type/school_type.module';
+import { DirectionModule } from './entity/direction/direction.module';
+import { DataTypesModule } from './entity/data_types/data_types.module';
 
 @Module({
   controllers: [],

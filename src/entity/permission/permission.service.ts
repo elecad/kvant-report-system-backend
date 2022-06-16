@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Account } from 'src/account/account.model';
-import { AccountService } from 'src/account/account.service';
-import { Role } from 'src/role/role.model';
-import { RoleService } from 'src/role/role.service';
+import { Account } from 'src/entity/account/account.model';
+import { AccountService } from 'src/entity/account/account.service';
+import { Role } from '../role/role.model';
+import { RoleService } from '../role/role.service';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { Permission } from './permission.model';
 
