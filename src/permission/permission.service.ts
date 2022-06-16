@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Account } from 'src/account/account.model';
 import { AccountService } from 'src/account/account.service';
+import { Role } from 'src/role/role.model';
 import { RoleService } from 'src/role/role.service';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { Permission } from './permission.model';
@@ -13,10 +15,7 @@ export class PermissionService {
     private roleService: RoleService,
   ) {}
 
-  async add(dto: addPermissionDto) {
-    const account = await this.accountService.getById(dto.account_id, true);
-    const role = await this.roleService.getById(dto.role_id);
-
+  accontHasRole(account: Account, role: Role) {
     if (
       account.permissions.findIndex((r) => {
         return r.name === role.name;
@@ -26,6 +25,14 @@ export class PermissionService {
         'Такая роль у аккаунта уже имеется',
         HttpStatus.BAD_REQUEST,
       );
+  }
+
+  async add(dto: addPermissionDto) {
+    const account = await this.accountService.getById(dto.account_id, true);
+    const role = await this.roleService.getById(dto.role_id);
+
+    this.accontHasRole(account, role);
+
     const permission = await this.permissionRepository.create(dto);
 
     return { id: permission.id };
