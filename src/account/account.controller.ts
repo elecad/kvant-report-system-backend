@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { queryIdDto } from 'src/dto/query-id.dto';
 import { Account } from './account.model';
 import { AccountService } from './account.service';
 import { createAccountDto } from './dto/create-account.dto';
@@ -21,7 +22,7 @@ export class AccountController {
   @Get(':id')
   @ApiOperation({ summary: 'Просмотр аккаунта по ID' })
   @ApiResponse({ status: 200, type: Account })
-  getByID(@Param() params) {
+  getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.accountService.getById(id, true);
   }
@@ -44,7 +45,7 @@ export class AccountController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Изменение аккаунта' })
   @ApiResponse({ status: 204 })
-  update(@Param() params, @Body() dto: createAccountDto) {
+  update(@Param() params: queryIdDto, @Body() dto: createAccountDto) {
     const id: number = +params.id;
     return this.accountService.update(id, dto);
   }
@@ -53,7 +54,7 @@ export class AccountController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удаление аккаунта' })
   @ApiResponse({ status: 204 })
-  delete(@Param() params) {
+  delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.accountService.delete(id);
   }

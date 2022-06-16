@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { queryIdDto } from 'src/dto/query-id.dto';
 import { createPlaceDto } from './dto/create-place.dto';
 import { Place } from './place.model';
 import { PlaceService } from './place.service';
@@ -21,7 +22,7 @@ export class PlaceController {
   @Get(':id')
   @ApiOperation({ summary: 'Просмотр места по ID' })
   @ApiResponse({ status: 200, type: Place })
-  getByID(@Param() params) {
+  getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.placeService.getById(id);
   }
@@ -44,7 +45,7 @@ export class PlaceController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Изменение места' })
   @ApiResponse({ status: 204 })
-  update(@Param() params, @Body() dto: createPlaceDto) {
+  update(@Param() params: queryIdDto, @Body() dto: createPlaceDto) {
     const id: number = +params.id;
     return this.placeService.update(id, dto);
   }
@@ -53,7 +54,7 @@ export class PlaceController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удаление места' })
   @ApiResponse({ status: 204 })
-  delete(@Param() params) {
+  delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.placeService.delete(id);
   }

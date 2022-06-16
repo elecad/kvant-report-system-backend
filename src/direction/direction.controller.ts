@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { queryIdDto } from 'src/dto/query-id.dto';
 import { Direction } from './direction.model';
 import { DirectionService } from './direction.service';
 import { createDirectionDto } from './dto/create-direction.dto';
@@ -20,7 +21,7 @@ export class DirectionController {
   @Get(':id')
   @ApiOperation({ summary: 'Просмотр направления по ID' })
   @ApiResponse({ status: 200, type: Direction })
-  getByID(@Param() params) {
+  getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.directionService.getById(id);
   }
@@ -43,7 +44,7 @@ export class DirectionController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Изменение места' })
   @ApiResponse({ status: 204 })
-  update(@Param() params, @Body() dto: createDirectionDto) {
+  update(@Param() params: queryIdDto, @Body() dto: createDirectionDto) {
     const id: number = +params.id;
     return this.directionService.update(id, dto);
   }
@@ -52,7 +53,7 @@ export class DirectionController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удаление места' })
   @ApiResponse({ status: 204 })
-  delete(@Param() params) {
+  delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.directionService.delete(id);
   }

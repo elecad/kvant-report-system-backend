@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { queryIdDto } from 'src/dto/query-id.dto';
 import { createRoleDto } from './dto/create-role.dto';
 import { Role } from './role.model';
 import { RoleService } from './role.service';
@@ -21,7 +22,7 @@ export class RoleController {
   @Get(':id')
   @ApiOperation({ summary: 'Просмотр роли по ID' })
   @ApiResponse({ status: 200, type: Role })
-  getByID(@Param() params) {
+  getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.roleService.getById(id);
   }
@@ -44,7 +45,7 @@ export class RoleController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Изменение аккаунта' })
   @ApiResponse({ status: 204 })
-  update(@Param() params, @Body() dto: createRoleDto) {
+  update(@Param() params: queryIdDto, @Body() dto: createRoleDto) {
     const id: number = +params.id;
     return this.roleService.update(id, dto);
   }
@@ -53,7 +54,7 @@ export class RoleController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удаление аккаунта' })
   @ApiResponse({ status: 204 })
-  delete(@Param() params) {
+  delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.roleService.delete(id);
   }

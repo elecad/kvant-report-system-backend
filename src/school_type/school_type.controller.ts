@@ -9,6 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { queryIdDto } from 'src/dto/query-id.dto';
 import { createSchoolTypeDto } from './dto/create-school_type.dto';
 import { SchoolType } from './school_type.model';
 import { SchoolTypeService } from './school_type.service';
@@ -21,7 +22,7 @@ export class SchoolTypeController {
   @Get(':id')
   @ApiOperation({ summary: 'Просмотр места по ID' })
   @ApiResponse({ status: 200, type: SchoolType })
-  getByID(@Param() params) {
+  getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.schoolTypeService.getById(id);
   }
@@ -44,7 +45,7 @@ export class SchoolTypeController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Изменение места' })
   @ApiResponse({ status: 204 })
-  update(@Param() params, @Body() dto: createSchoolTypeDto) {
+  update(@Param() params: queryIdDto, @Body() dto: createSchoolTypeDto) {
     const id: number = +params.id;
     return this.schoolTypeService.update(id, dto);
   }
@@ -53,7 +54,7 @@ export class SchoolTypeController {
   @HttpCode(204)
   @ApiOperation({ summary: 'Удаление места' })
   @ApiResponse({ status: 204 })
-  delete(@Param() params) {
+  delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
     return this.schoolTypeService.delete(id);
   }
