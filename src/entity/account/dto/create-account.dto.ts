@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, Validate } from 'class-validator';
-import { isHasDB } from 'src/validator/isHasDB.validator';
 import { isUnique } from 'src/validator/isUnique.validator';
 import { Account } from '../account.model';
 
