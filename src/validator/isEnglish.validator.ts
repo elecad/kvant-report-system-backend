@@ -7,7 +7,7 @@ import {
 @ValidatorConstraint({ name: 'isEnglish', async: false })
 export class isEnglish implements ValidatorConstraintInterface {
   validate(text: string, args: ValidationArguments) {
-    return /^[a-zA-Z_]+$/.test(text);
+    return /^[a-zA-Z0-9_]+$/.test(text);
   }
 
   defaultMessage(args: ValidationArguments) {
