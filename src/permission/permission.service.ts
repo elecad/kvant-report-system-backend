@@ -28,7 +28,10 @@ export class PermissionService {
   }
 
   async add(dto: addPermissionDto) {
-    const account = await this.accountService.getById(dto.account_id, true);
+    const account = await this.accountService.getById({
+      id: dto.account_id,
+      withRole: true,
+    });
     const role = await this.roleService.getById(dto.role_id);
 
     this.accontHasRole(account, role);
@@ -39,7 +42,10 @@ export class PermissionService {
   }
 
   async remove(dto: addPermissionDto) {
-    const account = await this.accountService.getById(dto.account_id, true);
+    const account = await this.accountService.getById({
+      id: dto.account_id,
+      withRole: true,
+    });
 
     const role = await this.roleService.getById(dto.role_id);
 

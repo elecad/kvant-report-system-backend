@@ -24,7 +24,7 @@ export class AccountController {
   @ApiResponse({ status: 200, type: Account })
   getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
-    return this.accountService.getById(id, true);
+    return this.accountService.getById({ id, withRole: true });
   }
 
   @Get()

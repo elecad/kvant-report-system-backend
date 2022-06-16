@@ -3,6 +3,11 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Account } from './account.model';
 import { createAccountDto } from './dto/create-account.dto';
 
+interface getIDProps {
+  id: number;
+  withRole?: boolean;
+}
+
 @Injectable()
 export class AccountService {
   constructor(
@@ -14,7 +19,7 @@ export class AccountService {
     return accounts;
   }
 
-  async getById(id: number, withRole: boolean) {
+  async getById({ id, withRole }: getIDProps) {
     const account = await this.accountRepository.findByPk(
       id,
       withRole ? { include: { all: true } } : {},
@@ -43,14 +48,14 @@ export class AccountService {
   }
 
   async update(id, dto) {
-    const candidat = await this.getById(id, false);
+    const candidat = await this.getById({ id });
     const check = await this.getByEmail(dto.mail);
 
     candidat.update(dto);
   }
 
   async delete(id) {
-    const candidat = await this.getById(id, false);
+    const candidat = await this.getById({ id });
 
     if (candidat) {
       candidat.destroy();
