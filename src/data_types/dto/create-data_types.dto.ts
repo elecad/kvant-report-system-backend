@@ -4,7 +4,7 @@ import { isEnglish } from 'src/validator/isEnglish.validator';
 import { isUnique } from 'src/validator/isUnique.validator';
 import { DataTypes } from '../data_types.model';
 
-export class createDateTypesDto {
+export class createDataTypesDto {
   @IsString({ message: 'Наименование типа данных должно быть строкой' })
   @IsNotEmpty({ message: 'Необходимо наименование типа данных' })
   @Validate(isEnglish, {

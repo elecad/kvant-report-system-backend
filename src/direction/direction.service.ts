@@ -18,7 +18,7 @@ export class DirectionService {
     const direction = await this.directionRepository.findByPk(id);
     if (!direction)
       throw new HttpException(
-        'Направление с таким ID не найден',
+        'Направление с таким ID не найдено',
         HttpStatus.BAD_REQUEST,
       );
     return direction;

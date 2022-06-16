@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DataTypesService } from './data_types.service';
-import { DataTypesController } from './data_types.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DataTypes } from './data_types.model';
+import { DataTypesController } from './data_types.controller';
+import { DataTypesService } from './data_types.service';
 
 @Module({
   providers: [DataTypesService],
