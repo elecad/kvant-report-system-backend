@@ -42,6 +42,16 @@ export class Event extends Model<Event, EventTypeCreateAttr> {
     allowNull: false,
   })
   @ApiProperty({
+    example: 'День робототехники',
+    description: 'Наименование мероприятия',
+  })
+  name: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  @ApiProperty({
     example: 'Мероприятие в честь...',
     description: 'Описание мероприятия',
   })
