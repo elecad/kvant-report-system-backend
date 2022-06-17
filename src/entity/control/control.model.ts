@@ -7,43 +7,43 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from 'src/entity/account/account.model';
-import { Role } from '../role/role.model';
+import { Place } from '../place/place.model';
 
-interface PermissionCreateAttr {
-  role_id: number;
+interface ControlCreateAttr {
   account_id: number;
+  place_id: number;
 }
 
-@Table({ tableName: 'permission' })
-export class Permission extends Model<Permission, PermissionCreateAttr> {
+@Table({ tableName: 'control' })
+export class Control extends Model<Control, ControlCreateAttr> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
     autoIncrement: true,
     primaryKey: true,
   })
-  @ApiProperty({ example: 1, description: 'ID Полномочия' })
+  @ApiProperty({ example: 1, description: 'ID Управления аккаунта над местом' })
   id: number;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  @ForeignKey(() => Role)
-  @ApiProperty({
-    example: 1,
-    description: 'Внешний ключ на Роль',
-  })
-  role_id: string;
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
   @ForeignKey(() => Account)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
   @ApiProperty({
     example: 1,
     description: 'Внешний ключ на Аккаунт',
   })
   account_id: number;
+
+  @ForeignKey(() => Place)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'Внешний ключ на Место',
+  })
+  place_id: number;
 }

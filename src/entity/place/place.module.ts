@@ -8,5 +8,6 @@ import { PlaceService } from './place.service';
   controllers: [PlaceController],
   providers: [PlaceService],
   imports: [SequelizeModule.forFeature([Place])],
+  exports: [PlaceService],
 })
 export class PlaceModule {}

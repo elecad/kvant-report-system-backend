@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { Role } from '../role/role.model';
 import { Account } from './account.model';
 import { AccountService } from './account.service';
 import { createAccountDto } from './dto/create-account.dto';
@@ -24,7 +25,7 @@ export class AccountController {
   @ApiResponse({ status: 200, type: Account })
   getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
-    return this.accountService.getById({ id, withRole: true });
+    return this.accountService.getById({ id, include: Role });
   }
 
   @Get()

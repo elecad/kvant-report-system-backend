@@ -6,7 +6,9 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Control } from '../control/control.model';
 import { Permission } from '../permission/permission.model';
+import { Place } from '../place/place.model';
 import { Role } from '../role/role.model';
 
 interface AccountCreateAttr {
@@ -20,7 +22,6 @@ export class Account extends Model<Account, AccountCreateAttr> {
   @ApiProperty({ example: '1', description: 'ID Аккаунта' })
   @Column({
     type: DataType.INTEGER,
-    unique: true,
     autoIncrement: true,
     primaryKey: true,
   })
@@ -59,4 +60,7 @@ export class Account extends Model<Account, AccountCreateAttr> {
 
   @BelongsToMany(() => Role, () => Permission)
   permissions: Role[];
+
+  @BelongsToMany(() => Place, () => Control)
+  controls: Place[];
 }

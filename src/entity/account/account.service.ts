@@ -1,11 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Includeable } from 'sequelize/types';
+import { Control } from '../control/control.model';
+import { Role } from '../role/role.model';
 import { Account } from './account.model';
 import { createAccountDto } from './dto/create-account.dto';
 
 interface getIDProps {
   id: number;
-  withRole?: boolean;
+  include?: Includeable | Includeable[];
 }
 
 @Injectable()
@@ -19,10 +22,10 @@ export class AccountService {
     return accounts;
   }
 
-  async getById({ id, withRole }: getIDProps) {
+  async getById({ id, include }: getIDProps) {
     const account = await this.accountRepository.findByPk(
       id,
-      withRole ? { include: { all: true } } : {},
+      include ? { include } : {},
     );
     if (!account)
       throw new HttpException(
@@ -48,14 +51,14 @@ export class AccountService {
   }
 
   async update(id, dto) {
-    const candidat = await this.getById({ id });
+    const candidat = await this.getById({ id, include: [] });
     const check = await this.getByEmail(dto.mail);
 
     candidat.update(dto);
   }
 
   async delete(id) {
-    const candidat = await this.getById({ id });
+    const candidat = await this.getById({ id, include: [] });
 
     if (candidat) {
       candidat.destroy();

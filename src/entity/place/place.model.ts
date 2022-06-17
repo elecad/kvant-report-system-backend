@@ -1,5 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Account } from '../account/account.model';
+import { Control } from '../control/control.model';
 import { Event } from '../event/event.model';
 
 interface PlaceCreateAttr {
@@ -10,7 +19,6 @@ interface PlaceCreateAttr {
 export class Place extends Model<Place, PlaceCreateAttr> {
   @Column({
     type: DataType.INTEGER,
-    unique: true,
     autoIncrement: true,
     primaryKey: true,
   })
@@ -29,4 +37,7 @@ export class Place extends Model<Place, PlaceCreateAttr> {
 
   @HasMany(() => Event)
   events: Event[];
+
+  @BelongsToMany(() => Account, () => Control)
+  accounts: Account[];
 }

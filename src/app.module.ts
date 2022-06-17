@@ -17,6 +17,8 @@ import { DirectionModule } from './entity/direction/direction.module';
 import { DataTypesModule } from './entity/data_types/data_types.module';
 import { EventModule } from './entity/event/event.module';
 import { Event } from './entity/event/event.model';
+import { ControlModule } from './entity/control/control.module';
+import { Control } from './entity/control/control.model';
 
 @Module({
   controllers: [],
@@ -41,6 +43,7 @@ import { Event } from './entity/event/event.model';
         Direction,
         DataTypes,
         Event,
+        Control,
       ],
       autoLoadModels: true,
     }),
@@ -52,6 +55,7 @@ import { Event } from './entity/event/event.model';
     DirectionModule,
     DataTypesModule,
     EventModule,
+    ControlModule,
   ],
 })
 export class AppModule {}
