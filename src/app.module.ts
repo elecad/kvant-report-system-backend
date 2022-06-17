@@ -15,6 +15,8 @@ import { PlaceModule } from './entity/place/place.module';
 import { SchoolTypeModule } from './entity/school_type/school_type.module';
 import { DirectionModule } from './entity/direction/direction.module';
 import { DataTypesModule } from './entity/data_types/data_types.module';
+import { EventModule } from './entity/event/event.module';
+import { Event } from './entity/event/event.model';
 
 @Module({
   controllers: [],
@@ -38,6 +40,7 @@ import { DataTypesModule } from './entity/data_types/data_types.module';
         SchoolType,
         Direction,
         DataTypes,
+        Event,
       ],
       autoLoadModels: true,
     }),
@@ -48,6 +51,7 @@ import { DataTypesModule } from './entity/data_types/data_types.module';
     SchoolTypeModule,
     DirectionModule,
     DataTypesModule,
+    EventModule,
   ],
 })
 export class AppModule {}

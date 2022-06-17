@@ -13,13 +13,13 @@ export class PlaceService {
   }
 
   async getById(id: number) {
-    const account = await this.placeRepository.findByPk(id);
-    if (!account)
+    const place = await this.placeRepository.findByPk(id);
+    if (!place)
       throw new HttpException(
         'Место с таким ID не найдено',
         HttpStatus.BAD_REQUEST,
       );
-    return account;
+    return place;
   }
 
   async create(dto: createPlaceDto) {
