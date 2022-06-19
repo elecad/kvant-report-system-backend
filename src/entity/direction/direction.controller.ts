@@ -8,13 +8,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { queryIdDto } from 'src/dto/query-id.dto';
 import { Direction } from './direction.model';
 import { DirectionService } from './direction.service';
 import { createDirectionDto } from './dto/create-direction.dto';
 
 @Controller('direction')
+@ApiTags('Направления')
 export class DirectionController {
   constructor(private directionService: DirectionService) {}
 

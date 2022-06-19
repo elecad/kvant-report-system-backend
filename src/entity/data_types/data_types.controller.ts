@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { queryIdDto } from 'src/dto/query-id.dto';
 import { DataTypes } from './data_types.model';
 import { DataTypesService } from './data_types.service';
@@ -16,6 +16,7 @@ import { DataTypesService } from './data_types.service';
 import { createDataTypesDto } from './dto/create-data_types.dto';
 
 @Controller('data-type')
+@ApiTags('Типы данных')
 export class DataTypesController {
   constructor(private dataTypesService: DataTypesService) {}
 

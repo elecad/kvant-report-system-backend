@@ -8,12 +8,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { queryIdDto } from 'src/dto/query-id.dto';
 import { createEventDto } from './dto/create-event.dto';
 import { EventService } from './event.service';
 
 @Controller('event')
+@ApiTags('Мероприятия')
 export class EventController {
   constructor(private eventService: EventService) {}
 
