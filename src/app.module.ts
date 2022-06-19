@@ -19,6 +19,7 @@ import { EventModule } from './entity/event/event.module';
 import { Event } from './entity/event/event.model';
 import { ControlModule } from './entity/control/control.module';
 import { Control } from './entity/control/control.model';
+import { ProgrammModule } from './entity/programm/programm.module';
 
 @Module({
   controllers: [],
@@ -56,6 +57,7 @@ import { Control } from './entity/control/control.model';
     DataTypesModule,
     EventModule,
     ControlModule,
+    ProgrammModule,
   ],
 })
 export class AppModule {}
