@@ -18,7 +18,7 @@ export class ControlService {
 
   accountHasPlace(account: Account, place: Place) {
     if (
-      account.permissions.findIndex((r) => {
+      account.controls.findIndex((r) => {
         return r.id === place.id;
       }) > -1
     )
