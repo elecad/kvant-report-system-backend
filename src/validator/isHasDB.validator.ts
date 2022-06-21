@@ -11,7 +11,8 @@ export class isHasDB implements ValidatorConstraintInterface {
 
     const types = ['string', 'number'];
 
-    if (!text || !types.find((t) => t === typeof text)) return false;
+    if (!text || !types.find((t) => t === typeof text) || isNaN(+text))
+      return false;
     if (where)
       return !!(await model.findOne({
         where: { [where]: text },
