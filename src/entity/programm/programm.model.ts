@@ -123,8 +123,8 @@ export class Programm extends Model<Programm, ProgrammCreateAttr> {
   place: Place;
 
   @BelongsTo(() => Direction)
-  direction: Place;
+  direction: Direction;
 
   @BelongsTo(() => SchoolType)
-  school_type: Place;
+  school_type: SchoolType;
 }
