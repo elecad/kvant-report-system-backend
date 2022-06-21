@@ -10,6 +10,7 @@ import {
 import { Account } from '../account/account.model';
 import { Control } from '../control/control.model';
 import { Event } from '../event/event.model';
+import { Programm } from '../programm/programm.model';
 
 interface PlaceCreateAttr {
   name: string;
@@ -37,6 +38,9 @@ export class Place extends Model<Place, PlaceCreateAttr> {
 
   @HasMany(() => Event)
   events: Event[];
+
+  @HasMany(() => Programm)
+  programms: Programm[];
 
   @BelongsToMany(() => Account, () => Control)
   accounts: Account[];

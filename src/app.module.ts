@@ -20,6 +20,7 @@ import { Event } from './entity/event/event.model';
 import { ControlModule } from './entity/control/control.module';
 import { Control } from './entity/control/control.model';
 import { ProgrammModule } from './entity/programm/programm.module';
+import { Programm } from './entity/programm/programm.model';
 
 @Module({
   controllers: [],
@@ -45,6 +46,7 @@ import { ProgrammModule } from './entity/programm/programm.module';
         DataTypes,
         Event,
         Control,
+        Programm,
       ],
       autoLoadModels: true,
     }),
