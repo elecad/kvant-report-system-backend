@@ -1,19 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  IsString,
-  Validate,
-} from 'class-validator';
+import { IsNotEmpty, IsPositive, Validate } from 'class-validator';
 import { Account } from 'src/entity/account/account.model';
-import { Direction } from 'src/entity/direction/direction.model';
-import { Place } from 'src/entity/place/place.model';
-import { SchoolType } from 'src/entity/school_type/school_type.model';
 import { isHalfYear } from 'src/validator/isHalfYear.validator';
 import { isHasDB } from 'src/validator/isHasDB.validator';
-import { isUnique } from 'src/validator/isUnique.validator';
 
 export class createTaskDto {
   @IsNotEmpty({ message: 'Необходимо Полугодие для задания' })

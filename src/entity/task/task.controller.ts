@@ -23,21 +23,21 @@ export class TaskController {
   @ApiResponse({ status: 200, type: Task })
   getByID(@Param() params: queryIdDto) {
     const id: number = +params.id;
-    // return this.taskService.getById(id);
+    return this.taskService.getById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Просмотр всех Программ' })
   @ApiResponse({ status: 200, type: [Task] })
   getAll() {
-    // return this.taskService.getAll();
+    return this.taskService.getAll();
   }
 
   @Post()
   @ApiOperation({ summary: 'Создание новой Программы' })
   @ApiResponse({ status: 200 })
   create(@Body() accountDto: createTaskDto) {
-    // return this.taskService.create(accountDto);
+    return this.taskService.create(accountDto);
   }
 
   @Put(':id')
@@ -46,7 +46,7 @@ export class TaskController {
   @ApiResponse({ status: 204 })
   update(@Param() params: queryIdDto, @Body() dto: createTaskDto) {
     const id: number = +params.id;
-    // return this.taskService.update(id, dto);
+    return this.taskService.update(id, dto);
   }
 
   @Delete(':id')
@@ -55,6 +55,6 @@ export class TaskController {
   @ApiResponse({ status: 204 })
   delete(@Param() params: queryIdDto) {
     const id: number = +params.id;
-    // return this.taskService.delete(id);
+    return this.taskService.delete(id);
   }
 }
