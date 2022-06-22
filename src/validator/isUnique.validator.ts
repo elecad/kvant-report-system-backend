@@ -15,10 +15,10 @@ export class isUnique implements ValidatorConstraintInterface {
       return false;
 
     if (where)
-      return !!!(await model.findOne({
+      return !await model.findOne({
         where: { [where]: text },
-      }));
-    return !!!(await model.findByPk(text));
+      });
+    return !await model.findByPk(text);
   }
 
   defaultMessage(args: ValidationArguments) {
