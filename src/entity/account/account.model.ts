@@ -3,6 +3,7 @@ import {
   BelongsToMany,
   Column,
   DataType,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -10,6 +11,7 @@ import { Control } from '../control/control.model';
 import { Permission } from '../permission/permission.model';
 import { Place } from '../place/place.model';
 import { Role } from '../role/role.model';
+import { Task } from '../task/task.model';
 
 interface AccountCreateAttr {
   mail: string;
@@ -63,4 +65,7 @@ export class Account extends Model<Account, AccountCreateAttr> {
 
   @BelongsToMany(() => Place, () => Control)
   controls: Place[];
+
+  @HasMany(() => Task)
+  tasks: Task[];
 }

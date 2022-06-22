@@ -28,6 +28,7 @@ import { PlaceDataModule } from './entity/place_data/place_data.module';
 import { PlaceData } from './entity/place_data/place_data.model';
 import { Task } from './entity/task/task.model';
 import { ProgrammDataModule } from './entity/programm_data/programm_data.module';
+import { ProgrammData } from './entity/programm_data/programm_data.model';
 
 @Module({
   controllers: [],
@@ -57,6 +58,7 @@ import { ProgrammDataModule } from './entity/programm_data/programm_data.module'
         PlaceType,
         Task,
         PlaceData,
+        ProgrammData,
       ],
       autoLoadModels: true,
     }),

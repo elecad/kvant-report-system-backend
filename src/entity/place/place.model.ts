@@ -12,6 +12,7 @@ import {
 import { Account } from '../account/account.model';
 import { Control } from '../control/control.model';
 import { Event } from '../event/event.model';
+import { PlaceData } from '../place_data/place_data.model';
 import { PlaceType } from '../place_type/place_type.model';
 import { Programm } from '../programm/programm.model';
 
@@ -61,4 +62,7 @@ export class Place extends Model<Place, PlaceCreateAttr> {
 
   @BelongsToMany(() => Account, () => Control)
   accounts: Account[];
+
+  @HasMany(() => PlaceData)
+  data: PlaceData[];
 }

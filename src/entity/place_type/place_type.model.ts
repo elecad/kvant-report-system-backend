@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Place } from '../place/place.model';
 
 interface PlaceTypeCreateAttr {
   name: string;
@@ -25,4 +26,7 @@ export class PlaceType extends Model<PlaceType, PlaceTypeCreateAttr> {
     description: 'Наименование типа места',
   })
   name: string;
+
+  @HasMany(() => Place)
+  places: Place[];
 }

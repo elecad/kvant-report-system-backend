@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Programm } from '../programm/programm.model';
 
 interface DirectionTypeCreateAttr {
   name: string;
@@ -25,4 +26,7 @@ export class Direction extends Model<Direction, DirectionTypeCreateAttr> {
     description: 'Наименование направления',
   })
   name: string;
+
+  @HasMany(() => Programm)
+  programms: Programm[];
 }

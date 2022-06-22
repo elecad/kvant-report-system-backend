@@ -75,7 +75,7 @@ export class PlaceData extends Model<PlaceData, PlaceDataTypeCreateAttr> {
   place: Place;
 
   @BelongsTo(() => DataTypes)
-  type: Place;
+  type: DataTypes;
 
   @BelongsTo(() => Task)
   task: Task;

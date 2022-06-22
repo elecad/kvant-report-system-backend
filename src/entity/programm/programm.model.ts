@@ -5,6 +5,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -12,6 +13,7 @@ import { Control } from '../control/control.model';
 import { Direction } from '../direction/direction.model';
 import { Permission } from '../permission/permission.model';
 import { Place } from '../place/place.model';
+import { ProgrammData } from '../programm_data/programm_data.model';
 import { Role } from '../role/role.model';
 import { SchoolType } from '../school_type/school_type.model';
 
@@ -127,4 +129,7 @@ export class Programm extends Model<Programm, ProgrammCreateAttr> {
 
   @BelongsTo(() => SchoolType)
   school_type: SchoolType;
+
+  @HasMany(() => ProgrammData)
+  programms: ProgrammData[];
 }

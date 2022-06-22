@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Programm } from '../programm/programm.model';
 
 interface SchoolTypeCreateAttr {
   name: string;
@@ -25,4 +26,7 @@ export class SchoolType extends Model<SchoolType, SchoolTypeCreateAttr> {
     description: 'Наименование типа учреждения',
   })
   name: string;
+
+  @HasMany(() => Programm)
+  programms: Programm[];
 }
