@@ -21,6 +21,7 @@ import { ControlModule } from './entity/control/control.module';
 import { Control } from './entity/control/control.model';
 import { ProgrammModule } from './entity/programm/programm.module';
 import { Programm } from './entity/programm/programm.model';
+import { TaskModule } from './entity/task/task.module';
 
 @Module({
   controllers: [],
@@ -60,6 +61,7 @@ import { Programm } from './entity/programm/programm.model';
     EventModule,
     ControlModule,
     ProgrammModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
