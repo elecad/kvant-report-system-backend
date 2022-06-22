@@ -22,6 +22,7 @@ import { Control } from './entity/control/control.model';
 import { ProgrammModule } from './entity/programm/programm.module';
 import { Programm } from './entity/programm/programm.model';
 import { TaskModule } from './entity/task/task.module';
+import { PlaceTypeModule } from './entity/place_type/place_type.module';
 
 @Module({
   controllers: [],
@@ -62,6 +63,7 @@ import { TaskModule } from './entity/task/task.module';
     ControlModule,
     ProgrammModule,
     TaskModule,
+    PlaceTypeModule,
   ],
 })
 export class AppModule {}
