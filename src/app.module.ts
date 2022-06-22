@@ -24,6 +24,9 @@ import { Programm } from './entity/programm/programm.model';
 import { TaskModule } from './entity/task/task.module';
 import { PlaceTypeModule } from './entity/place_type/place_type.module';
 import { PlaceType } from './entity/place_type/place_type.model';
+import { PlaceDataModule } from './entity/place_data/place_data.module';
+import { PlaceData } from './entity/place_data/place_data.model';
+import { Task } from './entity/task/task.model';
 
 @Module({
   controllers: [],
@@ -51,6 +54,8 @@ import { PlaceType } from './entity/place_type/place_type.model';
         Control,
         Programm,
         PlaceType,
+        Task,
+        PlaceData,
       ],
       autoLoadModels: true,
     }),
@@ -66,6 +71,7 @@ import { PlaceType } from './entity/place_type/place_type.model';
     ProgrammModule,
     TaskModule,
     PlaceTypeModule,
+    PlaceDataModule,
   ],
 })
 export class AppModule {}
