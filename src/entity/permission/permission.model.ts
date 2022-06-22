@@ -34,7 +34,7 @@ export class Permission extends Model<Permission, PermissionCreateAttr> {
     example: 1,
     description: 'Внешний ключ на Роль',
   })
-  role_id: string;
+  role_id: number;
 
   @Column({
     type: DataType.INTEGER,

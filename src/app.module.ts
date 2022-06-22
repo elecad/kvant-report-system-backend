@@ -23,6 +23,7 @@ import { ProgrammModule } from './entity/programm/programm.module';
 import { Programm } from './entity/programm/programm.model';
 import { TaskModule } from './entity/task/task.module';
 import { PlaceTypeModule } from './entity/place_type/place_type.module';
+import { PlaceType } from './entity/place_type/place_type.model';
 
 @Module({
   controllers: [],
@@ -49,6 +50,7 @@ import { PlaceTypeModule } from './entity/place_type/place_type.module';
         Event,
         Control,
         Programm,
+        PlaceType,
       ],
       autoLoadModels: true,
     }),
