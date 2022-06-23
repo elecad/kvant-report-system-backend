@@ -7,9 +7,12 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guard/roles-auth.guard';
 import { Role } from '../role/role.model';
 import { Account } from './account.model';
 import { AccountService } from './account.service';
@@ -29,6 +32,8 @@ export class AccountController {
   }
 
   @Get()
+  @UseGuards(RolesGuard)
+  @Roles('Администратор')
   @ApiOperation({ summary: 'Просмотр всех аккаунтов' })
   @ApiResponse({ status: 200, type: [Account] })
   getAll() {

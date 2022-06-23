@@ -61,10 +61,10 @@ export class Account extends Model<Account, AccountCreateAttr> {
   FIO: string;
 
   @BelongsToMany(() => Role, () => Permission)
-  permissions: Role[];
+  roles: Role[];
 
   @BelongsToMany(() => Place, () => Control)
-  controls: Place[];
+  places: Place[];
 
   @HasMany(() => Task)
   tasks: Task[];

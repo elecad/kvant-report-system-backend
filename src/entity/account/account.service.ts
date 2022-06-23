@@ -11,6 +11,11 @@ interface getIDProps {
   include?: Includeable | Includeable[];
 }
 
+interface getEmailProps {
+  email: string;
+  include?: Includeable | Includeable[];
+}
+
 @Injectable()
 export class AccountService {
   constructor(
@@ -18,7 +23,9 @@ export class AccountService {
   ) {}
 
   async getAll() {
-    const accounts = await this.accountRepository.findAll();
+    const accounts = await this.accountRepository.findAll({
+      include: { all: true },
+    });
     return accounts;
   }
 
@@ -35,14 +42,17 @@ export class AccountService {
     return account;
   }
 
-  async getByEmail(email: string) {
+  async getByEmail({ email, include }: getEmailProps) {
     return await this.accountRepository.findOne({
       where: { mail: email },
+      include: include ? include : {},
     });
   }
 
   async create(dto: createAccountDto) {
-    const candidat = await this.getByEmail(dto.mail);
+    const candidat = await this.getByEmail({
+      email: dto.mail,
+    });
 
     if (!candidat) {
       const account = await this.accountRepository.create(dto);

@@ -17,7 +17,7 @@ export class PermissionService {
 
   accontHasRole(account: Account, role: Role) {
     if (
-      account.permissions.findIndex((r) => {
+      account.roles.findIndex((r) => {
         return r.name === role.name;
       }) > -1
     )

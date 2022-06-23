@@ -29,6 +29,7 @@ import { PlaceData } from './entity/place_data/place_data.model';
 import { Task } from './entity/task/task.model';
 import { ProgrammDataModule } from './entity/programm_data/programm_data.module';
 import { ProgrammData } from './entity/programm_data/programm_data.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
@@ -76,6 +77,7 @@ import { ProgrammData } from './entity/programm_data/programm_data.model';
     PlaceTypeModule,
     PlaceDataModule,
     ProgrammDataModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
