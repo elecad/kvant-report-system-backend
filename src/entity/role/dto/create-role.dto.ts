@@ -20,6 +20,21 @@ export class createRoleDto {
   name: string;
 
   @ApiProperty({
+    example: 'admin',
+    description: 'Кодовое имя роли',
+  })
+  @IsString({ message: 'Кодовое имя должено быть строкой' })
+  @IsNotEmpty({ message: 'Необходимо Кодовое имя роли' })
+  @Validate(
+    isUnique,
+    [{ model: Role, where: 'code_name' } as { model; where?: string }],
+    {
+      message: 'Роль с таким названием уже существует',
+    },
+  )
+  code_name: string;
+
+  @ApiProperty({
     example: 'Эта роль делает ...',
     description: 'Описание роли',
   })

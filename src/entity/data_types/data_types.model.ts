@@ -1,8 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, HasMany, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
 import { DataType } from 'sequelize-typescript';
 import { PlaceData } from '../place_data/place_data.model';
+import { PlaceType } from '../place_type/place_type.model';
 import { ProgrammData } from '../programm_data/programm_data.model';
 
 interface DataTypesCreateAttr {
@@ -42,9 +50,23 @@ export class DataTypes extends Model<DataTypes, DataTypesCreateAttr> {
   })
   description: string;
 
+  @ForeignKey(() => PlaceType)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'Внешний ключ на Тип данных',
+  })
+  place_type_id: number;
+
   @HasMany(() => PlaceData)
   placeData: PlaceData[];
 
   @HasMany(() => ProgrammData)
   programmData: ProgrammData[];
+
+  @BelongsTo(() => PlaceType)
+  place_type: PlaceType;
 }

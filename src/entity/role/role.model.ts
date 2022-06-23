@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Validate } from 'class-validator';
 import {
   BelongsToMany,
   Column,
@@ -7,6 +8,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from 'src/entity/account/account.model';
+import { isEnglish } from 'src/validator/isEnglish.validator';
 import { Permission } from '../permission/permission.model';
 
 interface RoleCreateAttr {
@@ -34,6 +36,21 @@ export class Role extends Model<Role, RoleCreateAttr> {
     allowNull: false,
   })
   name: string;
+
+  @ApiProperty({
+    example: 'ADMIN',
+    description: 'Кодовое название роли',
+  })
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  @Validate(isEnglish, {
+    message:
+      'Кодовое имя может сожержать только латинские буквы и нижнее подчёркивание',
+  })
+  code_name: string;
 
   @ApiProperty({
     example: 'Эта роль делает ...',

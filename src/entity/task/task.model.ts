@@ -61,10 +61,4 @@ export class Task extends Model<Task, TaskCreateAttr> {
 
   @BelongsTo(() => Account)
   account: Account;
-
-  @HasMany(() => PlaceData)
-  placeData: PlaceData[];
-
-  @HasMany(() => ProgrammData)
-  programmData: ProgrammData[];
 }

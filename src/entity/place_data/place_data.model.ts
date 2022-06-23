@@ -7,6 +7,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Answer } from '../answer/answer.model';
 import { DataTypes } from '../data_types/data_types.model';
 import { Place } from '../place/place.model';
 import { Task } from '../task/task.model';
@@ -66,10 +67,10 @@ export class PlaceData extends Model<PlaceData, PlaceDataTypeCreateAttr> {
   })
   @ApiProperty({
     example: 1,
-    description: 'ID Задания',
+    description: 'ID Ответа',
   })
-  @ForeignKey(() => Task)
-  task_id: number;
+  @ForeignKey(() => Answer)
+  answer_id: number;
 
   @BelongsTo(() => Place)
   place: Place;
@@ -77,6 +78,6 @@ export class PlaceData extends Model<PlaceData, PlaceDataTypeCreateAttr> {
   @BelongsTo(() => DataTypes)
   type: DataTypes;
 
-  @BelongsTo(() => Task)
-  task: Task;
+  @BelongsTo(() => Answer)
+  answer: Answer;
 }

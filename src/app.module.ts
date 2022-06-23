@@ -30,6 +30,8 @@ import { Task } from './entity/task/task.model';
 import { ProgrammDataModule } from './entity/programm_data/programm_data.module';
 import { ProgrammData } from './entity/programm_data/programm_data.model';
 import { AuthModule } from './auth/auth.module';
+import { AnswerModule } from './entity/answer/answer.module';
+import { Answer } from './entity/answer/answer.model';
 
 @Module({
   controllers: [],
@@ -60,6 +62,7 @@ import { AuthModule } from './auth/auth.module';
         Task,
         PlaceData,
         ProgrammData,
+        Answer,
       ],
       autoLoadModels: true,
     }),
@@ -78,6 +81,7 @@ import { AuthModule } from './auth/auth.module';
     PlaceDataModule,
     ProgrammDataModule,
     AuthModule,
+    AnswerModule,
   ],
 })
 export class AppModule {}
