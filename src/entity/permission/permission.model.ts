@@ -14,7 +14,7 @@ interface PermissionCreateAttr {
   account_id: number;
 }
 
-@Table({ tableName: 'permission' })
+@Table({ tableName: 'permission', createdAt: false, updatedAt: false })
 export class Permission extends Model<Permission, PermissionCreateAttr> {
   @Column({
     type: DataType.INTEGER,

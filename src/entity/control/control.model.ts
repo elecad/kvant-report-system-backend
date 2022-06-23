@@ -14,7 +14,7 @@ interface ControlCreateAttr {
   place_id: number;
 }
 
-@Table({ tableName: 'control' })
+@Table({ tableName: 'control', createdAt: false, updatedAt: false })
 export class Control extends Model<Control, ControlCreateAttr> {
   @Column({
     type: DataType.INTEGER,
