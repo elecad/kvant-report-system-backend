@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
-import { RolesGuard } from 'src/guard/roles-auth.guard';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { Role } from '../role/role.model';
 import { Account } from './account.model';
 import { AccountService } from './account.service';
