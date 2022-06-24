@@ -16,6 +16,7 @@ import { ProgrammData } from '../programm_data/programm_data.model';
 interface DataTypesCreateAttr {
   description: string;
   code_name: string;
+  place_type_id: number;
 }
 
 @Table({ tableName: 'data_type' })

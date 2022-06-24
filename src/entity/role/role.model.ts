@@ -13,6 +13,8 @@ import { Permission } from '../permission/permission.model';
 
 interface RoleCreateAttr {
   name: string;
+  description: string;
+  code_name: string;
 }
 
 @Table({ tableName: 'role' })

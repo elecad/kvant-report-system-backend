@@ -32,8 +32,8 @@ export class AccountController {
   }
 
   @Get()
-  @UseGuards(RolesGuard)
-  @Roles('Администратор')
+  // @UseGuards(RolesGuard)
+  // @Roles('Администратор')
   @ApiOperation({ summary: 'Просмотр всех аккаунтов' })
   @ApiResponse({ status: 200, type: [Account] })
   getAll() {

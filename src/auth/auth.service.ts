@@ -48,8 +48,6 @@ export class AuthService {
       roles: account.roles,
       places: account.places,
     };
-    // console.log(payload);
-
     return {
       token: this.jwtService.sign(payload),
       account: payload,

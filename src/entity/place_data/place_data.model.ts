@@ -15,7 +15,7 @@ import { Task } from '../task/task.model';
 interface PlaceDataTypeCreateAttr {
   value: number;
   data_type_id: number;
-  place_id: number;
+  answer_id: number;
   task_id: number;
 }
 

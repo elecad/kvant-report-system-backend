@@ -32,6 +32,7 @@ import { ProgrammData } from './entity/programm_data/programm_data.model';
 import { AuthModule } from './auth/auth.module';
 import { AnswerModule } from './entity/answer/answer.module';
 import { Answer } from './entity/answer/answer.model';
+import { TestModule } from './test/test.module';
 
 @Module({
   controllers: [],
@@ -82,6 +83,7 @@ import { Answer } from './entity/answer/answer.model';
     ProgrammDataModule,
     AuthModule,
     AnswerModule,
+    TestModule,
   ],
 })
 export class AppModule {}

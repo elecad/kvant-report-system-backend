@@ -18,6 +18,7 @@ import { Programm } from '../programm/programm.model';
 
 interface PlaceCreateAttr {
   name: string;
+  place_type_id: number;
 }
 
 @Table({ tableName: 'place' })
@@ -58,7 +59,7 @@ export class Place extends Model<Place, PlaceCreateAttr> {
   programms: Programm[];
 
   @BelongsTo(() => PlaceType)
-  type: PlaceType;
+  place_type: PlaceType;
 
   @BelongsToMany(() => Account, () => Control)
   accounts: Account[];

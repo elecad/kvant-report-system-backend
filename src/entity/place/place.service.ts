@@ -9,12 +9,14 @@ export class PlaceService {
   constructor(@InjectModel(Place) private placeRepository: typeof Place) {}
 
   async getAll() {
-    const place = await this.placeRepository.findAll();
+    const place = await this.placeRepository.findAll({});
     return place;
   }
 
   async getById(id: number) {
-    const place = await this.placeRepository.findByPk(id);
+    const place = await this.placeRepository.findByPk(id, {
+      include: { all: true },
+    });
     if (!place)
       throw new HttpException(
         'Место с таким ID не найдено',
