@@ -33,7 +33,7 @@ export class AuthService {
         },
       ],
     });
-    if (candidate) {
+    if (candidate && candidate.password === account.password) {
       return this.generateToken(candidate);
     }
     throw new UnauthorizedException({
