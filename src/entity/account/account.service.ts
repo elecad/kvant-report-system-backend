@@ -45,7 +45,7 @@ export class AccountService {
   async getByEmail({ email, include }: getEmailProps) {
     return await this.accountRepository.findOne({
       where: { mail: email },
-      include: include ? include : {},
+      include,
     });
   }
 

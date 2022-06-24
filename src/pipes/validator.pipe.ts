@@ -6,16 +6,41 @@ import {
   PipeTransform,
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { validate } from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
+
+export enum VALIDATOR_GROUP {
+  base = 'base',
+  database = 'bd',
+}
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-    const obj = plainToClass(metadata.metatype, value);
-    const errors = await validate(obj);
+    console.log(metadata.type);
 
+    const obj = plainToClass(metadata.metatype, value);
+
+    this.messages(
+      await validate(obj, {
+        forbidUnknownValues: true,
+        groups: [VALIDATOR_GROUP.base],
+      }),
+    );
+
+    this.messages(
+      await validate(obj, {
+        forbidUnknownValues: true,
+        groups: [VALIDATOR_GROUP.database],
+      }),
+    );
+
+    return value;
+  }
+
+  messages(errors: ValidationError[]) {
     if (errors.length) {
       const message = {};
+
       errors.forEach((err) => {
         message[err.property] = Object.values(err.constraints);
       });
@@ -27,6 +52,5 @@ export class ValidationPipe implements PipeTransform<any> {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return value;
   }
 }

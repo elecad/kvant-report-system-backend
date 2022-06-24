@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, Validate } from 'class-validator';
+import { VALIDATOR_GROUP } from 'src/pipes/validator.pipe';
 import { isUnique } from 'src/validator/isUnique.validator';
 import { Account } from '../account.model';
 
@@ -8,14 +9,18 @@ export class createAccountDto {
     example: 'mail@mail.ru',
     description: 'Электронная почта',
   })
-  @IsString({ message: 'Электронная почта должна быть строкой' })
-  @IsEmail({}, { message: 'Некорректная электронная почта' })
-  @IsNotEmpty({ message: 'Необходима электронная почта' })
+  @IsString({
+    message: 'Электронная почта должна быть строкой',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsEmail({}, { message: 'Некорректная электронная почта', groups: ['base'] })
+  @IsNotEmpty({ message: 'Необходима электронная почта', groups: ['base'] })
   @Validate(
     isUnique,
     [{ model: Account, where: 'mail' } as { model; where?: string }],
     {
       message: 'Аккаунт с такой электронной почтой уже существует',
+      groups: [VALIDATOR_GROUP.database],
     },
   )
   mail: string;
@@ -24,15 +29,15 @@ export class createAccountDto {
     example: '123456789',
     description: 'Пароль',
   })
-  @IsString({ message: 'Пароль должен быть строкой' })
-  @IsNotEmpty({ message: 'Необходим пароль' })
+  @IsString({ message: 'Пароль должен быть строкой', groups: ['base'] })
+  @IsNotEmpty({ message: 'Необходим пароль', groups: ['base'] })
   password: string;
 
   @ApiProperty({
     example: 'Макаренко Павел Сергеевич',
     description: 'ФИО',
   })
-  @IsString({ message: 'ФИО должено быть строкой' })
-  @IsNotEmpty({ message: 'Необходимо ФИО пользователя' })
+  @IsString({ message: 'ФИО должено быть строкой', groups: ['base'] })
+  @IsNotEmpty({ message: 'Необходимо ФИО пользователя', groups: ['base'] })
   FIO: string;
 }
