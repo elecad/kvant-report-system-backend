@@ -4,21 +4,35 @@ import { DataTypes } from 'src/entity/data_types/data_types.model';
 import { Place } from 'src/entity/place/place.model';
 import { Programm } from 'src/entity/programm/programm.model';
 import { Task } from 'src/entity/task/task.model';
+import { VALIDATOR_GROUP } from 'src/pipes/validator.pipe';
 import { isHasDB } from 'src/validator/isHasDB.validator';
 
 export class createProgrammDataDto {
-  @IsPositive({ message: 'Значение данных должно положительным числом' })
-  @IsNotEmpty({ message: 'Необходимо значение данных' })
+  @IsPositive({
+    message: 'Значение данных должно положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо значение данных',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @ApiProperty({
     example: 25,
     description: 'Значение данных',
   })
   value: number;
 
-  @IsPositive({ message: 'ID Программы должно быть положительным числом' })
-  @IsNotEmpty({ message: 'Необходимо ID Программы' })
+  @IsPositive({
+    message: 'ID Программы должно быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо ID Программы',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @Validate(isHasDB, [{ model: Programm } as { model; where?: string }], {
     message: 'Программы с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,
@@ -26,10 +40,14 @@ export class createProgrammDataDto {
   })
   programm_id: number;
 
-  @IsPositive({ message: 'ID Типа данных должно быть положительным числом' })
+  @IsPositive({
+    message: 'ID Типа данных должно быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsNotEmpty({ message: 'Необходимо ID Типа данных' })
   @Validate(isHasDB, [{ model: DataTypes } as { model; where?: string }], {
     message: 'Тип данных с таким ID не найден',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,
@@ -37,10 +55,17 @@ export class createProgrammDataDto {
   })
   data_type_id: number;
 
-  @IsPositive({ message: 'ID Задания должно быть положительным числом' })
-  @IsNotEmpty({ message: 'Необходимо ID Задания' })
+  @IsPositive({
+    message: 'ID Задания должно быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо ID Задания',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @Validate(isHasDB, [{ model: Task } as { model; where?: string }], {
     message: 'Задание с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,

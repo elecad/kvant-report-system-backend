@@ -16,8 +16,6 @@ export enum VALIDATOR_GROUP {
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-    console.log(metadata.type);
-
     const obj = plainToClass(metadata.metatype, value);
 
     this.messages(
@@ -29,7 +27,6 @@ export class ValidationPipe implements PipeTransform<any> {
 
     this.messages(
       await validate(obj, {
-        forbidUnknownValues: true,
         groups: [VALIDATOR_GROUP.database],
       }),
     );

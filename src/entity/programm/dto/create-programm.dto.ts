@@ -10,22 +10,33 @@ import {
 import { Direction } from 'src/entity/direction/direction.model';
 import { Place } from 'src/entity/place/place.model';
 import { SchoolType } from 'src/entity/school_type/school_type.model';
+import { VALIDATOR_GROUP } from 'src/pipes/validator.pipe';
 import { isHasDB } from 'src/validator/isHasDB.validator';
 import { isUnique } from 'src/validator/isUnique.validator';
 
 export class createProgrammDto {
-  @IsString({ message: 'Наименование программы должено быть строкой' })
-  @IsNotEmpty({ message: 'Необходимо наименование программы' })
+  @IsString({
+    message: 'Наименование программы должено быть строкой',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо наименование программы',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @ApiProperty({
     example: 'Робототехника',
     description: 'Наименование образовательной программы',
   })
   name: string;
 
-  @IsNotEmpty({ message: 'Необходим ID Программы в системе АИС Навигатор' })
+  @IsNotEmpty({
+    message: 'Необходим ID Программы в системе АИС Навигатор',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message:
       'ID Программы в системе АИС Навигатор должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @ApiProperty({
     example: 123,
@@ -33,9 +44,13 @@ export class createProgrammDto {
   })
   navigator_id: number;
 
-  @IsNotEmpty({ message: 'Необходим возраст начала обучения' })
+  @IsNotEmpty({
+    message: 'Необходим возраст начала обучения',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'Возраст начала обучения должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @ApiProperty({
     example: 7,
@@ -43,9 +58,13 @@ export class createProgrammDto {
   })
   start_age: number;
 
-  @IsNotEmpty({ message: 'Необходим возраст конца обучения' })
+  @IsNotEmpty({
+    message: 'Необходим возраст конца обучения',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'Возраст конца обучения должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @ApiProperty({
     example: 17,
@@ -53,20 +72,31 @@ export class createProgrammDto {
   })
   end_age: number;
 
-  @IsString({ message: 'Наименование учреждения должено быть строкой' })
-  @IsNotEmpty({ message: 'Необходимо наименование учреждения' })
+  @IsString({
+    message: 'Наименование учреждения должено быть строкой',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо наименование учреждения',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @ApiProperty({
     example: 'Учреждение №3',
     description: 'Наименование образовательного учреждения',
   })
   school: string;
 
-  @IsNotEmpty({ message: 'Необходимо ID Направления' })
+  @IsNotEmpty({
+    message: 'Необходимо ID Направления',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'ID Направления должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @Validate(isHasDB, [{ model: Direction } as { model; where?: string }], {
     message: 'Направления с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,
@@ -74,12 +104,17 @@ export class createProgrammDto {
   })
   direction_id: number;
 
-  @IsNotEmpty({ message: 'Необходимо ID Типа учреждения' })
+  @IsNotEmpty({
+    message: 'Необходимо ID Типа учреждения',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'ID Типа учреждения должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @Validate(isHasDB, [{ model: SchoolType } as { model; where?: string }], {
     message: 'Типа учреждения с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,
@@ -87,12 +122,17 @@ export class createProgrammDto {
   })
   school_type_id: number;
 
-  @IsNotEmpty({ message: 'Необходимо ID Места' })
+  @IsNotEmpty({
+    message: 'Необходимо ID Места',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'ID Места должен быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
   })
   @Validate(isHasDB, [{ model: Place } as { model; where?: string }], {
     message: 'Места с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,

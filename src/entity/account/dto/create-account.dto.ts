@@ -13,8 +13,17 @@ export class createAccountDto {
     message: 'Электронная почта должна быть строкой',
     groups: [VALIDATOR_GROUP.base],
   })
-  @IsEmail({}, { message: 'Некорректная электронная почта', groups: ['base'] })
-  @IsNotEmpty({ message: 'Необходима электронная почта', groups: ['base'] })
+  @IsEmail(
+    {},
+    {
+      message: 'Некорректная электронная почта',
+      groups: [VALIDATOR_GROUP.base],
+    },
+  )
+  @IsNotEmpty({
+    message: 'Необходима электронная почта',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @Validate(
     isUnique,
     [{ model: Account, where: 'mail' } as { model; where?: string }],
@@ -29,15 +38,24 @@ export class createAccountDto {
     example: '123456789',
     description: 'Пароль',
   })
-  @IsString({ message: 'Пароль должен быть строкой', groups: ['base'] })
-  @IsNotEmpty({ message: 'Необходим пароль', groups: ['base'] })
+  @IsString({
+    message: 'Пароль должен быть строкой',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({ message: 'Необходим пароль', groups: [VALIDATOR_GROUP.base] })
   password: string;
 
   @ApiProperty({
     example: 'Макаренко Павел Сергеевич',
     description: 'ФИО',
   })
-  @IsString({ message: 'ФИО должено быть строкой', groups: ['base'] })
-  @IsNotEmpty({ message: 'Необходимо ФИО пользователя', groups: ['base'] })
+  @IsString({
+    message: 'ФИО должено быть строкой',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsNotEmpty({
+    message: 'Необходимо ФИО пользователя',
+    groups: [VALIDATOR_GROUP.base],
+  })
   FIO: string;
 }
