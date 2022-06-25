@@ -10,7 +10,7 @@ import { AccountModule } from 'src/entity/account/account.module';
   imports: [
     JwtModule.register({
       secret: process.env.PRIVATE_KEY || 'STRING',
-      signOptions: { expiresIn: 60 },
+      signOptions: { expiresIn: '24h' },
     }),
     AccountModule,
   ],

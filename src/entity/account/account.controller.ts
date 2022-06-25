@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/decorators/account-auth.decorator';
 import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
 import { RolesGuard } from 'src/guards/roles-auth.guard';
@@ -18,7 +19,9 @@ import { Account } from './account.model';
 import { AccountService } from './account.service';
 import { createAccountDto } from './dto/create-account.dto';
 
-@Controller('account')
+@Controller('entity/account')
+@UseGuards(RolesGuard)
+@Roles('Администратор')
 @ApiTags('Аккаунты')
 export class AccountController {
   constructor(private accountService: AccountService) {}
@@ -32,11 +35,11 @@ export class AccountController {
   }
 
   @Get()
-  // @UseGuards(RolesGuard)
-  // @Roles('Администратор')
   @ApiOperation({ summary: 'Просмотр всех аккаунтов' })
   @ApiResponse({ status: 200, type: [Account] })
-  getAll() {
+  getAll(@Auth() user) {
+    console.log(user);
+
     return this.accountService.getAll();
   }
 

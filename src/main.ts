@@ -17,6 +17,7 @@ async function bootstrap() {
   SwaggerModule.setup('/api/docs', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api/v1');
 
   await app.listen(5000);
 }

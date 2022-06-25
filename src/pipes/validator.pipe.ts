@@ -18,18 +18,20 @@ export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
     const obj = plainToClass(metadata.metatype, value);
 
-    this.messages(
-      await validate(obj, {
-        forbidUnknownValues: true,
-        groups: [VALIDATOR_GROUP.base],
-      }),
-    );
+    if (metadata.type !== 'custom') {
+      this.messages(
+        await validate(obj, {
+          forbidUnknownValues: true,
+          groups: [VALIDATOR_GROUP.base],
+        }),
+      );
 
-    this.messages(
-      await validate(obj, {
-        groups: [VALIDATOR_GROUP.database],
-      }),
-    );
+      this.messages(
+        await validate(obj, {
+          groups: [VALIDATOR_GROUP.database],
+        }),
+      );
+    }
 
     return value;
   }
