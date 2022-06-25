@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { ControlService } from './control.service';
 import { addControlDto } from './dto/add-control.dto';
 
-@Controller('control')
+@Controller('entity/control')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Управление')
 export class ControlController {
   constructor(private controlService: ControlService) {}

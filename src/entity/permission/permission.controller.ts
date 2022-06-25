@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { addPermissionDto } from './dto/add-permission.dto';
 import { PermissionService } from './permission.service';
 
-@Controller('permission')
+@Controller('entity/permission')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Привелегии')
 export class PermissionController {
   constructor(private permissionService: PermissionService) {}

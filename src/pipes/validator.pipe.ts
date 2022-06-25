@@ -18,6 +18,8 @@ export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
     const obj = plainToClass(metadata.metatype, value);
 
+    console.log(metadata.type);
+
     if (metadata.type !== 'custom') {
       this.messages(
         await validate(obj, {

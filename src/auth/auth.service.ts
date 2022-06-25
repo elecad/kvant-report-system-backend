@@ -27,7 +27,7 @@ export class AuthService {
         },
         {
           model: Role,
-          attributes: ['id', 'name', 'description'],
+          attributes: ['id', 'name', 'description', 'code_name'],
 
           through: { attributes: [] },
         },
@@ -48,6 +48,7 @@ export class AuthService {
       roles: account.roles,
       places: account.places,
     };
+
     return {
       token: this.jwtService.sign(payload),
       account: payload,

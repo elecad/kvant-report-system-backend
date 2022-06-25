@@ -7,14 +7,20 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createTaskDto } from './dto/create-task.dto';
 import { Task } from './task.model';
 import { TaskService } from './task.service';
 
 @Controller('task')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
+@ApiTags('Задания')
 export class TaskController {
   constructor(private taskService: TaskService) {}
 

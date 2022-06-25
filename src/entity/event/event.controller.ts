@@ -7,13 +7,18 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createEventDto } from './dto/create-event.dto';
 import { EventService } from './event.service';
 
 @Controller('event')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Мероприятия')
 export class EventController {
   constructor(private eventService: EventService) {}

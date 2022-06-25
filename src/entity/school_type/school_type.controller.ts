@@ -7,14 +7,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createSchoolTypeDto } from './dto/create-school_type.dto';
 import { SchoolType } from './school_type.model';
 import { SchoolTypeService } from './school_type.service';
 
 @Controller('school-type')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Тип учреждения')
 export class SchoolTypeController {
   constructor(private schoolTypeService: SchoolTypeService) {}

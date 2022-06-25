@@ -7,14 +7,20 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createProgrammDto } from './dto/create-programm.dto';
 import { Programm } from './programm.model';
 import { ProgrammService } from './programm.service';
 
 @Controller('programm')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
+@ApiTags('Программы')
 export class ProgrammController {
   constructor(private programmService: ProgrammService) {}
 

@@ -7,13 +7,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createProgrammDataDto } from './dto/create-programm_data.dto';
 import { ProgrammDataService } from './programm_data.service';
 
 @Controller('programm-data')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
+@ApiTags('Данные о программах')
 export class ProgrammDataController {
   constructor(private programmDataService: ProgrammDataService) {}
 

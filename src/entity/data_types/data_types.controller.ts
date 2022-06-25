@@ -7,15 +7,20 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { DataTypes } from './data_types.model';
 import { DataTypesService } from './data_types.service';
 
 import { createDataTypesDto } from './dto/create-data_types.dto';
 
-@Controller('data-type')
+@Controller('entity/data-type')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Типы данных')
 export class DataTypesController {
   constructor(private dataTypesService: DataTypesService) {}

@@ -7,14 +7,20 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createPlaceTypeDto } from './dto/create-place_type.dto';
 import { PlaceType } from './place_type.model';
 import { PlaceTypeService } from './place_type.service';
 
 @Controller('place-type')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
+@ApiTags('Тип Места')
 export class PlaceTypeController {
   constructor(private placeTypeService: PlaceTypeService) {}
 

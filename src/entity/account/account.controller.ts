@@ -21,7 +21,7 @@ import { createAccountDto } from './dto/create-account.dto';
 
 @Controller('entity/account')
 @UseGuards(RolesGuard)
-@Roles('Администратор')
+@Roles('ADMIN')
 @ApiTags('Аккаунты')
 export class AccountController {
   constructor(private accountService: AccountService) {}

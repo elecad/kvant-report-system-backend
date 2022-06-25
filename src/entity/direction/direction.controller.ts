@@ -7,14 +7,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 import { queryIdDto } from 'src/dto/query-id.dto';
+import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { Direction } from './direction.model';
 import { DirectionService } from './direction.service';
 import { createDirectionDto } from './dto/create-direction.dto';
 
-@Controller('direction')
+@Controller('entity/direction')
+@UseGuards(RolesGuard)
+@Roles('ADMIN')
 @ApiTags('Направления')
 export class DirectionController {
   constructor(private directionService: DirectionService) {}
