@@ -17,7 +17,7 @@ import { createPlaceTypeDto } from './dto/create-place_type.dto';
 import { PlaceType } from './place_type.model';
 import { PlaceTypeService } from './place_type.service';
 
-@Controller('place-type')
+@Controller('entity/place-type')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Тип Места')

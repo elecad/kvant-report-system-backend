@@ -20,7 +20,7 @@ import { PlaceService } from './place.service';
 @ApiTags('Место')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
-@Controller('place')
+@Controller('entity/place')
 export class PlaceController {
   constructor(private placeService: PlaceService) {}
 

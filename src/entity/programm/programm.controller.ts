@@ -17,7 +17,7 @@ import { createProgrammDto } from './dto/create-programm.dto';
 import { Programm } from './programm.model';
 import { ProgrammService } from './programm.service';
 
-@Controller('programm')
+@Controller('entity/programm')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Программы')

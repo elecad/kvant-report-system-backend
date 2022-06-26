@@ -17,7 +17,7 @@ import { createSchoolTypeDto } from './dto/create-school_type.dto';
 import { SchoolType } from './school_type.model';
 import { SchoolTypeService } from './school_type.service';
 
-@Controller('school-type')
+@Controller('entity/school-type')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Тип учреждения')

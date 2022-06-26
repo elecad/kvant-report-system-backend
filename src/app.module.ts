@@ -33,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
 import { AnswerModule } from './entity/answer/answer.module';
 import { Answer } from './entity/answer/answer.model';
 import { TestModule } from './test/test.module';
+import { ClientModule } from './api/client/client.module';
 
 @Module({
   controllers: [],
@@ -84,6 +85,7 @@ import { TestModule } from './test/test.module';
     AuthModule,
     AnswerModule,
     TestModule,
+    ClientModule,
   ],
 })
 export class AppModule {}

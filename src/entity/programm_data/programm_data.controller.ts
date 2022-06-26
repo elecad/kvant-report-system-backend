@@ -16,7 +16,7 @@ import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createProgrammDataDto } from './dto/create-programm_data.dto';
 import { ProgrammDataService } from './programm_data.service';
 
-@Controller('programm-data')
+@Controller('entity/programm-data')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Данные о программах')

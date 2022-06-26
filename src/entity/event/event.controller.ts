@@ -16,7 +16,7 @@ import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createEventDto } from './dto/create-event.dto';
 import { EventService } from './event.service';
 
-@Controller('event')
+@Controller('entity/event')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Мероприятия')

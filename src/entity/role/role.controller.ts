@@ -17,7 +17,7 @@ import { createRoleDto } from './dto/create-role.dto';
 import { Role } from './role.model';
 import { RoleService } from './role.service';
 
-@Controller('role')
+@Controller('entity/role')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Роли')

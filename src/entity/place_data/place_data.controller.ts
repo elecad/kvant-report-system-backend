@@ -16,7 +16,7 @@ import { RolesGuard } from 'src/guards/roles-auth.guard';
 import { createPlaceDataDto } from './dto/create-place_data';
 import { PlaceDataService } from './place_data.service';
 
-@Controller('place-data')
+@Controller('entity/place-data')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Данные о местах')

@@ -17,7 +17,7 @@ import { createTaskDto } from './dto/create-task.dto';
 import { Task } from './task.model';
 import { TaskService } from './task.service';
 
-@Controller('task')
+@Controller('entity/task')
 @UseGuards(RolesGuard)
 @Roles('ADMIN')
 @ApiTags('Задания')
