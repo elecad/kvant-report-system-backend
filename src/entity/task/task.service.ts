@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
+import { getProps } from '../answer/answer.service';
 import { createTaskDto } from './dto/create-task.dto';
 import { Task } from './task.model';
 
@@ -7,9 +9,14 @@ import { Task } from './task.model';
 export class TaskService {
   constructor(@InjectModel(Task) private taskRepository: typeof Task) {}
 
-  async getAll() {
-    const programm = await this.taskRepository.findAll();
+  async getAll(option: FindOptions<Task> = {}) {
+    const programm = await this.taskRepository.findAll(option);
     return programm;
+  }
+
+  async getOne(option: FindOptions<Task> = {}) {
+    const task = await this.taskRepository.findOne(option);
+    return task;
   }
 
   async getById(id: number) {

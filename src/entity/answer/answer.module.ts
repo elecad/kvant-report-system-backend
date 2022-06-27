@@ -6,5 +6,6 @@ import { AnswerService } from './answer.service';
 @Module({
   providers: [AnswerService],
   imports: [SequelizeModule.forFeature([Answer])],
+  exports: [AnswerService],
 })
 export class AnswerModule {}

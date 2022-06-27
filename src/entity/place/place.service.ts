@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Event } from '../event/event.model';
 import { createPlaceDto } from './dto/create-place.dto';
 import { Place } from './place.model';
 

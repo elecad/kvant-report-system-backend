@@ -6,12 +6,12 @@ import { Role } from '../role/role.model';
 import { Account } from './account.model';
 import { createAccountDto } from './dto/create-account.dto';
 
-interface getIDProps {
+export interface getIDProps {
   id: number;
   include?: Includeable | Includeable[];
 }
 
-interface getEmailProps {
+export interface getEmailProps {
   email: string;
   include?: Includeable | Includeable[];
 }

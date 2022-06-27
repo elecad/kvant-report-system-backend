@@ -9,5 +9,6 @@ import { TaskService } from './task.service';
   controllers: [TaskController],
   providers: [TaskService],
   imports: [SequelizeModule.forFeature([Task]), AuthModule],
+  exports: [TaskService],
 })
 export class TaskModule {}
