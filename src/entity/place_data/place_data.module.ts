@@ -9,5 +9,6 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [SequelizeModule.forFeature([PlaceData]), AuthModule],
   controllers: [PlaceDataController],
   providers: [PlaceDataService],
+  exports: [PlaceDataService],
 })
 export class PlaceDataModule {}

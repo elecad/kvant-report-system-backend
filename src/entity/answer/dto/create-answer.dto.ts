@@ -25,7 +25,10 @@ export class createAnswerDto {
     example: 1,
     description: 'ID Места',
   })
-  @IsNotEmpty({ message: 'Необходим ID Задания' })
+  @IsNotEmpty({
+    message: 'Необходим ID Задания',
+    groups: [VALIDATOR_GROUP.base],
+  })
   @IsPositive({
     message: 'ID должен быть положительным числом',
     groups: [VALIDATOR_GROUP.base],

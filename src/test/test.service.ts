@@ -195,9 +195,9 @@ export class TestService {
     user1.$set('places', [25]);
     user2.$set('places', [3]);
     user2.$set('places', [4]);
-    user2.$set('places', [5]);
+    user2.$set('places', [6]);
     user2.$set('places', [24]);
-    user3.$set('places', [6]);
+    user3.$set('places', [5]);
   }
 
   async createProgramm() {
