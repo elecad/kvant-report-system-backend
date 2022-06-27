@@ -20,7 +20,7 @@ interface ProgrammDataTypeCreateAttr {
   task_id: number;
 }
 
-@Table({ tableName: 'programm_data' })
+@Table({ tableName: 'programm_data', updatedAt: false })
 export class ProgrammData extends Model<
   ProgrammData,
   ProgrammDataTypeCreateAttr

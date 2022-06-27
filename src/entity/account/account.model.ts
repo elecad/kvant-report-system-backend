@@ -19,7 +19,7 @@ interface AccountCreateAttr {
   FIO: string;
 }
 
-@Table({ tableName: 'account' })
+@Table({ tableName: 'account', createdAt: false, updatedAt: false })
 export class Account extends Model<Account, AccountCreateAttr> {
   @ApiProperty({ example: '1', description: 'ID Аккаунта' })
   @Column({

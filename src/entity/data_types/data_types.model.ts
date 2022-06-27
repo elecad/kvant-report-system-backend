@@ -19,7 +19,7 @@ interface DataTypesCreateAttr {
   place_type_id: number;
 }
 
-@Table({ tableName: 'data_type' })
+@Table({ tableName: 'data_type', updatedAt: false })
 export class DataTypes extends Model<DataTypes, DataTypesCreateAttr> {
   @Column({
     type: DataType.INTEGER,

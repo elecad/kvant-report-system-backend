@@ -17,7 +17,7 @@ interface RoleCreateAttr {
   code_name: string;
 }
 
-@Table({ tableName: 'role' })
+@Table({ tableName: 'role', createdAt: false, updatedAt: false })
 export class Role extends Model<Role, RoleCreateAttr> {
   @ApiProperty({ example: '1', description: 'ID Роли' })
   @Column({

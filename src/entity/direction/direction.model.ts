@@ -6,7 +6,7 @@ interface DirectionTypeCreateAttr {
   name: string;
 }
 
-@Table({ tableName: 'direction' })
+@Table({ tableName: 'direction', createdAt: false, updatedAt: false })
 export class Direction extends Model<Direction, DirectionTypeCreateAttr> {
   @Column({
     type: DataType.INTEGER,

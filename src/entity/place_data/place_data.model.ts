@@ -19,7 +19,7 @@ interface PlaceDataTypeCreateAttr {
   task_id: number;
 }
 
-@Table({ tableName: 'place_data' })
+@Table({ tableName: 'place_data', updatedAt: false })
 export class PlaceData extends Model<PlaceData, PlaceDataTypeCreateAttr> {
   @Column({
     type: DataType.INTEGER,

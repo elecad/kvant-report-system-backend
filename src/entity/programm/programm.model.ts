@@ -28,7 +28,7 @@ interface ProgrammCreateAttr {
   place_id: number;
 }
 
-@Table({ tableName: 'programm' })
+@Table({ tableName: 'programm', createdAt: false, updatedAt: false })
 export class Programm extends Model<Programm, ProgrammCreateAttr> {
   @Column({
     type: DataType.INTEGER,

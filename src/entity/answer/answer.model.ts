@@ -19,7 +19,7 @@ interface AnswerCreateAttr {
   task_id: number;
 }
 
-@Table({ tableName: 'answer' })
+@Table({ tableName: 'answer', updatedAt: false })
 export class Answer extends Model<Answer, AnswerCreateAttr> {
   @Column({
     type: DataType.INTEGER,

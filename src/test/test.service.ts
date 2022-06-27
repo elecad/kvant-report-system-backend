@@ -53,6 +53,7 @@ export class TestService {
       FIO: 'Петренко Пётр Петрович',
     });
     admin.$set('roles', adminRole);
+    admin.$set('roles', userRole);
 
     const user1 = await Account.create({
       mail: 'user1@mail.ru',

@@ -6,7 +6,7 @@ interface SchoolTypeCreateAttr {
   name: string;
 }
 
-@Table({ tableName: 'school_type' })
+@Table({ tableName: 'school_type', createdAt: false, updatedAt: false })
 export class SchoolType extends Model<SchoolType, SchoolTypeCreateAttr> {
   @Column({
     type: DataType.INTEGER,

@@ -16,7 +16,7 @@ interface EventTypeCreateAttr {
   place_id: number;
 }
 
-@Table({ tableName: 'event' })
+@Table({ tableName: 'event', createdAt: false, updatedAt: false })
 export class Event extends Model<Event, EventTypeCreateAttr> {
   @Column({
     type: DataType.INTEGER,

@@ -7,7 +7,7 @@ interface PlaceTypeCreateAttr {
   name: string;
 }
 
-@Table({ tableName: 'place_type' })
+@Table({ tableName: 'place_type', createdAt: false, updatedAt: false })
 export class PlaceType extends Model<PlaceType, PlaceTypeCreateAttr> {
   @Column({
     type: DataType.INTEGER,

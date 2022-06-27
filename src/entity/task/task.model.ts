@@ -15,7 +15,7 @@ export interface TaskCreateAttr {
   account_id: number;
 }
 
-@Table({ tableName: 'task' })
+@Table({ tableName: 'task', updatedAt: false })
 export class Task extends Model<Task, TaskCreateAttr> {
   @Column({
     type: DataType.INTEGER,
