@@ -46,4 +46,6 @@ export class ClientService {
       return !isValid[index];
     });
   }
+
+  async addAnswer() {}
 }

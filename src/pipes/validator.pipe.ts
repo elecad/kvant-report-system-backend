@@ -18,6 +18,8 @@ export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
     const obj = plainToClass(metadata.metatype, value);
 
+    console.log(obj);
+
     if (metadata.type !== 'custom') {
       this.messages(
         await validate(obj, {
@@ -41,12 +43,12 @@ export class ValidationPipe implements PipeTransform<any> {
       const message = {};
 
       errors.forEach((err) => {
-        message[err.property] = Object.values(err.constraints);
+        // message[err.property] = Object.values(err.constraints);
       });
       throw new HttpException(
         {
           statusCode: 400,
-          message,
+          errors,
         },
         HttpStatus.BAD_REQUEST,
       );
