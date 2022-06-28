@@ -29,7 +29,7 @@ export class createTaskDto {
     groups: [VALIDATOR_GROUP.base],
   })
   @IsPositive({
-    message: 'Полугодие должно быть числом',
+    message: 'Гол должен быть числом',
     groups: [VALIDATOR_GROUP.base],
   })
   @ApiProperty({
