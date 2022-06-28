@@ -43,12 +43,12 @@ export class ValidationPipe implements PipeTransform<any> {
       const message = {};
 
       errors.forEach((err) => {
-        // message[err.property] = Object.values(err.constraints);
+        message[err.property] = Object.values(err.constraints);
       });
       throw new HttpException(
         {
           statusCode: 400,
-          errors,
+          message,
         },
         HttpStatus.BAD_REQUEST,
       );
