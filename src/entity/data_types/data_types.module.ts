@@ -9,5 +9,6 @@ import { AuthModule } from 'src/auth/auth.module';
   providers: [DataTypesService],
   controllers: [DataTypesController],
   imports: [SequelizeModule.forFeature([DataTypes]), AuthModule],
+  exports: [DataTypesService],
 })
 export class DataTypesModule {}

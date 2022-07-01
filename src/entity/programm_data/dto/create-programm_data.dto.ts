@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsPositive, IsString, Validate } from 'class-validator';
+import { Answer } from 'src/entity/answer/answer.model';
 import { DataTypes } from 'src/entity/data_types/data_types.model';
 import { Place } from 'src/entity/place/place.model';
 import { Programm } from 'src/entity/programm/programm.model';
@@ -63,13 +64,13 @@ export class createProgrammDataDto {
     message: 'Необходимо ID Задания',
     groups: [VALIDATOR_GROUP.base],
   })
-  @Validate(isHasDB, [{ model: Task } as { model; where?: string }], {
-    message: 'Задание с таким ID не найдено',
+  @Validate(isHasDB, [{ model: Answer } as { model; where?: string }], {
+    message: 'Ответа с таким ID не найдено',
     groups: [VALIDATOR_GROUP.database],
   })
   @ApiProperty({
     example: 1,
-    description: 'ID Задания',
+    description: 'ID Ответа',
   })
-  task_id: number;
+  answer_id: number;
 }

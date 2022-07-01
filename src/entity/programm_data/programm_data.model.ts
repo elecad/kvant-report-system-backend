@@ -16,8 +16,8 @@ import { Task } from '../task/task.model';
 interface ProgrammDataTypeCreateAttr {
   value: number;
   data_type_id: number;
-  place_id: number;
-  task_id: number;
+  programm_id: number;
+  answer_id: number;
 }
 
 @Table({ tableName: 'programm_data', updatedAt: false })
@@ -34,7 +34,7 @@ export class ProgrammData extends Model<
   id: number;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.DECIMAL,
     allowNull: false,
   })
   @ApiProperty({

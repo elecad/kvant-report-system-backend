@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
 import { DataTypes } from './data_types.model';
 import { createDataTypesDto } from './dto/create-data_types.dto';
 
@@ -9,8 +10,13 @@ export class DataTypesService {
     @InjectModel(DataTypes) private dataTypesRepository: typeof DataTypes,
   ) {}
 
-  async getAll() {
-    const dataTypes = await this.dataTypesRepository.findAll();
+  async getAll(option: FindOptions<DataTypes> = {}) {
+    const dataTypes = await this.dataTypesRepository.findAll(option);
+    return dataTypes;
+  }
+
+  async getOne(option: FindOptions<DataTypes> = {}) {
+    const dataTypes = await this.dataTypesRepository.findOne(option);
     return dataTypes;
   }
 

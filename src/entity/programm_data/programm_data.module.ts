@@ -9,5 +9,6 @@ import { AuthModule } from 'src/auth/auth.module';
   providers: [ProgrammDataService],
   controllers: [ProgrammDataController],
   imports: [SequelizeModule.forFeature([ProgrammData]), AuthModule],
+  exports: [ProgrammDataService],
 })
 export class ProgrammDataModule {}

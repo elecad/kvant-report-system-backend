@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsArray,
-  isArray,
+  IsInstance,
   IsNotEmpty,
   IsPositive,
   IsString,
@@ -16,84 +16,7 @@ import { Task } from 'src/entity/task/task.model';
 import { VALIDATOR_GROUP } from 'src/pipes/validator.pipe';
 import { isHasDB } from 'src/validator/isHasDB.validator';
 
-export class addAnswerDto {
-  @IsNotEmpty({
-    message: 'Необходимо ID',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @IsPositive({
-    message: 'ID должено быть положительным числом',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @Validate(isHasDB, [{ model: Task } as { model; where?: string }], {
-    message: 'Сущности с таким ID не найдено',
-    groups: [VALIDATOR_GROUP.database],
-  })
-  @ApiProperty({
-    example: 1,
-    description: 'ID Задания',
-  })
-  task_id: number;
-
-  @IsArray({ groups: [VALIDATOR_GROUP.base] })
-  @ValidateNested({ each: true, groups: [VALIDATOR_GROUP.base] })
-  @Type(() => addAnswerMainDto)
-  answer: addAnswerMainDto[];
-}
-
-export class addAnswerProgrammDto {
-  @IsNotEmpty({
-    message: 'Необходимо ID Программы',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @IsPositive({
-    message: 'ID Программы должено быть положительным числом',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @Validate(isHasDB, [{ model: Programm } as { model; where?: string }], {
-    message: 'Программы с таким ID не найдено',
-    groups: [VALIDATOR_GROUP.database],
-  })
-  @ApiProperty({
-    example: 1,
-    description: 'ID Программы',
-  })
-  programm_id: number;
-
-  @IsNotEmpty({
-    message: 'Необходимо значение',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @IsPositive({
-    message: 'Значение должено быть положительным числом',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @ApiProperty({
-    example: 1,
-    description: 'Значение',
-  })
-  value: number;
-}
-
-export class addAnswerMainDto {
-  @IsNotEmpty({
-    message: 'Необходимо ID Места',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @IsPositive({
-    message: 'ID Места должено быть положительным числом',
-    groups: [VALIDATOR_GROUP.base],
-  })
-  @Validate(isHasDB, [{ model: Place } as { model; where?: string }], {
-    message: 'Места с таким ID не найдено',
-    groups: [VALIDATOR_GROUP.database],
-  })
-  @ApiProperty({
-    example: 1,
-    description: 'ID Места',
-  })
-  place_id: number;
-
+export class placeDataDto {
   @IsString({
     message: 'Наименование должено быть строкой',
     groups: [VALIDATOR_GROUP.base],
@@ -129,9 +52,99 @@ export class addAnswerMainDto {
     description: 'Значение',
   })
   value: number;
+}
+
+export class programmDataDto {
+  @IsNotEmpty({
+    message: 'Необходимо ID Программы',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsPositive({
+    message: 'ID Программы должено быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @Validate(isHasDB, [{ model: Programm } as { model; where?: string }], {
+    message: 'Программы с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'ID Программы',
+  })
+  programm_id: number;
+
+  @IsNotEmpty({
+    message: 'Необходимо значение',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsPositive({
+    message: 'Значение должено быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'Значение',
+  })
+  value: number;
+}
+
+export class addAnswerDto {
+  @IsNotEmpty({
+    message: 'Необходимо ID',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsPositive({
+    message: 'ID должено быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @Validate(isHasDB, [{ model: Task } as { model; where?: string }], {
+    message: 'Сущности с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'ID Задания',
+  })
+  task_id: number;
 
   @IsArray({ groups: [VALIDATOR_GROUP.base] })
   @ValidateNested({ each: true, groups: [VALIDATOR_GROUP.base] })
-  @Type(() => addAnswerProgrammDto)
-  programm: addAnswerProgrammDto[];
+  @Type(() => answerDataDto)
+  answer: answerDataDto[];
+}
+
+export class answerDataDto {
+  @IsNotEmpty({
+    message: 'Необходимо ID Места',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @IsPositive({
+    message: 'ID Места должено быть положительным числом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @Validate(isHasDB, [{ model: Place } as { model; where?: string }], {
+    message: 'Места с таким ID не найдено',
+    groups: [VALIDATOR_GROUP.database],
+  })
+  @ApiProperty({
+    example: 1,
+    description: 'ID Места',
+  })
+  place_id: number;
+
+  @IsArray({
+    message: 'Данные о местах должны быть массивом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @ValidateNested({ each: true, groups: [VALIDATOR_GROUP.base] })
+  @Type(() => placeDataDto)
+  place_data: placeDataDto[];
+
+  @IsArray({
+    message: 'Данные о программах должны быть массивом',
+    groups: [VALIDATOR_GROUP.base],
+  })
+  @ValidateNested({ each: true, groups: [VALIDATOR_GROUP.base] })
+  @Type(() => programmDataDto)
+  programm_data: programmDataDto[];
 }

@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
+import { Answer } from '../answer/answer.model';
 import { createProgrammDto } from './dto/create-programm.dto';
 import { Programm } from './programm.model';
 
@@ -9,8 +11,13 @@ export class ProgrammService {
     @InjectModel(Programm) private programmRepository: typeof Programm,
   ) {}
 
-  async getAll() {
-    const programm = await this.programmRepository.findAll();
+  async getAll(option: FindOptions<Programm> = {}) {
+    const programm = await this.programmRepository.findAll(option);
+    return programm;
+  }
+
+  async getOne(option: FindOptions<Programm> = {}) {
+    const programm = await this.programmRepository.findOne(option);
     return programm;
   }
 

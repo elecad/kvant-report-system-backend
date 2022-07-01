@@ -14,9 +14,9 @@ export interface getProps<T> {
 export class AnswerService {
   constructor(@InjectModel(Answer) private answerRepository: typeof Answer) {}
 
-  async getAll() {
-    const place = await this.answerRepository.findAll();
-    return place;
+  async getAll(option: FindOptions<Answer> = {}) {
+    const answer = await this.answerRepository.findAll(option);
+    return answer;
   }
 
   async getById(id: number) {

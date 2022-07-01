@@ -31,6 +31,6 @@ export class ClientController {
 
   @Post('answer')
   addAnswer(@Body() dto: addAnswerDto, @Auth() user: AuthDto) {
-    return this.clientService.addAnswer();
+    return this.clientService.addAnswer(dto, user);
   }
 }

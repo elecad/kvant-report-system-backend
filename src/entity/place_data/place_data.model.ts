@@ -16,7 +16,7 @@ interface PlaceDataTypeCreateAttr {
   value: number;
   data_type_id: number;
   answer_id: number;
-  task_id: number;
+  place_id: number;
 }
 
 @Table({ tableName: 'place_data', updatedAt: false })
@@ -30,7 +30,7 @@ export class PlaceData extends Model<PlaceData, PlaceDataTypeCreateAttr> {
   id: number;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.DECIMAL,
     allowNull: false,
   })
   @ApiProperty({

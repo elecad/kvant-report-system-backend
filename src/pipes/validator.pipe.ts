@@ -17,7 +17,6 @@ export enum VALIDATOR_GROUP {
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
     const obj = plainToClass(metadata.metatype, value);
-
     console.log(obj);
 
     if (metadata.type !== 'custom') {
@@ -28,11 +27,7 @@ export class ValidationPipe implements PipeTransform<any> {
         }),
       );
 
-      this.messages(
-        await validate(obj, {
-          groups: [VALIDATOR_GROUP.database],
-        }),
-      );
+      this.messages(await validate(obj));
     }
 
     return value;

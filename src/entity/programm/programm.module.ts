@@ -9,5 +9,6 @@ import { ProgrammService } from './programm.service';
   controllers: [ProgrammController],
   providers: [ProgrammService],
   imports: [SequelizeModule.forFeature([Programm]), AuthModule],
+  exports: [ProgrammService],
 })
 export class ProgrammModule {}
