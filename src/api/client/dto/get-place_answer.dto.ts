@@ -7,7 +7,7 @@ import { isHasDB } from 'src/validator/isHasDB.validator';
 export class getPlaceAnswerDto {
   @ApiProperty({
     example: 1,
-    description: 'ID Места',
+    description: 'ID Задания',
   })
   @Validate(isHasDB, [{ model: Task } as { model; where?: string }], {
     message: 'Задание с таким ID не найдено',

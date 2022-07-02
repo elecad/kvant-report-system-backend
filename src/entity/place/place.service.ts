@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
 import { createPlaceDto } from './dto/create-place.dto';
 import { Place } from './place.model';
 
@@ -7,9 +8,14 @@ import { Place } from './place.model';
 export class PlaceService {
   constructor(@InjectModel(Place) private placeRepository: typeof Place) {}
 
-  async getAll() {
-    const place = await this.placeRepository.findAll({});
+  async getAll(option: FindOptions<Place> = {}) {
+    const place = await this.placeRepository.findAll(option);
     return place;
+  }
+
+  async getOne(option: FindOptions<Place> = {}) {
+    const answer = await this.placeRepository.findAll(option);
+    return answer;
   }
 
   async getById(id: number) {

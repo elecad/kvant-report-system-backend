@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 import { AuthDto } from 'src/dto/auth.dto';
 import { Account } from 'src/entity/account/account.model';
 import { Answer } from 'src/entity/answer/answer.model';
@@ -7,6 +7,8 @@ import { AnswerService } from 'src/entity/answer/answer.service';
 import { DataTypes } from 'src/entity/data_types/data_types.model';
 import { DataTypesService } from 'src/entity/data_types/data_types.service';
 import { Direction } from 'src/entity/direction/direction.model';
+import { Place } from 'src/entity/place/place.model';
+import { PlaceService } from 'src/entity/place/place.service';
 import { PlaceData } from 'src/entity/place_data/place_data.model';
 import { PlaceDataService } from 'src/entity/place_data/place_data.service';
 import { PlaceType } from 'src/entity/place_type/place_type.model';
@@ -39,6 +41,7 @@ export class ClientService {
     private programmDataService: ProgrammDataService,
     private dataTypesService: DataTypesService,
     private programmService: ProgrammService,
+    private placeService: PlaceService,
   ) {}
 
   async getTasks(user: AuthDto) {
@@ -85,10 +88,6 @@ export class ClientService {
     );
 
     return validPlaces;
-  }
-
-  async getAnswerData(id: Number, user: AuthDto) {
-    const places = this.getPlaceTask(id, user);
   }
 
   async addAnswer(dto: addAnswerDto, user: AuthDto) {
@@ -228,5 +227,77 @@ export class ClientService {
     });
 
     return { placeData, schoolData, programmData };
+  }
+
+  async getStatistic(id: number, user: AuthDto) {
+    const type = await this.dataTypesService.getAll({
+      where: { code_name: { [Op.like]: 't2%' } },
+    });
+
+    const columns = type.map((col) => ({
+      title: col.description,
+      dataIndex: col.code_name.toLowerCase(),
+      key: col.code_name,
+    }));
+    columns.unshift({
+      title: 'Наименование района',
+      dataIndex: 'place_name',
+      key: 'key',
+    });
+
+    const places = await this.placeService.getAll({
+      include: [
+        {
+          model: PlaceData,
+          include: [
+            { model: DataTypes, where: { code_name: { [Op.like]: 't2%' } } },
+          ],
+        },
+        { model: PlaceType, where: { name: 'Район' } },
+      ],
+    });
+
+    const statistic = places.map((place, index) => {
+      const result = {
+        key: 0,
+        place_name: place.name,
+      };
+      if (place.data.length)
+        place.data.forEach((d) => (result[d.type.code_name] = d.value));
+      else {
+        type.forEach((t) => (result[t.code_name] = '—'));
+      }
+      result.key = index + 1;
+      return result;
+    });
+
+    return { columns, data: statistic };
+
+    // const columns = [
+    //   {
+    //     title: 'Name',
+    //     dataIndex: 'name',
+    //     key: 'name',
+    //   },
+    //   {
+    //     title: 'Age',
+    //     dataIndex: 'age',
+    //     key: 'age',
+    //   },
+    //   {
+    //     title: 'Address',
+    //     dataIndex: 'address',
+    //     key: 'address',
+    //   },
+    // ];
+
+    // const record = await this.placeDataService.getAll({
+    //   include: [
+    //     { model: Answer, where: { task_id: id } },
+    //     { model: DataTypes, where: { code_name: { [Op.like]: 't2%' } } },
+    //     { model: Place },
+    //   ],
+    // });
+    // return record;
   }
 }

@@ -10,8 +10,8 @@ export class PlaceDataService {
     @InjectModel(PlaceData) private placeDataRepository: typeof PlaceData,
   ) {}
 
-  async getAll() {
-    const placeData = await this.placeDataRepository.findAll();
+  async getAll(option: FindOptions<PlaceData> = {}) {
+    const placeData = await this.placeDataRepository.findAll(option);
     return placeData;
   }
 

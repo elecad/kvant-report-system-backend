@@ -9,7 +9,6 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Account } from 'src/entity/account/account.model';
-import { Place } from '../place/place.model';
 import { PlaceData } from '../place_data/place_data.model';
 import { ProgrammData } from '../programm_data/programm_data.model';
 import { Task } from '../task/task.model';
@@ -58,8 +57,8 @@ export class Answer extends Model<Answer, AnswerCreateAttr> {
   task: Task;
 
   @HasMany(() => PlaceData)
-  placeData: PlaceData[];
+  place_data: PlaceData[];
 
   @HasMany(() => ProgrammData)
-  programmData: ProgrammData[];
+  programm_data: ProgrammData[];
 }

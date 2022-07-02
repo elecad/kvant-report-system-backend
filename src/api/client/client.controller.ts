@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Auth } from 'src/decorators/account-auth.decorator';
 import { AuthDto } from 'src/dto/auth.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -32,5 +23,11 @@ export class ClientController {
   @Post('answer')
   addAnswer(@Body() dto: addAnswerDto, @Auth() user: AuthDto) {
     return this.clientService.addAnswer(dto, user);
+  }
+
+  @Post('task/:task_id')
+  getStatistic(@Param() params: getPlaceAnswerDto, @Auth() user: AuthDto) {
+    const id: number = +params.task_id;
+    return this.clientService.getStatistic(id, user);
   }
 }
