@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ClientService } from './client.service';
 import { addAnswerDto } from './dto/add-answer.dto';
 import { getPlaceAnswerDto } from './dto/get-place_answer.dto';
+import { getStatistics } from './dto/get-statictic.dto';
 @Controller('')
 @UseGuards(JwtAuthGuard)
 export class ClientController {
@@ -25,9 +26,10 @@ export class ClientController {
     return this.clientService.addAnswer(dto, user);
   }
 
-  @Post('task/:task_id')
-  getStatistic(@Param() params: getPlaceAnswerDto, @Auth() user: AuthDto) {
+  @Post('task/:task_id/type/:type')
+  getStatistic(@Param() params: getStatistics) {
     const id: number = +params.task_id;
-    return this.clientService.getStatistic(id, user);
+    const type: number = +params.type;
+    return this.clientService.getStatistic(id, type);
   }
 }

@@ -229,18 +229,24 @@ export class ClientService {
     return { placeData, schoolData, programmData };
   }
 
-  async getStatistic(id: number, user: AuthDto) {
-    const type = await this.dataTypesService.getAll({
-      where: { code_name: { [Op.like]: 't2%' } },
+  async getStatistic(id: number, statisticType: number) {
+    return statisticType > 0 && statisticType < 3
+      ? this.oneAndTwoStatistic(id, statisticType)
+      : this.threeStatistic(id, statisticType);
+  }
+
+  async oneAndTwoStatistic(id: number, type: number) {
+    const types = await this.dataTypesService.getAll({
+      where: { code_name: { [Op.like]: type === 1 ? 't2%' : 't7_1%' } },
     });
 
-    const columns = type.map((col) => ({
+    const columns = types.map((col) => ({
       title: col.description,
       dataIndex: col.code_name.toLowerCase(),
       key: col.code_name,
     }));
     columns.unshift({
-      title: 'Наименование района',
+      title: type === 1 ? 'Наименование района' : 'Наименование учреждения',
       dataIndex: 'place_name',
       key: 'key',
     });
@@ -250,14 +256,21 @@ export class ClientService {
         {
           model: PlaceData,
           include: [
-            { model: DataTypes, where: { code_name: { [Op.like]: 't2%' } } },
+            {
+              model: DataTypes,
+              where: { code_name: { [Op.like]: type === 1 ? 't2%' : 't7_1%' } },
+            },
+            { model: Answer, where: { task_id: id } },
           ],
         },
-        { model: PlaceType, where: { name: 'Район' } },
+        {
+          model: PlaceType,
+          where: { name: type === 1 ? 'Район' : 'Учреждение' },
+        },
       ],
     });
 
-    const statistic = places.map((place, index) => {
+    const statictic = places.map((place, index) => {
       const result = {
         key: 0,
         place_name: place.name,
@@ -265,39 +278,98 @@ export class ClientService {
       if (place.data.length)
         place.data.forEach((d) => (result[d.type.code_name] = d.value));
       else {
-        type.forEach((t) => (result[t.code_name] = '—'));
+        types.forEach((t) => (result[t.code_name] = '—'));
       }
       result.key = index + 1;
       return result;
     });
 
-    return { columns, data: statistic };
+    return { columns, data: statictic };
+  }
 
-    // const columns = [
-    //   {
-    //     title: 'Name',
-    //     dataIndex: 'name',
-    //     key: 'name',
-    //   },
-    //   {
-    //     title: 'Age',
-    //     dataIndex: 'age',
-    //     key: 'age',
-    //   },
-    //   {
-    //     title: 'Address',
-    //     dataIndex: 'address',
-    //     key: 'address',
-    //   },
-    // ];
+  async threeStatistic(id: number, type: number) {
+    const types = await this.dataTypesService.getAll({
+      where: { code_name: { [Op.like]: 't7_2%' } },
+    });
 
-    // const record = await this.placeDataService.getAll({
-    //   include: [
-    //     { model: Answer, where: { task_id: id } },
-    //     { model: DataTypes, where: { code_name: { [Op.like]: 't2%' } } },
-    //     { model: Place },
-    //   ],
+    const columns = types.map((col) => ({
+      title: col.description,
+      dataIndex: col.code_name.toLowerCase(),
+      key: col.code_name,
+    }));
+    columns.unshift({
+      title: 'Наименование учреждения',
+      dataIndex: 'place_name',
+      key: 'place',
+    });
+
+    columns.unshift({
+      title: 'Направление обучения',
+      dataIndex: 'direction_name',
+      key: 'direction',
+    });
+    columns.unshift({
+      title: 'ID в АИС Навигаторе',
+      dataIndex: 'navigator_id',
+      key: 'navigator',
+    });
+    columns.unshift({
+      title: 'Наименование образовательной программы',
+      dataIndex: 'programm_name',
+      key: 'program',
+    });
+
+    const programms = await this.programmService.getAll({
+      include: [
+        Direction,
+        {
+          model: Place,
+          include: [{ model: PlaceType, where: { name: 'Учреждение' } }],
+        },
+        {
+          model: ProgrammData,
+          include: [
+            { model: Answer, where: { task_id: id } },
+            { model: DataTypes },
+          ],
+        },
+      ],
+    });
+
+    const statictic = programms.map((programm, index) => {
+      const result = {
+        key: index + 1,
+        place_name: programm.place.name,
+        programm_name: programm.name,
+        direction_name: programm.direction.name,
+        navigator_id: programm.navigator_id,
+      };
+      if (programm.programm_data.length)
+        programm.programm_data.forEach(
+          (d) => (result[d.type['code_name']] = d.value),
+        );
+      else {
+        types.forEach((t) => (result[t.code_name] = '—'));
+      }
+      return result;
+    });
+
+    return { columns, data: statictic };
+
+    // const statistic = places.map((place, index) => {
+    //   const result = {
+    //     key: 0,
+    //     place_name: place.name,
+    //   };
+    //   if (place.data.length)
+    //     place.data.forEach((d) => (result[d.type.code_name] = d.value));
+    //   else {
+    //     types.forEach((t) => (result[t.code_name] = '—'));
+    //   }
+    //   result.key = index + 1;
+    //   return result;
     // });
-    // return record;
+
+    // return { columns, data: statistic };
   }
 }

@@ -131,5 +131,5 @@ export class Programm extends Model<Programm, ProgrammCreateAttr> {
   school_type: SchoolType;
 
   @HasMany(() => ProgrammData)
-  programms: ProgrammData[];
+  programm_data: ProgrammData[];
 }
