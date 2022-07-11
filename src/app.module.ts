@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AccountModule } from './modules/account/account.module';
+import { Account } from './modules/account/entities/account.entity';
 
 @Module({
   controllers: [],
@@ -17,7 +18,7 @@ import { AccountModule } from './modules/account/account.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [],
+      models: [Account],
       autoLoadModels: true,
     }),
     AccountModule,

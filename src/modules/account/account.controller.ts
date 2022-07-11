@@ -1,9 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  HttpException,
+  HttpStatus,
+  UsePipes,
+} from '@nestjs/common';
+import { ValidationPipe } from 'src/pipes/validator.pipe';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 
 @Controller('account')
+@UsePipes(ValidationPipe)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
@@ -18,17 +33,20 @@ export class AccountController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.accountService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.accountService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: string,
+    @Body() updateAccountDto: UpdateAccountDto,
+  ) {
     return this.accountService.update(+id, updateAccountDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: string) {
     return this.accountService.remove(+id);
   }
 }
