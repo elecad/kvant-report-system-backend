@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateAccountDto {
-  @IsNotEmpty({ message: 'Это обязательное поле' })
+  @IsNotEmpty({ message: STRINGS.IsNotEmptyError })
   @IsString({
     message: STRINGS.IsStringError,
   })
