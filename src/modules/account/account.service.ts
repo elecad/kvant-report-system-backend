@@ -20,8 +20,8 @@ export class AccountService {
       collumn: 'email',
       value: createAccountDto.email,
     });
-    const entity = await this.accountRepository.create(createAccountDto);
-    return { id: entity.id };
+    const { id } = await this.accountRepository.create(createAccountDto);
+    return { id };
   }
 
   findAll(option: FindOptions<Account> = {}) {
@@ -33,17 +33,31 @@ export class AccountService {
   }
 
   async update(id: number, updateAccountDto: UpdateAccountDto) {
-    // await this.validateOne({
-    //   type: 'unique',
-    //   collumn: 'email',
-    //   value: updateAccountDto.email,
-    // });
+    const [entity] = await this.validateAll([
+      {
+        type: 'existing',
+        collumn: 'id',
+        value: id,
+      },
+      {
+        type: 'unique',
+        collumn: 'email',
+        value: updateAccountDto.email,
+      },
+    ]);
+    await entity.update(updateAccountDto);
 
-    return `This action updates a #${id} account`;
+    return entity;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} account`;
+  async remove(id: number) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      collumn: 'id',
+      value: id,
+    });
+
+    await entity.destroy();
   }
 
   async validateOne(props: ValidateOption<Account>) {
