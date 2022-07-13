@@ -1,11 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
-import {
-  CheckEntityProps,
-  ValidateAllProps,
-  ValidateOneProps,
-} from 'src/types/validate.type';
+import { CheckEntityProps, ValidateOption } from 'src/types/validate.type';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { Account } from './entities/account.entity';
@@ -21,7 +17,8 @@ export class AccountService {
   async create(createAccountDto: CreateAccountDto) {
     await this.validateOne({
       type: 'unique',
-      options: { collumn: 'email', value: createAccountDto.email },
+      collumn: 'email',
+      value: createAccountDto.email,
     });
     const entity = await this.accountRepository.create(createAccountDto);
     return { id: entity.id };
@@ -35,7 +32,13 @@ export class AccountService {
     return this.accountRepository.findOne(option);
   }
 
-  update(id: number, updateAccountDto: UpdateAccountDto) {
+  async update(id: number, updateAccountDto: UpdateAccountDto) {
+    // await this.validateOne({
+    //   type: 'unique',
+    //   collumn: 'email',
+    //   value: updateAccountDto.email,
+    // });
+
     return `This action updates a #${id} account`;
   }
 
@@ -43,22 +46,9 @@ export class AccountService {
     return `This action removes a #${id} account`;
   }
 
-  async temp() {
-    const accounts = await this.validateOne({
-      type: 'unique',
-      options: { collumn: 'email', value: 'test@mail.ru' },
-    });
-    // console.log(accounts);
-
-    // return account;
-  }
-
-  async validateOne(props: ValidateOneProps<Account>) {
+  async validateOne(props: ValidateOption<Account>) {
     //? Для одной сущности
-    const {
-      type,
-      options: { value, collumn },
-    } = props;
+    const { type, value, collumn } = props;
     const entity = await this.findOne({ where: { [collumn]: value } });
 
     this.checkEntity({ type, collumn: collumn, data: entity });
@@ -66,17 +56,21 @@ export class AccountService {
     return entity;
   }
 
-  async validateAll(props: ValidateAllProps<Account>) {
+  async validateAll(props: ValidateOption<Account>[]) {
     //? Для многих сущностей
-    const { type, options } = props;
     const entitys = await Promise.all(
-      options.map(({ collumn, value }) =>
+      props.map(({ collumn, value }) =>
         this.accountRepository.findOne({ where: { [collumn]: value } }),
       ),
     );
 
     entitys.forEach((e, index) => {
-      this.checkEntity({ type, collumn: options[index].collumn, data: e });
+      const { type, collumn } = props[index];
+      this.checkEntity({
+        type: type,
+        collumn: collumn,
+        data: e,
+      });
     });
 
     return entitys;

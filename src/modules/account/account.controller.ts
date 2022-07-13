@@ -27,8 +27,7 @@ export class AccountController {
 
   @Get()
   findAll() {
-    // return this.accountService.findAll();
-    return this.accountService.temp();
+    return this.accountService.findAll();
   }
 
   @Get(':id')
