@@ -33,7 +33,11 @@ export class AccountController {
 
   @Get(':id')
   findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    return this.accountService.findOne();
+    return this.accountService.validateOne({
+      type: 'existing',
+      collumn: 'id',
+      value: id,
+    });
   }
 
   @Patch(':id')
@@ -41,12 +45,12 @@ export class AccountController {
     @Param('id', new ParseIntPipe(parseIntOptions)) id: string,
     @Body() updateAccountDto: UpdateAccountDto,
   ) {
-    return this.accountService.update(+id, updateAccountDto);
+    return this.accountService.update(Number(id), updateAccountDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
   remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: string) {
-    return this.accountService.remove(+id);
+    return this.accountService.remove(Number(id));
   }
 }

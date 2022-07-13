@@ -12,11 +12,7 @@ import { validate, ValidationError } from 'class-validator';
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
     const obj = plainToInstance(metadata.metatype, value);
-    this.messages(
-      await validate(obj, {
-        forbidUnknownValues: true,
-      }),
-    );
+    this.messages(await validate(obj));
     return value;
   }
 
