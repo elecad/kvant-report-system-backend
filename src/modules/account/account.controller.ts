@@ -1,14 +1,12 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseIntPipe,
-  HttpException,
-  HttpStatus,
+  Patch,
+  Post,
   UsePipes,
 } from '@nestjs/common';
 import { ValidationPipe } from 'src/pipes/validator.pipe';
@@ -29,12 +27,13 @@ export class AccountController {
 
   @Get()
   findAll() {
-    return this.accountService.findAll();
+    // return this.accountService.findAll();
+    return this.accountService.temp();
   }
 
   @Get(':id')
   findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    return this.accountService.findOne(id);
+    return this.accountService.findOne();
   }
 
   @Patch(':id')

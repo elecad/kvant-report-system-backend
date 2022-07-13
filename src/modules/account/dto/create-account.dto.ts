@@ -1,5 +1,4 @@
 import { IsEmail, IsNotEmpty, IsPositive, IsString } from 'class-validator';
-import { Account } from '../entities/account.entity';
 
 export class CreateAccountDto {
   @IsNotEmpty({ message: 'Это обязательное поле' })
