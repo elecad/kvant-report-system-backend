@@ -51,35 +51,3 @@ export class CreateAccountDto {
   // @Type(() => Testing)
   // job: Testing[];
 }
-
-export class Testing {
-  @IsNotEmpty({
-    message: 'Это обязательное поле',
-  })
-  @IsPositive({
-    message: 'ID должен быть положительным числом',
-  })
-  id: number;
-
-  @IsNotEmpty({
-    message: 'Это обязательное поле',
-  })
-  @IsString({
-    message: 'Это поле должно быть строкой',
-  })
-  @IsEmail(
-    {},
-    {
-      message: 'Это поле должно быть корректной электронной почтой',
-    },
-  )
-  email: string;
-
-  @IsNotEmpty({
-    message: 'Это обязательное поле',
-  })
-  @IsString({
-    message: 'Это поле должно быть строкой',
-  })
-  value: string;
-}
