@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
+import { STRINGS } from 'src/res/strings';
 import { CheckEntityProps, ValidateOption } from 'src/types/validate.type';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
@@ -93,12 +94,12 @@ export class AccountService {
   private checkEntity({ type, collumn, data }: CheckEntityProps) {
     if (type === 'existing' && !data)
       throw new HttpException(
-        `${this.entity} с таким ${collumn} отсутсвует в системе`,
+        STRINGS.IsExistingError(this.entity, collumn),
         HttpStatus.BAD_REQUEST,
       );
     if (type === 'unique' && data)
       throw new HttpException(
-        `${this.entity} с таким ${collumn} уже имеется в системе`,
+        STRINGS.IsUniqueError(this.entity, collumn),
         HttpStatus.BAD_REQUEST,
       );
   }

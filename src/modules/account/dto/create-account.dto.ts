@@ -1,47 +1,48 @@
 import { IsEmail, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { STRINGS } from 'src/res/strings';
 
 export class CreateAccountDto {
   @IsNotEmpty({ message: 'Это обязательное поле' })
   @IsString({
-    message: 'Это поле должно быть строкой',
+    message: STRINGS.IsStringError,
   })
   @IsEmail(
     {},
     {
-      message: 'Это поле должно быть корректной электронной почтой',
+      message: STRINGS.IsEmailError,
     },
   )
   email: string;
 
   @IsNotEmpty({
-    message: 'Это обязательное поле',
+    message: STRINGS.IsNotEmptyError,
   })
   @IsString({
-    message: 'Это поле должно быть строкой',
+    message: STRINGS.IsStringError,
   })
   password: string;
 
   @IsString({
-    message: 'Это поле должно быть строкой',
+    message: STRINGS.IsStringError,
   })
   @IsNotEmpty({
-    message: 'Это обязательное поле',
+    message: STRINGS.IsNotEmptyError,
   })
   subname: string;
 
   @IsNotEmpty({
-    message: 'Это обязательное поле',
+    message: STRINGS.IsNotEmptyError,
   })
   @IsString({
-    message: 'Это поле должно быть строкой',
+    message: STRINGS.IsStringError,
   })
   name: string;
 
   @IsNotEmpty({
-    message: 'Это обязательное поле',
+    message: STRINGS.IsNotEmptyError,
   })
   @IsString({
-    message: 'Это поле должно быть строкой',
+    message: STRINGS.IsStringError,
   })
   middlename: string;
 
