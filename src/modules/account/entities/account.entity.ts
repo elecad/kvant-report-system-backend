@@ -1,4 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Role } from 'src/modules/role/entities/role.entity';
+import { Account_Role } from './account_role.entity';
 
 export interface AccountCreateAttr {
   email: string;
@@ -31,4 +39,7 @@ export class Account extends Model<Account, AccountCreateAttr> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   middlename: string;
+
+  @BelongsToMany(() => Role, () => Account_Role)
+  roles: Role[];
 }
