@@ -9,6 +9,7 @@ export interface ValidateOption<T extends Model> {
   type: ValidateType;
   value: string | number;
   column: keyof Attributes<T>;
+  findOptions?: FindOptions;
 }
 
 export interface CheckEntityProps {
@@ -23,8 +24,9 @@ export async function databaseValidateOne<
   R extends ModelStatic<T> = ModelStatic<T>,
 >(model: R, entityName: string, props: ValidateOption<T>) {
   //? Для одной сущности
-  let { type, value, column } = props;
+  let { type, value, column, findOptions } = props;
   const entity = await model.findOne({
+    ...findOptions,
     where: { [column]: value },
   } as FindOptions);
   column = column.toString();
@@ -40,8 +42,11 @@ export async function databaseValidateAll<
 >(model: R, entityName: string, props: ValidateOption<T>[]) {
   //? Для многих сущностей
   const entitys = await Promise.all(
-    props.map(({ column, value }) =>
-      model.findOne({ where: { [column]: value } } as FindOptions),
+    props.map(({ column, value, findOptions }) =>
+      model.findOne({
+        ...findOptions,
+        where: { [column]: value },
+      } as FindOptions),
     ),
   );
 

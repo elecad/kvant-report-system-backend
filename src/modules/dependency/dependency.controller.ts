@@ -36,6 +36,7 @@ export class DependencyController {
       type: 'existing',
       column: 'id',
       value: id,
+      findOptions: { include: DependencyType },
     });
   }
 
