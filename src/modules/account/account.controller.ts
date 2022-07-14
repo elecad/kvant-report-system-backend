@@ -8,16 +8,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UsePipes,
 } from '@nestjs/common';
-import { ValidationPipe } from 'src/pipes/validator.pipe';
 import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 
 @Controller('account')
-@UsePipes(ValidationPipe)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
@@ -35,14 +32,14 @@ export class AccountController {
   findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
     return this.accountService.validateOne({
       type: 'existing',
-      collumn: 'id',
+      column: 'id',
       value: id,
     });
   }
 
   @Patch(':id')
   update(
-    @Param('id', new ParseIntPipe(parseIntOptions)) id: string,
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
     @Body() updateAccountDto: UpdateAccountDto,
   ) {
     return this.accountService.update(Number(id), updateAccountDto);
@@ -50,7 +47,7 @@ export class AccountController {
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: string) {
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
     return this.accountService.remove(Number(id));
   }
 }

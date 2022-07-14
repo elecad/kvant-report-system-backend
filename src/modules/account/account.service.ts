@@ -18,7 +18,7 @@ export class AccountService {
   async create(createAccountDto: CreateAccountDto) {
     await this.validateOne({
       type: 'unique',
-      collumn: 'email',
+      column: 'email',
       value: createAccountDto.email,
     });
     const { id } = await this.accountRepository.create(createAccountDto);
@@ -37,12 +37,12 @@ export class AccountService {
     const [entity] = await this.validateAll([
       {
         type: 'existing',
-        collumn: 'id',
+        column: 'id',
         value: id,
       },
       {
         type: 'unique',
-        collumn: 'email',
+        column: 'email',
         value: updateAccountDto.email,
       },
     ]);
@@ -54,7 +54,7 @@ export class AccountService {
   async remove(id: number) {
     const entity = await this.validateOne({
       type: 'existing',
-      collumn: 'id',
+      column: 'id',
       value: id,
     });
 
@@ -63,10 +63,10 @@ export class AccountService {
 
   async validateOne(props: ValidateOption<Account>) {
     //? Для одной сущности
-    const { type, value, collumn } = props;
-    const entity = await this.findOne({ where: { [collumn]: value } });
+    const { type, value, column } = props;
+    const entity = await this.findOne({ where: { [column]: value } });
 
-    this.checkEntity({ type, collumn: collumn, data: entity });
+    this.checkEntity({ type, column, data: entity });
 
     return entity;
   }
@@ -74,16 +74,16 @@ export class AccountService {
   async validateAll(props: ValidateOption<Account>[]) {
     //? Для многих сущностей
     const entitys = await Promise.all(
-      props.map(({ collumn, value }) =>
-        this.accountRepository.findOne({ where: { [collumn]: value } }),
+      props.map(({ column, value }) =>
+        this.accountRepository.findOne({ where: { [column]: value } }),
       ),
     );
 
     entitys.forEach((e, index) => {
-      const { type, collumn } = props[index];
+      const { type, column } = props[index];
       this.checkEntity({
         type: type,
-        collumn: collumn,
+        column,
         data: e,
       });
     });
@@ -91,15 +91,15 @@ export class AccountService {
     return entitys;
   }
 
-  private checkEntity({ type, collumn, data }: CheckEntityProps) {
+  private checkEntity({ type, column, data }: CheckEntityProps) {
     if (type === 'existing' && !data)
       throw new HttpException(
-        STRINGS.IsExistingError(this.entity, collumn),
+        STRINGS.IsExistingError(this.entity, column),
         HttpStatus.BAD_REQUEST,
       );
     if (type === 'unique' && data)
       throw new HttpException(
-        STRINGS.IsUniqueError(this.entity, collumn),
+        STRINGS.IsUniqueError(this.entity, column),
         HttpStatus.BAD_REQUEST,
       );
   }

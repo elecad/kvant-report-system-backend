@@ -1,5 +1,5 @@
 export const STRINGS = {
-  IsNotEmptyError: 'Это поле должно быть строкой',
+  IsNotEmptyError: 'Это обязательное поле',
   IsEmailError: 'Это поле должно быть корректной электронной почтой',
   IsStringError: 'Это поле должно быть строкой',
   IsUniqueError: (entity: string, collumn: string) =>

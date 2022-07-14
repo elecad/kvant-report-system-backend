@@ -5,11 +5,11 @@ export type ValidateType = 'unique' | 'existing';
 export interface ValidateOption<T extends Model> {
   type: ValidateType;
   value: string | number;
-  collumn: keyof Attributes<T>;
+  column: keyof Attributes<T>;
 }
 
 export interface CheckEntityProps {
   type: ValidateType;
-  collumn: string;
+  column: string;
   data: Model;
 }
