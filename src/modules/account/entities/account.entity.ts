@@ -5,7 +5,9 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
+import { Account_Dependency } from './account_dependency.entity';
 import { Account_Role } from './account_role.entity';
 
 export interface AccountCreateAttr {
@@ -42,4 +44,7 @@ export class Account extends Model<Account, AccountCreateAttr> {
 
   @BelongsToMany(() => Role, () => Account_Role)
   roles: Role[];
+
+  @BelongsToMany(() => Dependency, () => Account_Dependency)
+  dependencies: Dependency[];
 }

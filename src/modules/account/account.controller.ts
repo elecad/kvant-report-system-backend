@@ -10,6 +10,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
+import { Dependency } from '../dependency/entities/dependency.entity';
+import { Role } from '../role/entities/role.entity';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
@@ -25,7 +27,7 @@ export class AccountController {
 
   @Get()
   findAll() {
-    return this.accountService.findAll();
+    return this.accountService.findAll({ include: [Role, Dependency] });
   }
 
   @Get(':id')

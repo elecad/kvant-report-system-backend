@@ -1,11 +1,14 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Account } from 'src/modules/account/entities/account.entity';
+import { Account_Dependency } from 'src/modules/account/entities/account_dependency.entity';
 import { DependencyType } from 'src/modules/dependency_type/entities/dependency_type.entity';
 
 export interface DependencyCreateAttr {
@@ -35,4 +38,7 @@ export class Dependency extends Model<Dependency, DependencyCreateAttr> {
 
   @BelongsTo(() => DependencyType)
   dependencyType: DependencyType;
+
+  @BelongsToMany(() => Account, () => Account_Dependency)
+  accounts: Account[];
 }

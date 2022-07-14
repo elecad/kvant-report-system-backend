@@ -10,6 +10,7 @@ import { DependencyTypeModule } from './modules/dependency_type/dependency_type.
 import { DependencyType } from './modules/dependency_type/entities/dependency_type.entity';
 import { DependencyModule } from './modules/dependency/dependency.module';
 import { Dependency } from './modules/dependency/entities/dependency.entity';
+import { Account_Dependency } from './modules/account/entities/account_dependency.entity';
 
 @Module({
   controllers: [],
@@ -25,7 +26,14 @@ import { Dependency } from './modules/dependency/entities/dependency.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Account_Role, DependencyType, Dependency],
+      models: [
+        Account,
+        Role,
+        Account_Role,
+        DependencyType,
+        Dependency,
+        Account_Dependency,
+      ],
       autoLoadModels: true,
     }),
     AccountModule,
