@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 import { STRINGS } from 'src/res/strings';
-import { CheckEntityProps, ValidateOption } from 'src/types/validate.type';
 import { CreateDependencyTypeDto } from './dto/create-dependency_type.dto';
 import { UpdateDependencyTypeDto } from './dto/update-dependency_type.dto';
 import { DependencyType } from './entities/dependency_type.entity';
@@ -32,68 +31,60 @@ export class DependencyTypeService {
   }
 
   async update(id: number, updateDependencyTypeDto: UpdateDependencyTypeDto) {
-    const [entity] = await this.validateAll([
-      {
-        type: 'existing',
-        column: 'id',
-        value: id,
-      },
-    ]);
-    await entity.update(updateDependencyTypeDto);
-
-    return entity;
+    // const [entity] = await this.validateAll([
+    //   {
+    //     type: 'existing',
+    //     column: 'id',
+    //     value: id,
+    //   },
+    // ]);
+    // await entity.update(updateDependencyTypeDto);
+    // return entity;
   }
 
   async remove(id: number) {
-    const entity = await this.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: id,
-    });
-
-    await entity.destroy();
-  }
-
-  async validateOne(props: ValidateOption<DependencyType>) {
-    //? Для одной сущности
-    const { type, value, column } = props;
-    const entity = await this.findOne({ where: { [column]: value } });
-
-    this.checkEntity({ type, column, data: entity });
-
-    return entity;
-  }
-
-  async validateAll(props: ValidateOption<DependencyType>[]) {
-    //? Для многих сущностей
-    const entitys = await Promise.all(
-      props.map(({ column, value }) =>
-        this.dependencyTypeRepository.findOne({ where: { [column]: value } }),
-      ),
-    );
-
-    entitys.forEach((e, index) => {
-      const { type, column } = props[index];
-      this.checkEntity({
-        type: type,
-        column,
-        data: e,
-      });
-    });
-
-    return entitys;
-  }
-
-  private checkEntity({ type, column, data }: CheckEntityProps) {
-    if (type === 'existing' && !data)
-      throw new HttpException(
-        STRINGS.IsExistingError(this.entity, column),
-        HttpStatus.BAD_REQUEST,
-      );
-    if (type === 'unique' && data)
-      throw new HttpException(
-        STRINGS.IsUniqueError(this.entity, column),
-        HttpStatus.BAD_REQUEST,
-      );
+    //   const entity = await this.validateOne({
+    //     type: 'existing',
+    //     column: 'id',
+    //     value: id,
+    //   });
+    //   await entity.destroy();
+    // }
+    // async validateOne(props: ValidateOption<DependencyType>) {
+    //   //? Для одной сущности
+    //   const { type, value, column } = props;
+    //   const entity = await this.findOne({ where: { [column]: value } });
+    //   this.checkEntity({ type, column, data: entity });
+    //   return entity;
+    // }
+    // async validateAll(props: ValidateOption<DependencyType>[]) {
+    //   //? Для многих сущностей
+    //   const entitys = await Promise.all(
+    //     props.map(({ column, value }) =>
+    //       this.dependencyTypeRepository.findOne({ where: { [column]: value } }),
+    //     ),
+    //   );
+    //   entitys.forEach((e, index) => {
+    //     const { type, column } = props[index];
+    //     this.checkEntity({
+    //       type: type,
+    //       column,
+    //       data: e,
+    //     });
+    //   });
+    //   return entitys;
+    // }
+    // private checkEntity({ type, column, data }: CheckEntityProps) {
+    //   if (type === 'existing' && !data)
+    //     throw new HttpException(
+    //       STRINGS.IsExistingError(this.entity, column),
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //   if (type === 'unique' && data)
+    //     throw new HttpException(
+    //       STRINGS.IsUniqueError(this.entity, column),
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    // }
   }
 }

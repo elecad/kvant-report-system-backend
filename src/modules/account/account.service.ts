@@ -1,13 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
-import { STRINGS } from 'src/res/strings';
 import {
-  CheckEntityProps,
   databaseValidateAll,
   databaseValidateOne,
   ValidateOption,
-} from 'src/types/validate.type';
+} from 'src/validators/dataBase.validator';
+
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { Account } from './entities/account.entity';
@@ -18,7 +17,7 @@ export class AccountService {
     @InjectModel(Account) private accountRepository: typeof Account,
   ) {}
 
-  private entity = 'Аккаунт';
+  private entityName = 'Аккаунт';
 
   async create(createAccountDto: CreateAccountDto) {
     await this.validateOne({
@@ -67,11 +66,11 @@ export class AccountService {
 
   async validateOne(props: ValidateOption<Account>) {
     //? Одиночный валидатор
-    return databaseValidateOne(Account, props);
+    return databaseValidateOne(Account, this.entityName, props);
   }
 
   async validateAll(props: ValidateOption<Account>[]) {
     //? Групповой валидатор
-    return databaseValidateAll(Account, props);
+    return databaseValidateAll(Account, this.entityName, props);
   }
 }

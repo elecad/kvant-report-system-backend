@@ -28,11 +28,11 @@ export class RoleController {
   }
   @Get(':id')
   findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    return this.roleService.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: id,
-    });
+    // return this.roleService.validateOne({
+    //   type: 'existing',
+    //   column: 'id',
+    //   value: id,
+    // });
   }
 
   @Patch(':id')
