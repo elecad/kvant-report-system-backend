@@ -8,5 +8,6 @@ import { DependencyType } from './entities/dependency_type.entity';
   controllers: [DependencyTypeController],
   providers: [DependencyTypeService],
   imports: [SequelizeModule.forFeature([DependencyType])],
+  exports: [DependencyTypeService],
 })
 export class DependencyTypeModule {}

@@ -8,6 +8,8 @@ import { Role } from './modules/role/entities/role.entity';
 import { RoleModule } from './modules/role/role.module';
 import { DependencyTypeModule } from './modules/dependency_type/dependency_type.module';
 import { DependencyType } from './modules/dependency_type/entities/dependency_type.entity';
+import { DependencyModule } from './modules/dependency/dependency.module';
+import { Dependency } from './modules/dependency/entities/dependency.entity';
 
 @Module({
   controllers: [],
@@ -23,12 +25,13 @@ import { DependencyType } from './modules/dependency_type/entities/dependency_ty
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Account_Role, DependencyType],
+      models: [Account, Role, Account_Role, DependencyType, Dependency],
       autoLoadModels: true,
     }),
     AccountModule,
     RoleModule,
     DependencyTypeModule,
+    DependencyModule,
   ],
 })
 export class AppModule {}
