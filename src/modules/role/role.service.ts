@@ -2,6 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 import { STRINGS } from 'src/res/strings';
+import {
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/validators/dataBase.validator';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { Role } from './entities/role.entity';
@@ -10,16 +15,16 @@ import { Role } from './entities/role.entity';
 export class RoleService {
   constructor(@InjectModel(Role) private roleRepository: typeof Role) {}
 
-  private entity = 'Роль';
+  private entityName = 'Роль';
 
   async create(createRoleDto: CreateRoleDto) {
-    // await this.validateOne({
-    //   type: 'unique',
-    //   column: 'code_name',
-    //   value: createRoleDto.code_name,
-    // });
-    // const { id } = await this.roleRepository.create(createRoleDto);
-    // return { id };
+    await this.validateOne({
+      type: 'unique',
+      column: 'code_name',
+      value: createRoleDto.code_name,
+    });
+    const { id } = await this.roleRepository.create(createRoleDto);
+    return { id };
   }
 
   findAll(option: FindOptions<Role> = {}) {
@@ -31,71 +36,38 @@ export class RoleService {
   }
 
   async update(id: number, updateRoleDto: UpdateRoleDto) {
-    // const [entity] = await this.validateAll([
-    //   {
-    //     type: 'existing',
-    //     column: 'id',
-    //     value: id,
-    //   },
-    //   {
-    //     type: 'unique',
-    //     column: 'code_name',
-    //     value: updateRoleDto.code_name,
-    //   },
-    // ]);
-    // await entity.update(updateRoleDto);
-    // return entity;
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+    if (!(entity.code_name === updateRoleDto.code_name))
+      await this.validateOne({
+        type: 'unique',
+        column: 'code_name',
+        value: updateRoleDto.code_name,
+      });
+
+    await entity.update(updateRoleDto);
+    return entity;
   }
 
   async remove(id: number) {
-    // const entity = await this.validateOne({
-    //   type: 'existing',
-    //   column: 'id',
-    //   value: id,
-    // });
-    // await entity.destroy();
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+    await entity.destroy();
   }
 
-  // async validateOne(props: ValidateOption<Role>) {
-  //   //? Для одной сущности
-  //   const { type, value, column } = props;
-  //   const entity = await this.findOne({ where: { [column]: value } });
+  async validateOne(props: ValidateOption<Role>) {
+    //? Одиночный валидатор
+    return databaseValidateOne(Role, this.entityName, props);
+  }
 
-  //   this.checkEntity({ type, column, data: entity });
-
-  //   return entity;
-  // }
-
-  // async validateAll(props: ValidateOption<Role>[]) {
-  //   //? Для многих сущностей
-  //   const entitys = await Promise.all(
-  //     props.map(({ column, value }) =>
-  //       this.roleRepository.findOne({ where: { [column]: value } }),
-  //     ),
-  //   );
-
-  //   entitys.forEach((e, index) => {
-  //     const { type, column } = props[index];
-  //     this.checkEntity({
-  //       type: type,
-  //       column,
-  //       data: e,
-  //     });
-  //   });
-
-  //   return entitys;
-  // }
-
-  // private checkEntity({ type, column, data }: CheckEntityProps) {
-  //   if (type === 'existing' && !data)
-  //     throw new HttpException(
-  //       STRINGS.IsExistingError(this.entity, column),
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   if (type === 'unique' && data)
-  //     throw new HttpException(
-  //       STRINGS.IsUniqueError(this.entity, column),
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  // }
+  async validateAll(props: ValidateOption<Role>[]) {
+    //? Групповой валидатор
+    return databaseValidateAll(Role, this.entityName, props);
+  }
 }
