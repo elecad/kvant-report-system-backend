@@ -2,7 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 import { STRINGS } from 'src/res/strings';
-import { CheckEntityProps, ValidateOption } from 'src/types/validate.type';
+import {
+  CheckEntityProps,
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/types/validate.type';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { Account } from './entities/account.entity';
@@ -34,20 +39,19 @@ export class AccountService {
   }
 
   async update(id: number, updateAccountDto: UpdateAccountDto) {
-    const [entity] = await this.validateAll([
-      {
-        type: 'existing',
-        column: 'id',
-        value: id,
-      },
-      {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+    if (!(entity.email === updateAccountDto.email))
+      await this.validateOne({
         type: 'unique',
         column: 'email',
         value: updateAccountDto.email,
-      },
-    ]);
-    await entity.update(updateAccountDto);
+      });
 
+    await entity.update(updateAccountDto);
     return entity;
   }
 
@@ -62,45 +66,12 @@ export class AccountService {
   }
 
   async validateOne(props: ValidateOption<Account>) {
-    //? Для одной сущности
-    const { type, value, column } = props;
-    const entity = await this.findOne({ where: { [column]: value } });
-
-    this.checkEntity({ type, column, data: entity });
-
-    return entity;
+    //? Одиночный валидатор
+    return databaseValidateOne(Account, props);
   }
 
   async validateAll(props: ValidateOption<Account>[]) {
-    //? Для многих сущностей
-    const entitys = await Promise.all(
-      props.map(({ column, value }) =>
-        this.accountRepository.findOne({ where: { [column]: value } }),
-      ),
-    );
-
-    entitys.forEach((e, index) => {
-      const { type, column } = props[index];
-      this.checkEntity({
-        type: type,
-        column,
-        data: e,
-      });
-    });
-
-    return entitys;
-  }
-
-  private checkEntity({ type, column, data }: CheckEntityProps) {
-    if (type === 'existing' && !data)
-      throw new HttpException(
-        STRINGS.IsExistingError(this.entity, column),
-        HttpStatus.BAD_REQUEST,
-      );
-    if (type === 'unique' && data)
-      throw new HttpException(
-        STRINGS.IsUniqueError(this.entity, column),
-        HttpStatus.BAD_REQUEST,
-      );
+    //? Групповой валидатор
+    return databaseValidateAll(Account, props);
   }
 }
