@@ -29,11 +29,11 @@ export class DependencyTypeController {
 
   @Get(':id')
   findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    // return this.dependencyTypeService.validateOne({
-    //   type: 'existing',
-    //   column: 'id',
-    //   value: id,
-    // });
+    return this.dependencyTypeService.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
   }
 
   @Patch(':id')
