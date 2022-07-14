@@ -42,12 +42,12 @@ export class AccountController {
     @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
     @Body() updateAccountDto: UpdateAccountDto,
   ) {
-    return this.accountService.update(Number(id), updateAccountDto);
+    return this.accountService.update(id, updateAccountDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
   remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    return this.accountService.remove(Number(id));
+    return this.accountService.remove(id);
   }
 }

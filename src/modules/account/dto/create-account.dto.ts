@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateAccountDto {

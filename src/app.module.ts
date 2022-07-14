@@ -6,6 +6,8 @@ import { Account } from './modules/account/entities/account.entity';
 import { Account_Role } from './modules/account/entities/account_role.entity';
 import { Role } from './modules/role/entities/role.entity';
 import { RoleModule } from './modules/role/role.module';
+import { DependencyTypeModule } from './modules/dependency_type/dependency_type.module';
+import { DependencyType } from './modules/dependency_type/entities/dependency_type.entity';
 
 @Module({
   controllers: [],
@@ -21,11 +23,12 @@ import { RoleModule } from './modules/role/role.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Account, Role, Account_Role],
+      models: [Account, Role, Account_Role, DependencyType],
       autoLoadModels: true,
     }),
     AccountModule,
     RoleModule,
+    DependencyTypeModule,
   ],
 })
 export class AppModule {}
