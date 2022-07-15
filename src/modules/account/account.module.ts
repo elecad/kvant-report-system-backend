@@ -3,10 +3,16 @@ import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Account } from './entities/account.entity';
+import { RoleModule } from '../role/role.module';
+import { DependencyModule } from '../dependency/dependency.module';
 
 @Module({
   controllers: [AccountController],
   providers: [AccountService],
-  imports: [SequelizeModule.forFeature([Account])],
+  imports: [
+    DependencyModule,
+    RoleModule,
+    SequelizeModule.forFeature([Account]),
+  ],
 })
 export class AccountModule {}

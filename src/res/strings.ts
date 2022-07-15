@@ -3,6 +3,8 @@ export const STRINGS = {
   IsEmailError: 'Это поле должно быть корректной электронной почтой',
   IsStringError: 'Это поле должно быть строкой',
   IsPositiveError: 'Это поле должно быть положительным целым числом',
+  IsPositiveArrayError:
+    'Это поле должно быть массивом положительных целых числел',
   IsUniqueError: (entity: string, collumn: string) =>
     `${entity} с таким ${collumn} уже имеется в системе`,
   IsExistingError: (entity: string, collumn: string) =>

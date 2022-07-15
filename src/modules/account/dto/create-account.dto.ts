@@ -1,4 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsPositive,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateAccountDto {
@@ -50,4 +59,10 @@ export class CreateAccountDto {
   // @ValidateNested({})
   // @Type(() => Testing)
   // job: Testing[];
+
+  @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
+  roles: number[];
+
+  @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
+  dependencies: number[];
 }
