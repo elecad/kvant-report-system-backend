@@ -29,7 +29,7 @@ export async function databaseValidateOne<
   let { type, value, column, findOptions, message } = props;
   const entity = await model.findOne({
     ...findOptions,
-    where: { [column]: value },
+    where: { [column]: value, ...findOptions.where },
   } as FindOptions);
   column = column.toString();
 
@@ -47,7 +47,7 @@ export async function databaseValidateAll<
     props.map(({ column, value, findOptions }) =>
       model.findOne({
         ...findOptions,
-        where: { [column]: value },
+        where: { [column]: value, ...findOptions.where },
       } as FindOptions),
     ),
   );
