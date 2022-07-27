@@ -69,19 +69,45 @@ export class AccountService {
   }
 
   async update(id: number, updateAccountDto: UpdateAccountDto) {
-    // const entity = await this.validateOne({
-    //   type: 'existing',
-    //   column: 'id',
-    //   value: id,
-    // });
-    // if (!(entity.email === updateAccountDto.email))
-    //   await this.validateOne({
-    //     type: 'unique',
-    //     column: 'email',
-    //     value: updateAccountDto.email,
-    //   });
-    // await entity.update(updateAccountDto);
-    // return entity;
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    if (!(entity.email === updateAccountDto.email))
+      await this.validateOne({
+        type: 'unique',
+        column: 'email',
+        value: updateAccountDto.email,
+      });
+
+    const roles = await this.roleService.validateAll(
+      updateAccountDto.roles.map(
+        (role): ValidateOption<Role> => ({
+          type: 'existing',
+          column: 'id',
+          value: role,
+        }),
+      ),
+    );
+
+    const dependencies = await this.dependencyService.validateAll(
+      updateAccountDto.dependencies.map(
+        (dependency): ValidateOption<Dependency> => ({
+          type: 'existing',
+          column: 'id',
+          value: dependency,
+        }),
+      ),
+    );
+
+    const { roles: _, dependencies: __, ...updateAccount } = updateAccountDto;
+    await entity.update(updateAccount);
+
+    entity.$set('roles', roles);
+    entity.$set('dependencies', dependencies);
+    return entity;
   }
 
   async remove(id: number) {
