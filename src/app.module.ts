@@ -11,6 +11,8 @@ import { DependencyType } from './modules/dependency_type/entities/dependency_ty
 import { DependencyModule } from './modules/dependency/dependency.module';
 import { Dependency } from './modules/dependency/entities/dependency.entity';
 import { Account_Dependency } from './modules/account/entities/account_dependency.entity';
+import { SessionModule } from './modules/session/session.module';
+import { Session } from './modules/session/entities/session.entity';
 
 @Module({
   controllers: [],
@@ -33,6 +35,7 @@ import { Account_Dependency } from './modules/account/entities/account_dependenc
         DependencyType,
         Dependency,
         Account_Dependency,
+        Session,
       ],
       autoLoadModels: true,
     }),
@@ -40,6 +43,7 @@ import { Account_Dependency } from './modules/account/entities/account_dependenc
     RoleModule,
     DependencyTypeModule,
     DependencyModule,
+    SessionModule,
   ],
 })
 export class AppModule {}
