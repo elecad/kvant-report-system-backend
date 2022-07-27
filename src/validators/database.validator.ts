@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { col, FindOptions } from 'sequelize';
+import { col, FindOptions, WhereOptions } from 'sequelize';
 import { Attributes, Model, ModelStatic } from 'sequelize/types';
 import { STRINGS } from 'src/res/strings';
 
@@ -27,9 +27,16 @@ export async function databaseValidateOne<
 >(model: R, entityName: string, props: ValidateOption<T>) {
   //? Для одной сущности
   let { type, value, column, findOptions, message } = props;
+  const whereOption: WhereOptions =
+    findOptions && findOptions.where
+      ? { [column]: value, ...findOptions.where }
+      : { [column]: value };
+
+  console.log(whereOption);
+
   const entity = await model.findOne({
     ...findOptions,
-    where: { [column]: value, ...findOptions.where },
+    where: whereOption,
   } as FindOptions);
   column = column.toString();
 
@@ -44,12 +51,16 @@ export async function databaseValidateAll<
 >(model: R, entityName: string, props: ValidateOption<T>[]) {
   //? Для многих сущностей
   const entitys = await Promise.all(
-    props.map(({ column, value, findOptions }) =>
-      model.findOne({
+    props.map(({ column, value, findOptions }) => {
+      const whereOption: WhereOptions =
+        findOptions && findOptions.where
+          ? { [column]: value, ...findOptions.where }
+          : { [column]: value };
+      return model.findOne({
         ...findOptions,
-        where: { [column]: value, ...findOptions.where },
-      } as FindOptions),
-    ),
+        where: whereOption,
+      } as FindOptions);
+    }),
   );
 
   entitys.forEach((e, index) => {
