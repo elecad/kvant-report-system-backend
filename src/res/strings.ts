@@ -9,4 +9,5 @@ export const STRINGS = {
     `${entity} с таким ${collumn} уже имеется в системе`,
   IsExistingError: (entity: string, collumn: string) =>
     `${entity} с таким ${collumn} отсутсвует в системе`,
+  IsNotValidUUID: 'Токен является некорректным',
 };

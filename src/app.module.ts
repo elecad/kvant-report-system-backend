@@ -13,6 +13,7 @@ import { Dependency } from './modules/dependency/entities/dependency.entity';
 import { Account_Dependency } from './modules/account/entities/account_dependency.entity';
 import { SessionModule } from './modules/session/session.module';
 import { Session } from './modules/session/entities/session.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   controllers: [],
@@ -44,6 +45,7 @@ import { Session } from './modules/session/entities/session.entity';
     DependencyTypeModule,
     DependencyModule,
     SessionModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

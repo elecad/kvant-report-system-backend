@@ -10,6 +10,7 @@ export interface ValidateOption<T extends Model> {
   value: string | number;
   column: keyof Attributes<T>;
   findOptions?: FindOptions;
+  message?: string;
 }
 
 export interface CheckEntityProps {
@@ -17,6 +18,7 @@ export interface CheckEntityProps {
   column: string;
   data: Model;
   entityName: string;
+  message?: string;
 }
 
 export async function databaseValidateOne<
@@ -24,14 +26,14 @@ export async function databaseValidateOne<
   R extends ModelStatic<T> = ModelStatic<T>,
 >(model: R, entityName: string, props: ValidateOption<T>) {
   //? Для одной сущности
-  let { type, value, column, findOptions } = props;
+  let { type, value, column, findOptions, message } = props;
   const entity = await model.findOne({
     ...findOptions,
     where: { [column]: value },
   } as FindOptions);
   column = column.toString();
 
-  checkEntity({ type, column, data: entity, entityName });
+  checkEntity({ type, column, data: entity, entityName, message });
 
   return entity;
 }
@@ -69,15 +71,16 @@ export function checkEntity({
   column,
   data,
   entityName,
+  message,
 }: CheckEntityProps) {
   if (type === 'existing' && !data)
     throw new HttpException(
-      STRINGS.IsExistingError(entityName, column),
+      message ?? STRINGS.IsExistingError(entityName, column),
       HttpStatus.BAD_REQUEST,
     );
   if (type === 'unique' && data)
     throw new HttpException(
-      STRINGS.IsUniqueError(entityName, column),
+      message ?? STRINGS.IsUniqueError(entityName, column),
       HttpStatus.BAD_REQUEST,
     );
 }

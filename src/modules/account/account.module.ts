@@ -14,5 +14,6 @@ import { DependencyModule } from '../dependency/dependency.module';
     RoleModule,
     SequelizeModule.forFeature([Account]),
   ],
+  exports: [AccountService],
 })
 export class AccountModule {}
