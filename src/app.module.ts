@@ -21,6 +21,9 @@ import { SchoolType } from './modules/school_type/entities/school_type.entity';
 import { DirectionModule } from './modules/direction/direction.module';
 import { SchoolModule } from './modules/school/school.module';
 import { School } from './modules/school/entities/school.entity';
+import { ProgrammModule } from './modules/programm/programm.module';
+import { Programm } from './modules/programm/entities/programm.entity';
+import { Direction } from './modules/direction/entities/direction.entity';
 
 @Module({
   controllers: [],
@@ -47,6 +50,8 @@ import { School } from './modules/school/entities/school.entity';
         Event,
         SchoolType,
         School,
+        Direction,
+        Programm,
       ],
       autoLoadModels: true,
     }),
@@ -60,6 +65,7 @@ import { School } from './modules/school/entities/school.entity';
     SchoolTypeModule,
     DirectionModule,
     SchoolModule,
+    ProgrammModule,
   ],
 })
 export class AppModule {}

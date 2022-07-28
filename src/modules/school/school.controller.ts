@@ -47,6 +47,6 @@ export class SchoolController {
 
   @Delete(':id')
   remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
-    return this.schoolService.remove(+id);
+    return this.schoolService.remove(id);
   }
 }
