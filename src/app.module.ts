@@ -14,6 +14,8 @@ import { Account_Dependency } from './modules/account/entities/account_dependenc
 import { SessionModule } from './modules/session/session.module';
 import { Session } from './modules/session/entities/session.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { EventModule } from './modules/event/event.module';
+import { Event } from './modules/event/entities/event.entity';
 
 @Module({
   controllers: [],
@@ -37,6 +39,7 @@ import { AuthModule } from './modules/auth/auth.module';
         Dependency,
         Account_Dependency,
         Session,
+        Event,
       ],
       autoLoadModels: true,
     }),
@@ -46,6 +49,7 @@ import { AuthModule } from './modules/auth/auth.module';
     DependencyModule,
     SessionModule,
     AuthModule,
+    EventModule,
   ],
 })
 export class AppModule {}

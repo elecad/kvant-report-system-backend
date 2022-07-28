@@ -10,6 +10,7 @@ export const STRINGS = {
   IsExistingError: (entity: string, collumn: string) =>
     `${entity} с таким ${collumn} отсутсвует в системе`,
   IsNotValidUUID: 'Токен является некорректным',
+  IsDateStringError: 'Это поле должно быть датой',
   LoginError: 'Не удалось найти такую учётную запись',
   UnauthorizedError: 'Пользователь не авторизован',
   ForbiddenError: 'Недостаточно прав для этого действия',
