@@ -21,7 +21,7 @@ export class CreateEventDto {
 
   @IsNotEmpty({ message: STRINGS.IsNotEmptyError })
   @IsDateString({}, { message: STRINGS.IsDateStringError })
-  date: string;
+  date: Date;
 
   @IsNotEmpty({ message: STRINGS.IsNotEmptyError })
   @IsPositive({ message: STRINGS.IsPositiveArrayError })

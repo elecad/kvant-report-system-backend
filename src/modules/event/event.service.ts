@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
+import {
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/validators/dataBase.validator';
 import { DependencyService } from '../dependency/dependency.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -12,23 +18,63 @@ export class EventService {
     private readonly dependencyService: DependencyService,
   ) {}
 
-  create(createEventDto: CreateEventDto) {
-    return 'This action adds a new event';
+  private entityName = 'Мероприятие';
+
+  async create(createEventDto: CreateEventDto) {
+    await this.dependencyService.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: createEventDto.dependency_id,
+    });
+
+    const entity = await this.eventRepository.create(createEventDto);
+
+    const { id } = entity;
+    return { id };
   }
 
-  findAll() {
-    return `This action returns all event`;
+  findAll(option: FindOptions<Event> = {}) {
+    return this.eventRepository.findAll(option);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  findOne(option: FindOptions<Event> = {}) {
+    return this.eventRepository.findOne(option);
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+  async update(id: number, updateEventDto: UpdateEventDto) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    if (entity.dependency_id !== updateEventDto.dependency_id)
+      await this.validateOne({
+        type: 'existing',
+        column: 'dependency_id',
+        value: updateEventDto.dependency_id,
+      });
+    await entity.update(updateEventDto);
+    return entity;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  async remove(id: number) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    await entity.destroy();
+  }
+
+  async validateOne(props: ValidateOption<Event>) {
+    //? Одиночный валидатор
+    return databaseValidateOne(Event, this.entityName, props);
+  }
+
+  async validateAll(props: ValidateOption<Event>[]) {
+    //? Групповой валидатор
+    return databaseValidateAll(Event, this.entityName, props);
   }
 }

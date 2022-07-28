@@ -57,7 +57,7 @@ export class AccountService {
     account.$set('dependencies', dependencies);
 
     const { id } = account;
-    return id;
+    return { id };
   }
 
   findAll(option: FindOptions<Account> = {}) {
@@ -75,7 +75,7 @@ export class AccountService {
       value: id,
     });
 
-    if (!(entity.email === updateAccountDto.email))
+    if (entity.email !== updateAccountDto.email)
       await this.validateOne({
         type: 'unique',
         column: 'email',
