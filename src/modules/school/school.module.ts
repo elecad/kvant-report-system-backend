@@ -14,5 +14,6 @@ import { SchoolService } from './school.service';
     DependencyModule,
     SchoolTypeModule,
   ],
+  exports: [SchoolService],
 })
 export class SchoolModule {}

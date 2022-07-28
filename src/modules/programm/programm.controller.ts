@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ProgrammService } from './programm.service';
 import { CreateProgrammDto } from './dto/create-programm.dto';
 import { UpdateProgrammDto } from './dto/update-programm.dto';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 
 @Controller('programm')
 export class ProgrammController {
@@ -18,17 +28,24 @@ export class ProgrammController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.programmService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.programmService.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProgrammDto: UpdateProgrammDto) {
-    return this.programmService.update(+id, updateProgrammDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateProgrammDto: UpdateProgrammDto,
+  ) {
+    return this.programmService.update(id, updateProgrammDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.programmService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.programmService.remove(id);
   }
 }
