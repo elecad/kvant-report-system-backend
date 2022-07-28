@@ -18,6 +18,7 @@ import { EventModule } from './modules/event/event.module';
 import { Event } from './modules/event/entities/event.entity';
 import { SchoolTypeModule } from './modules/school_type/school_type.module';
 import { SchoolType } from './modules/school_type/entities/school_type.entity';
+import { DirectionModule } from './modules/direction/direction.module';
 
 @Module({
   controllers: [],
@@ -54,6 +55,7 @@ import { SchoolType } from './modules/school_type/entities/school_type.entity';
     AuthModule,
     EventModule,
     SchoolTypeModule,
+    DirectionModule,
   ],
 })
 export class AppModule {}
