@@ -32,8 +32,6 @@ export async function databaseValidateOne<
       ? { [column]: value, ...findOptions.where }
       : { [column]: value };
 
-  console.log(whereOption);
-
   const entity = await model.findOne({
     ...findOptions,
     where: whereOption,

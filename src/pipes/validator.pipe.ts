@@ -11,6 +11,7 @@ import { validate, ValidationError } from 'class-validator';
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
+    if (metadata.type === 'custom') return value;
     const obj = plainToInstance(metadata.metatype, value);
     this.messages(await validate(obj));
     return value;
