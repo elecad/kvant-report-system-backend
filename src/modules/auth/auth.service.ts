@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { STRINGS } from 'src/res/strings';
 import { AccountService } from '../account/account.service';
 import { SessionService } from '../session/session.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
@@ -15,7 +16,7 @@ export class AuthService {
       column: 'email',
       type: 'existing',
       value: email,
-      message: 'Не удалось найти такую учётную запись',
+      message: STRINGS.LoginError,
       findOptions: { where: { password: password } },
     });
 
@@ -27,12 +28,4 @@ export class AuthService {
   async exit(token: string) {
     return this.sessionService.remove(token);
   }
-
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} auth`;
-  // }
 }

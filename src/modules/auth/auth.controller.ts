@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { ExitAuthDto } from './dto/exit-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 
 @Controller('auth')
@@ -12,7 +13,7 @@ export class AuthController {
   }
 
   @Delete()
-  exit(@Body() obj: { token: string }) {
-    return this.authService.exit(obj.token);
+  exit(@Body() { token }: ExitAuthDto) {
+    return this.authService.exit(token);
   }
 }

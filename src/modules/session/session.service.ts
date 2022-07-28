@@ -1,13 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
-import { Session, SessionCreateAttr } from './entities/session.entity';
-import { v4 as uuid, validate as uuidValidate } from 'uuid';
-import { STRINGS } from 'src/res/strings';
 import {
   databaseValidateOne,
   ValidateOption,
 } from 'src/validators/dataBase.validator';
+import { v4 as uuid } from 'uuid';
+import { Session } from './entities/session.entity';
 
 @Injectable()
 export class SessionService {
@@ -26,25 +25,17 @@ export class SessionService {
 
   async create(account_id: number) {
     const token = uuid();
-
     const entity = await this.sessionRepository.create({ token, account_id });
     return entity;
   }
 
   async remove(token: string) {
-    this.validation(token);
     const entity = await this.validateOne({
       column: 'token',
       type: 'existing',
       value: token,
     });
     await entity.destroy();
-  }
-
-  private async validation(token: string) {
-    if (!uuidValidate(token)) {
-      throw new HttpException(STRINGS.IsNotValidUUID, HttpStatus.BAD_REQUEST);
-    }
   }
 
   async validateOne(props: ValidateOption<Session>) {

@@ -10,4 +10,5 @@ export const STRINGS = {
   IsExistingError: (entity: string, collumn: string) =>
     `${entity} с таким ${collumn} отсутсвует в системе`,
   IsNotValidUUID: 'Токен является некорректным',
+  LoginError: 'Не удалось найти такую учётную запись',
 };
