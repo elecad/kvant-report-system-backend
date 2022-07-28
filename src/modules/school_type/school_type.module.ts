@@ -8,5 +8,6 @@ import { SchoolType } from './entities/school_type.entity';
   controllers: [SchoolTypeController],
   providers: [SchoolTypeService],
   imports: [SequelizeModule.forFeature([SchoolType])],
+  exports: [SchoolTypeService],
 })
 export class SchoolTypeModule {}

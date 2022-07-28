@@ -45,7 +45,7 @@ export class DependencyService {
       column: 'id',
       value: id,
     });
-    if (!(entity.dependency_type_id !== updateDependencyDto.dependency_type_id))
+    if (entity.dependency_type_id !== updateDependencyDto.dependency_type_id)
       await this.dependencyTypeService.validateOne({
         type: 'existing',
         column: 'id',
