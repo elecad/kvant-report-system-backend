@@ -16,6 +16,8 @@ import { Session } from './modules/session/entities/session.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { EventModule } from './modules/event/event.module';
 import { Event } from './modules/event/entities/event.entity';
+import { SchoolTypeModule } from './modules/school_type/school_type.module';
+import { SchoolType } from './modules/school_type/entities/school_type.entity';
 
 @Module({
   controllers: [],
@@ -40,6 +42,7 @@ import { Event } from './modules/event/entities/event.entity';
         Account_Dependency,
         Session,
         Event,
+        SchoolType,
       ],
       autoLoadModels: true,
     }),
@@ -50,6 +53,7 @@ import { Event } from './modules/event/entities/event.entity';
     SessionModule,
     AuthModule,
     EventModule,
+    SchoolTypeModule,
   ],
 })
 export class AppModule {}
