@@ -8,7 +8,10 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/guards/auth-guard/auth.guard';
+import { Roles } from 'src/guards/auth-guard/decorators/roles.decorator';
 import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { Dependency } from '../dependency/entities/dependency.entity';
 import { Role } from '../role/entities/role.entity';
@@ -26,6 +29,8 @@ export class AccountController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @Roles('admin')
   findAll() {
     return this.accountService.findAll({ include: [Role, Dependency] });
   }

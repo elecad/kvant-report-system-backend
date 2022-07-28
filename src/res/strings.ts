@@ -11,4 +11,6 @@ export const STRINGS = {
     `${entity} с таким ${collumn} отсутсвует в системе`,
   IsNotValidUUID: 'Токен является некорректным',
   LoginError: 'Не удалось найти такую учётную запись',
+  UnauthorizedError: 'Пользователь не авторизован',
+  ForbiddenError: 'Недостаточно прав для этого действия',
 };
