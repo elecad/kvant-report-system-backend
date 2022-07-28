@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Account } from 'src/modules/account/entities/account.entity';
+import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
 import { SessionService } from 'src/modules/session/session.service';
 import { STRINGS } from 'src/res/strings';
@@ -30,7 +31,7 @@ export class AuthGuard implements CanActivate {
 
     const session = await this.sessionService.findOne({
       where: { token },
-      include: { model: Account, include: [Role] },
+      include: { model: Account, include: [Role, Dependency] },
     });
 
     if (!session) {
@@ -46,7 +47,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    request.user = session.account;
+    request.user = session.account.toJSON();
     request.token = session.token;
 
     const hasRole = session.account.roles.some((r) =>
