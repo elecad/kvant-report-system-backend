@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { DataService } from './data.service';
 import { CreateDatumDto } from './dto/create-datum.dto';
 import { UpdateDatumDto } from './dto/update-datum.dto';
@@ -18,17 +28,24 @@ export class DataController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dataService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.dataService.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDatumDto: UpdateDatumDto) {
-    return this.dataService.update(+id, updateDatumDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateDatumDto: UpdateDatumDto,
+  ) {
+    return this.dataService.update(id, updateDatumDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dataService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.dataService.remove(id);
   }
 }
