@@ -9,5 +9,6 @@ import { DataOfTypeModule } from '../data_of_type/data_of_type.module';
   controllers: [DataController],
   providers: [DataService],
   imports: [SequelizeModule.forFeature([Datum]), DataOfTypeModule],
+  exports: [DataService],
 })
 export class DataModule {}

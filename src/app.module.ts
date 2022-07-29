@@ -36,6 +36,8 @@ import { DataOfTypeModule } from './modules/data_of_type/data_of_type.module';
 import { DataModule } from './modules/data/data.module';
 import { Datum } from './modules/data/entities/datum.entity';
 import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity';
+import { AboutProgrammModule } from './modules/about_programm/about_programm.module';
+import { AboutProgramm } from './modules/about_programm/entities/about_programm.entity';
 
 @Module({
   controllers: [],
@@ -70,6 +72,7 @@ import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity'
         Report,
         DataOfType,
         Datum,
+        AboutProgramm,
       ],
       autoLoadModels: true,
     }),
@@ -90,6 +93,7 @@ import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity'
     ReportModule,
     DataOfTypeModule,
     DataModule,
+    AboutProgrammModule,
   ],
 })
 export class AppModule {}

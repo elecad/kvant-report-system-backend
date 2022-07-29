@@ -10,5 +10,6 @@ import { TaskModule } from '../task/task.module';
   controllers: [AnswerController],
   providers: [AnswerService],
   imports: [SequelizeModule.forFeature([Answer]), AccountModule, TaskModule],
+  exports: [AnswerService],
 })
 export class AnswerModule {}

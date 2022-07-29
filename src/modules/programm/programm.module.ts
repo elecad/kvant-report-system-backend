@@ -16,5 +16,6 @@ import { DependencyModule } from '../dependency/dependency.module';
     DirectionModule,
     DependencyModule,
   ],
+  exports: [ProgrammService],
 })
 export class ProgrammModule {}
