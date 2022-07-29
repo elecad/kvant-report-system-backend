@@ -4,7 +4,7 @@ export interface ReportCreateAttr {
   name: string;
 }
 
-@Table({ tableName: 'dependency', createdAt: false, updatedAt: false })
+@Table({ tableName: 'report', createdAt: false, updatedAt: false })
 export class Report extends Model<Report, ReportCreateAttr> {
   @Column({
     type: DataType.INTEGER,
