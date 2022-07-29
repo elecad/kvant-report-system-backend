@@ -38,6 +38,8 @@ import { Datum } from './modules/data/entities/datum.entity';
 import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity';
 import { AboutProgrammModule } from './modules/about_programm/about_programm.module';
 import { AboutProgramm } from './modules/about_programm/entities/about_programm.entity';
+import { AboutDependencyModule } from './modules/about_dependency/about_dependency.module';
+import { AboutDependency } from './modules/about_dependency/entities/about_dependency.entity';
 
 @Module({
   controllers: [],
@@ -73,6 +75,7 @@ import { AboutProgramm } from './modules/about_programm/entities/about_programm.
         DataOfType,
         Datum,
         AboutProgramm,
+        AboutDependency,
       ],
       autoLoadModels: true,
     }),
@@ -94,6 +97,7 @@ import { AboutProgramm } from './modules/about_programm/entities/about_programm.
     DataOfTypeModule,
     DataModule,
     AboutProgrammModule,
+    AboutDependencyModule,
   ],
 })
 export class AppModule {}
