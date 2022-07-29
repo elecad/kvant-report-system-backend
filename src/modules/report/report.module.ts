@@ -8,5 +8,6 @@ import { Report } from './entities/report.entity';
   controllers: [ReportController],
   providers: [ReportService],
   imports: [SequelizeModule.forFeature([Report])],
+  exports: [ReportService],
 })
 export class ReportModule {}
