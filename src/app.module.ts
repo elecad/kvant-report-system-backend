@@ -33,6 +33,9 @@ import { Answer } from './modules/answer/entities/answer.entity';
 import { ReportModule } from './modules/report/report.module';
 import { Report } from './modules/report/entities/report.entity';
 import { DataOfTypeModule } from './modules/data_of_type/data_of_type.module';
+import { DataModule } from './modules/data/data.module';
+import { Datum } from './modules/data/entities/datum.entity';
+import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity';
 
 @Module({
   controllers: [],
@@ -65,7 +68,8 @@ import { DataOfTypeModule } from './modules/data_of_type/data_of_type.module';
         File,
         Answer,
         Report,
-        Report,
+        DataOfType,
+        Datum,
       ],
       autoLoadModels: true,
     }),
@@ -85,6 +89,7 @@ import { DataOfTypeModule } from './modules/data_of_type/data_of_type.module';
     AnswerModule,
     ReportModule,
     DataOfTypeModule,
+    DataModule,
   ],
 })
 export class AppModule {}

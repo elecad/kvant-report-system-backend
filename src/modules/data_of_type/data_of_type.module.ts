@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DataOfTypeService } from './data_of_type.service';
-import { DataOfTypeController } from './data_of_type.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { DataOfType } from './entities/data_of_type.entity';
 import { ReportModule } from '../report/report.module';
+import { DataOfTypeController } from './data_of_type.controller';
+import { DataOfTypeService } from './data_of_type.service';
+import { DataOfType } from './entities/data_of_type.entity';
 
 @Module({
   controllers: [DataOfTypeController],
   providers: [DataOfTypeService],
   imports: [SequelizeModule.forFeature([DataOfType]), ReportModule],
+  exports: [DataOfTypeService],
 })
 export class DataOfTypeModule {}
