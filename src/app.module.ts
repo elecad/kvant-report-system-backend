@@ -30,6 +30,8 @@ import { FileModule } from './modules/file/file.module';
 import { File } from './modules/file/entities/file.entity';
 import { AnswerModule } from './modules/answer/answer.module';
 import { Answer } from './modules/answer/entities/answer.entity';
+import { ReportModule } from './modules/report/report.module';
+import { Report } from './modules/report/entities/report.entity';
 
 @Module({
   controllers: [],
@@ -61,6 +63,7 @@ import { Answer } from './modules/answer/entities/answer.entity';
         Task,
         File,
         Answer,
+        Report,
       ],
       autoLoadModels: true,
     }),
@@ -78,6 +81,7 @@ import { Answer } from './modules/answer/entities/answer.entity';
     TaskModule,
     FileModule,
     AnswerModule,
+    ReportModule,
   ],
 })
 export class AppModule {}
