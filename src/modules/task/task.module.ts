@@ -9,5 +9,6 @@ import { AccountModule } from '../account/account.module';
   controllers: [TaskController],
   providers: [TaskService],
   imports: [SequelizeModule.forFeature([Task]), AccountModule],
+  exports: [TaskService],
 })
 export class TaskModule {}
