@@ -14,4 +14,5 @@ export const STRINGS = {
   LoginError: 'Не удалось найти такую учётную запись',
   UnauthorizedError: 'Пользователь не авторизован',
   ForbiddenError: 'Недостаточно прав для этого действия',
+  IsInHalfYearError: 'Полугодие может быть только 1 или 2',
 };

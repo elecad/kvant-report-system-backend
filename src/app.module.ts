@@ -24,6 +24,8 @@ import { School } from './modules/school/entities/school.entity';
 import { ProgrammModule } from './modules/programm/programm.module';
 import { Programm } from './modules/programm/entities/programm.entity';
 import { Direction } from './modules/direction/entities/direction.entity';
+import { TaskModule } from './modules/task/task.module';
+import { Task } from './modules/task/entities/task.entity';
 
 @Module({
   controllers: [],
@@ -52,6 +54,7 @@ import { Direction } from './modules/direction/entities/direction.entity';
         School,
         Direction,
         Programm,
+        Task,
       ],
       autoLoadModels: true,
     }),
@@ -66,6 +69,7 @@ import { Direction } from './modules/direction/entities/direction.entity';
     DirectionModule,
     SchoolModule,
     ProgrammModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
