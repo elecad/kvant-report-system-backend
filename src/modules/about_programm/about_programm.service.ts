@@ -7,7 +7,6 @@ import {
   ValidateOption,
 } from 'src/validators/dataBase.validator';
 import { AnswerService } from '../answer/answer.service';
-import { DataService } from '../data/data.service';
 import { ProgrammService } from '../programm/programm.service';
 import { CreateAboutProgrammDto } from './dto/create-about_programm.dto';
 import { UpdateAboutProgrammDto } from './dto/update-about_programm.dto';
@@ -20,7 +19,6 @@ export class AboutProgrammService {
     private aboutProgrammRepository: typeof AboutProgramm,
     private answerService: AnswerService,
     private programmService: ProgrammService,
-    private dataService: DataService,
   ) {}
 
   private entityName = 'Данные о программе';
@@ -36,12 +34,6 @@ export class AboutProgrammService {
       type: 'existing',
       column: 'id',
       value: createAboutProgrammDto.programm_id,
-    });
-
-    await this.dataService.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: createAboutProgrammDto.data_id,
     });
 
     const { id } = await this.aboutProgrammRepository.create(
@@ -76,12 +68,6 @@ export class AboutProgrammService {
         type: 'existing',
         column: 'id',
         value: updateAboutProgrammDto.programm_id,
-      });
-    if (entity.data_id !== updateAboutProgrammDto.data_id)
-      await this.dataService.validateOne({
-        type: 'existing',
-        column: 'id',
-        value: updateAboutProgrammDto.data_id,
       });
 
     await entity.update(updateAboutProgrammDto);

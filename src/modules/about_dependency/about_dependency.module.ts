@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AboutDependencyService } from './about_dependency.service';
-import { AboutDependencyController } from './about_dependency.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AboutDependency } from './entities/about_dependency.entity';
 import { AnswerModule } from '../answer/answer.module';
 import { DependencyModule } from '../dependency/dependency.module';
-import { DataModule } from '../data/data.module';
+import { AboutDependencyController } from './about_dependency.controller';
+import { AboutDependencyService } from './about_dependency.service';
+import { AboutDependency } from './entities/about_dependency.entity';
 
 @Module({
   controllers: [AboutDependencyController],
@@ -14,7 +13,6 @@ import { DataModule } from '../data/data.module';
     SequelizeModule.forFeature([AboutDependency]),
     AnswerModule,
     DependencyModule,
-    DataModule,
   ],
   exports: [AboutDependencyService],
 })

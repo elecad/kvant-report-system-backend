@@ -33,8 +33,6 @@ import { Answer } from './modules/answer/entities/answer.entity';
 import { ReportModule } from './modules/report/report.module';
 import { Report } from './modules/report/entities/report.entity';
 import { DataOfTypeModule } from './modules/data_of_type/data_of_type.module';
-import { DataModule } from './modules/data/data.module';
-import { Datum } from './modules/data/entities/datum.entity';
 import { DataOfType } from './modules/data_of_type/entities/data_of_type.entity';
 import { AboutProgrammModule } from './modules/about_programm/about_programm.module';
 import { AboutProgramm } from './modules/about_programm/entities/about_programm.entity';
@@ -73,7 +71,6 @@ import { AboutDependency } from './modules/about_dependency/entities/about_depen
         Answer,
         Report,
         DataOfType,
-        Datum,
         AboutProgramm,
         AboutDependency,
       ],
@@ -95,7 +92,6 @@ import { AboutDependency } from './modules/about_dependency/entities/about_depen
     AnswerModule,
     ReportModule,
     DataOfTypeModule,
-    DataModule,
     AboutProgrammModule,
     AboutDependencyModule,
   ],

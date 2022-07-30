@@ -11,7 +11,6 @@ import {
 import { AboutDependency } from 'src/modules/about_dependency/entities/about_dependency.entity';
 import { Account } from 'src/modules/account/entities/account.entity';
 import { Account_Dependency } from 'src/modules/account/entities/account_dependency.entity';
-import { Datum } from 'src/modules/data/entities/datum.entity';
 import { DependencyType } from 'src/modules/dependency_type/entities/dependency_type.entity';
 import { Event } from 'src/modules/event/entities/event.entity';
 import { Programm } from 'src/modules/programm/entities/programm.entity';

@@ -7,7 +7,6 @@ import {
   ValidateOption,
 } from 'src/validators/dataBase.validator';
 import { AnswerService } from '../answer/answer.service';
-import { DataService } from '../data/data.service';
 import { DependencyService } from '../dependency/dependency.service';
 import { CreateAboutDependencyDto } from './dto/create-about_dependency.dto';
 import { UpdateAboutDependencyDto } from './dto/update-about_dependency.dto';
@@ -20,7 +19,6 @@ export class AboutDependencyService {
     private aboutProgrammRepository: typeof AboutDependency,
     private answerService: AnswerService,
     private dependencyService: DependencyService,
-    private dataService: DataService,
   ) {}
 
   private entityName = 'Данные о зависимости';
@@ -36,12 +34,6 @@ export class AboutDependencyService {
       type: 'existing',
       column: 'id',
       value: createAboutDependencyDto.dependency_id,
-    });
-
-    await this.dataService.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: createAboutDependencyDto.data_id,
     });
 
     const { id } = await this.aboutProgrammRepository.create(
@@ -76,12 +68,6 @@ export class AboutDependencyService {
         type: 'existing',
         column: 'id',
         value: updateAboutDependencyDto.dependency_id,
-      });
-    if (entity.data_id !== updateAboutDependencyDto.data_id)
-      await this.dataService.validateOne({
-        type: 'existing',
-        column: 'id',
-        value: updateAboutDependencyDto.data_id,
       });
 
     await entity.update(updateAboutDependencyDto);

@@ -7,7 +7,6 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Answer } from 'src/modules/answer/entities/answer.entity';
-import { Datum } from 'src/modules/data/entities/datum.entity';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 
 export interface AboutDependencyCreateAttr {
@@ -36,16 +35,9 @@ export class AboutDependency extends Model<
   @ForeignKey(() => Dependency)
   dependency_id: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  @ForeignKey(() => Datum)
-  data_id: number;
-
   @BelongsTo(() => Answer)
   answer: Answer;
 
   @BelongsTo(() => Dependency)
   dependency: Dependency;
-
-  @BelongsTo(() => Datum)
-  data: Datum;
 }
