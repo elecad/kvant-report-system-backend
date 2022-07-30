@@ -38,6 +38,7 @@ import { AboutProgrammModule } from './modules/about_programm/about_programm.mod
 import { AboutProgramm } from './modules/about_programm/entities/about_programm.entity';
 import { AboutDependencyModule } from './modules/about_dependency/about_dependency.module';
 import { AboutDependency } from './modules/about_dependency/entities/about_dependency.entity';
+import { TestModule } from './test/test.module';
 
 @Module({
   controllers: [],
@@ -94,6 +95,7 @@ import { AboutDependency } from './modules/about_dependency/entities/about_depen
     DataOfTypeModule,
     AboutProgrammModule,
     AboutDependencyModule,
+    TestModule,
   ],
 })
 export class AppModule {}
