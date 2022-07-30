@@ -1,5 +1,6 @@
 import {
   IsDateString,
+  IsInt,
   IsNotEmpty,
   IsPositive,
   IsString,
@@ -24,6 +25,7 @@ export class CreateEventDto {
   date: Date;
 
   @IsNotEmpty({ message: STRINGS.IsNotEmptyError })
-  @IsPositive({ message: STRINGS.IsPositiveArrayError })
+  @IsPositive({ message: STRINGS.IsPositiveError })
+  @IsInt({ message: STRINGS.IsIntError })
   dependency_id: number;
 }

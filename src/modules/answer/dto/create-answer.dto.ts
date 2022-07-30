@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateAnswerDto {
@@ -8,6 +8,7 @@ export class CreateAnswerDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   responder_id: number;
 
   @IsNotEmpty({
@@ -16,5 +17,6 @@ export class CreateAnswerDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   task_id: number;
 }

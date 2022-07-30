@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateSchoolDto {
@@ -24,6 +24,7 @@ export class CreateSchoolDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   dependency_id: number;
 
   @IsNotEmpty({
@@ -32,5 +33,6 @@ export class CreateSchoolDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   school_type_id: number;
 }

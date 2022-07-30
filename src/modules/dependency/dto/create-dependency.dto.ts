@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateDependencyDto {
@@ -21,5 +21,6 @@ export class CreateDependencyDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   dependency_type_id: number;
 }

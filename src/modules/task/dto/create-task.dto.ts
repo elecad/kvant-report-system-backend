@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty, IsPositive } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsPositive } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateTaskDto {
@@ -8,6 +8,7 @@ export class CreateTaskDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   year: number;
 
   @IsNotEmpty({
@@ -22,5 +23,6 @@ export class CreateTaskDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   author_id: number;
 }

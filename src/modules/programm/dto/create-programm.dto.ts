@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateProgrammDto {
@@ -16,6 +16,7 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   navigator_id: number;
 
   @IsNotEmpty({
@@ -24,6 +25,7 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   start_age: number;
 
   @IsNotEmpty({
@@ -32,6 +34,7 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   end_age: number;
 
   @IsNotEmpty({
@@ -40,6 +43,7 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   dependency_id: number;
 
   @IsNotEmpty({
@@ -48,6 +52,7 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   direction_id: number;
 
   @IsNotEmpty({
@@ -56,5 +61,6 @@ export class CreateProgrammDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   school_id: number;
 }

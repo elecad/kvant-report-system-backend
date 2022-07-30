@@ -15,4 +15,6 @@ export const STRINGS = {
   UnauthorizedError: 'Пользователь не авторизован',
   ForbiddenError: 'Недостаточно прав для этого действия',
   IsInHalfYearError: 'Полугодие может быть только 1 или 2',
+  IsIntError: 'Это поле должно быть целым числом',
+  IsIntArrayError: 'Это поле должно быть массивом целых чисел',
 };

@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsPositive,
   IsString,
@@ -61,8 +62,10 @@ export class CreateAccountDto {
   // job: Testing[];
 
   @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
+  @IsInt({ message: STRINGS.IsIntArrayError, each: true })
   roles: number[];
 
   @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
+  @IsInt({ message: STRINGS.IsIntArrayError, each: true })
   dependencies: number[];
 }

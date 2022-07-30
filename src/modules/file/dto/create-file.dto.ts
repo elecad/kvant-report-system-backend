@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateFileDto {
@@ -24,5 +24,6 @@ export class CreateFileDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   task_id: number;
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive } from 'class-validator';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateDatumDto {
@@ -16,5 +16,6 @@ export class CreateDatumDto {
   @IsPositive({
     message: STRINGS.IsPositiveError,
   })
+  @IsInt({ message: STRINGS.IsIntError })
   data_of_type_id: number;
 }
