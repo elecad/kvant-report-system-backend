@@ -9,5 +9,6 @@ import { File } from './entities/file.entity';
   controllers: [FileController],
   providers: [FileService],
   imports: [SequelizeModule.forFeature([File]), TaskModule],
+  exports: [FileService],
 })
 export class FileModule {}

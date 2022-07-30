@@ -16,5 +16,6 @@ import { DataModule } from '../data/data.module';
     ProgrammModule,
     DataModule,
   ],
+  exports: [AboutProgrammService],
 })
 export class AboutProgrammModule {}

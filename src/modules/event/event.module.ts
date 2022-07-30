@@ -9,5 +9,6 @@ import { Event } from './entities/event.entity';
   controllers: [EventController],
   providers: [EventService],
   imports: [DependencyModule, SequelizeModule.forFeature([Event])],
+  exports: [EventService],
 })
 export class EventModule {}

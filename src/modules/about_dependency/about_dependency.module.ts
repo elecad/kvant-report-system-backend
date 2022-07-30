@@ -16,5 +16,6 @@ import { DataModule } from '../data/data.module';
     DependencyModule,
     DataModule,
   ],
+  exports: [AboutDependencyService],
 })
 export class AboutDependencyModule {}
