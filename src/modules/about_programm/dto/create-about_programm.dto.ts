@@ -27,5 +27,5 @@ export class CreateAboutProgrammDto {
     message: STRINGS.IsPositiveError,
   })
   @IsInt({ message: STRINGS.IsIntError })
-  data_id: number;
+  data_of_type_id: number;
 }

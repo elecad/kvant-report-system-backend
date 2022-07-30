@@ -7,6 +7,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Answer } from 'src/modules/answer/entities/answer.entity';
+import { DataOfType } from 'src/modules/data_of_type/entities/data_of_type.entity';
 import { Programm } from 'src/modules/programm/entities/programm.entity';
 
 export interface AboutProgrammCreateAttr {
@@ -40,4 +41,14 @@ export class AboutProgramm extends Model<
 
   @BelongsTo(() => Programm)
   programm: Programm;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  @ForeignKey(() => DataOfType)
+  data_of_type_id: number;
+
+  @Column({ type: DataType.DECIMAL, allowNull: false })
+  value: number;
+
+  @BelongsTo(() => DataOfType)
+  data_of_type: DataOfType;
 }
