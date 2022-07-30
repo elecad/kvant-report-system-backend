@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { DataOfType } from 'src/modules/data_of_type/entities/data_of_type.entity';
 
 export interface ReportCreateAttr {
   name: string;
@@ -15,4 +16,7 @@ export class Report extends Model<Report, ReportCreateAttr> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
+
+  @HasMany(() => DataOfType)
+  data_of_type: DataOfType[];
 }

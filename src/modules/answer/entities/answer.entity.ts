@@ -3,9 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { AboutDependency } from 'src/modules/about_dependency/entities/about_dependency.entity';
+import { AboutProgramm } from 'src/modules/about_programm/entities/about_programm.entity';
 import { Account } from 'src/modules/account/entities/account.entity';
 import { Task } from 'src/modules/task/entities/task.entity';
 
@@ -36,4 +39,10 @@ export class Answer extends Model<Answer, AnswerCreateAttr> {
 
   @BelongsTo(() => Task)
   task: Task;
+
+  @HasMany(() => AboutDependency)
+  about_dependencies: AboutDependency[];
+
+  @HasMany(() => AboutProgramm)
+  about_programms: AboutProgramm[];
 }

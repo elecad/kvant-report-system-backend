@@ -3,9 +3,11 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Datum } from 'src/modules/data/entities/datum.entity';
 import { Report } from 'src/modules/report/entities/report.entity';
 
 export interface DataOfTypeCreateAttr {
@@ -35,4 +37,7 @@ export class DataOfType extends Model<DataOfType, DataOfTypeCreateAttr> {
 
   @BelongsTo(() => Report)
   report: Report;
+
+  @HasMany(() => Datum)
+  datum: Datum[];
 }

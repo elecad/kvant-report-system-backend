@@ -3,10 +3,13 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Account } from 'src/modules/account/entities/account.entity';
+import { Answer } from 'src/modules/answer/entities/answer.entity';
+import { File } from 'src/modules/file/entities/file.entity';
 
 export interface TaskCreateAttr {
   year: number;
@@ -35,4 +38,10 @@ export class Task extends Model<Task, TaskCreateAttr> {
 
   @BelongsTo(() => Account)
   author: Account;
+
+  @HasMany(() => File)
+  files: File[];
+
+  @HasMany(() => Answer)
+  answers: Answer[];
 }

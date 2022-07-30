@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 
 export interface DependencyTypeCreateAttr {
   name: string;
@@ -18,4 +19,7 @@ export class DependencyType extends Model<
 
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
+
+  @HasMany(() => Dependency)
+  dependencies: Dependency[];
 }

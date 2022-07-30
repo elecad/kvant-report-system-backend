@@ -3,9 +3,11 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { AboutProgramm } from 'src/modules/about_programm/entities/about_programm.entity';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 import { Direction } from 'src/modules/direction/entities/direction.entity';
 import { School } from 'src/modules/school/entities/school.entity';
@@ -61,4 +63,7 @@ export class Programm extends Model<Programm, ProgrammCreateAttr> {
 
   @BelongsTo(() => School)
   school: School;
+
+  @HasMany(() => AboutProgramm)
+  about_programms: AboutProgramm[];
 }

@@ -1,11 +1,14 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
+import { Programm } from 'src/modules/programm/entities/programm.entity';
 import { SchoolType } from 'src/modules/school_type/entities/school_type.entity';
 
 export interface SchoolCreateAttr {
@@ -36,4 +39,13 @@ export class School extends Model<School, SchoolCreateAttr> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   @ForeignKey(() => SchoolType)
   school_type_id: number;
+
+  @BelongsTo(() => SchoolType)
+  school_type: SchoolType;
+
+  @BelongsTo(() => Dependency)
+  dependency: Dependency;
+
+  @HasMany(() => Programm)
+  programms: Programm[];
 }
