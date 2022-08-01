@@ -38,7 +38,7 @@ export class CreateAccountDto {
   @IsNotEmpty({
     message: STRINGS.IsNotEmptyError,
   })
-  subname: string;
+  surname: string;
 
   @IsNotEmpty({
     message: STRINGS.IsNotEmptyError,

@@ -13,7 +13,8 @@ import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 export interface AboutDependencyCreateAttr {
   answer_id: number;
   dependency_id: number;
-  data_id: number;
+  data_of_type_id: number;
+  value: number;
 }
 
 @Table({ tableName: 'about_dependency', createdAt: false, updatedAt: false })

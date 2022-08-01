@@ -8,6 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Account } from 'src/modules/account/entities/account.entity';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
+import { DependencyType } from 'src/modules/dependency_type/entities/dependency_type.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
 import { SessionService } from 'src/modules/session/session.service';
 import { STRINGS } from 'src/res/strings';
@@ -31,8 +32,25 @@ export class AuthGuard implements CanActivate {
 
     const session = await this.sessionService.findOne({
       where: { token },
-      include: { model: Account, include: [Role, Dependency] },
+      include: {
+        model: Account,
+        attributes: ['id', 'surname', 'name', 'middlename'],
+        include: [
+          {
+            model: Role,
+            through: { attributes: [] },
+          },
+          {
+            model: Dependency,
+            attributes: ['id', 'name', 'short_name'],
+            include: [DependencyType],
+            through: { attributes: [] },
+          },
+        ],
+      },
     });
+
+    console.log(session);
 
     if (!session) {
       this.throwUnauthorizedException(STRINGS.UnauthorizedError);

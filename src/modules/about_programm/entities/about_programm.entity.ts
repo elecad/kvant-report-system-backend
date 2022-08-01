@@ -13,7 +13,8 @@ import { Programm } from 'src/modules/programm/entities/programm.entity';
 export interface AboutProgrammCreateAttr {
   answer_id: number;
   programm_id: number;
-  data_id: number;
+  data_of_type_id: number;
+  value: number;
 }
 
 @Table({ tableName: 'about_programm', createdAt: false, updatedAt: false })

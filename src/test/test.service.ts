@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { AboutDependency } from 'src/modules/about_dependency/entities/about_dependency.entity';
 import { Account } from 'src/modules/account/entities/account.entity';
+import { Answer } from 'src/modules/answer/entities/answer.entity';
 import { DataOfType } from 'src/modules/data_of_type/entities/data_of_type.entity';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 import { DependencyType } from 'src/modules/dependency_type/entities/dependency_type.entity';
@@ -31,6 +33,7 @@ export class TestService {
     await this.createTask();
     await this.createReport();
     await this.createDataOfType();
+    await this.createAnswer();
   }
 
   private async clear() {
@@ -55,7 +58,7 @@ export class TestService {
     const admin = await Account.create({
       email: 'admin@mail.ru',
       password: 'admin',
-      subname: 'Горшков',
+      surname: 'Горшков',
       name: 'Сергей',
       middlename: 'Юрьевич',
     });
@@ -66,7 +69,7 @@ export class TestService {
     const user1 = await Account.create({
       email: 'user1@mail.ru',
       password: 'user',
-      subname: 'Белова',
+      surname: 'Белова',
       name: 'Юлия',
       middlename: 'Сергеевна',
     });
@@ -76,7 +79,7 @@ export class TestService {
     const user2 = await Account.create({
       email: 'user2@mail.ru',
       password: 'user',
-      subname: 'Лобов',
+      surname: 'Лобов',
       name: 'Павел',
       middlename: 'Викторович',
     });
@@ -86,7 +89,7 @@ export class TestService {
     const user3 = await Account.create({
       email: 'user3@mail.ru',
       password: 'user',
-      subname: 'Торников',
+      surname: 'Торников',
       name: 'Максим',
       middlename: 'Алексеевич',
     });
@@ -341,6 +344,31 @@ export class TestService {
       code_name: 't7_2_c1',
       description: 'Количество человек, обучающихся по программам',
       report_id: 3,
+    });
+  }
+
+  private async createAnswer() {
+    await Answer.create({
+      responder_id: 1,
+      task_id: 1,
+    });
+
+    await Answer.create({
+      responder_id: 2,
+      task_id: 1,
+    });
+
+    await AboutDependency.create({
+      answer_id: 1,
+      data_of_type_id: 1,
+      dependency_id: 1,
+      value: 1,
+    });
+    await AboutDependency.create({
+      answer_id: 1,
+      data_of_type_id: 2,
+      dependency_id: 1,
+      value: 1,
     });
   }
 }

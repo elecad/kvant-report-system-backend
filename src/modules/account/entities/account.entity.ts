@@ -17,7 +17,7 @@ import { Account_Role } from './account_role.entity';
 export interface AccountCreateAttr {
   email: string;
   password: string;
-  subname: string;
+  surname: string;
   name: string;
   middlename: string;
 }
@@ -38,7 +38,7 @@ export class Account extends Model<Account, AccountCreateAttr> {
   password: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  subname: string;
+  surname: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;

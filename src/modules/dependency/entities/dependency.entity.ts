@@ -42,7 +42,7 @@ export class Dependency extends Model<Dependency, DependencyCreateAttr> {
   dependency_type_id: number;
 
   @BelongsTo(() => DependencyType)
-  dependencyType: DependencyType;
+  dependency_type: DependencyType;
 
   @BelongsToMany(() => Account, () => Account_Dependency)
   accounts: Account[];
