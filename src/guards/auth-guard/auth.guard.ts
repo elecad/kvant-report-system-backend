@@ -43,14 +43,12 @@ export class AuthGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    if (!requiredRoles) {
-      return true;
-    }
-
     request.user = session.account.toJSON();
     request.token = session.token;
 
-    console.log(request.user);
+    if (!requiredRoles) {
+      return true;
+    }
 
     const hasRole = session.account.roles.some((r) =>
       requiredRoles.includes(r.code_name),
