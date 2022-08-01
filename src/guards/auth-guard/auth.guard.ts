@@ -79,15 +79,15 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private throwUnauthorizedException = (message: string) => {
+  private throwUnauthorizedException(message: string) {
     throw new UnauthorizedException({
       message,
     });
-  };
+  }
 
-  private throwForbiddenException = (message: string) => {
+  private throwForbiddenException(message: string) {
     throw new ForbiddenException({
       message,
     });
-  };
+  }
 }
