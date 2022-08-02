@@ -1,14 +1,10 @@
-import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsEmail,
   IsInt,
   IsNotEmpty,
   IsPositive,
   IsString,
-  ValidateNested,
 } from 'class-validator';
-import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { STRINGS } from 'src/res/strings';
 
 export class CreateAccountDto {

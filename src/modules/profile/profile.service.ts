@@ -64,7 +64,9 @@ export class ProfileService {
     return user.dependencies.filter((_, index) => !aboutDependecies[index]);
   }
 
-  throwBadRequestException(message: string) {
+  async addAnswer() {}
+
+  private throwBadRequestException(message: string) {
     throw new HttpException(
       {
         statusCode: 400,

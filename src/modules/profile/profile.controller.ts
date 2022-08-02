@@ -1,14 +1,17 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth-guard/auth.guard';
 import { User } from 'src/guards/auth-guard/decorators/user.decorator';
 import { IUser } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
+import { AddAnswerDto } from './dto/add-answer.dto';
 import { ProfileService } from './profile.service';
 
 @Controller('profile')
@@ -32,5 +35,10 @@ export class ProfileController {
     @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
   ) {
     return this.profileService.getDependencyByTaskId(id, user);
+  }
+
+  @Post('answer')
+  addAnswer(@User() user: IUser, @Body() addAnswerDto: AddAnswerDto) {
+    return 1;
   }
 }
