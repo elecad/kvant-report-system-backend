@@ -18,28 +18,26 @@ export class AboutDependencyService {
     @InjectModel(AboutDependency)
     private aboutProgrammRepository: typeof AboutDependency,
     private answerService: AnswerService,
-    private dependencyService: DependencyService,
-  ) {}
+  ) // private dependencyService: DependencyService,
+  {}
 
   private entityName = 'Данные о зависимости';
 
   async create(createAboutDependencyDto: CreateAboutDependencyDto) {
-    await this.answerService.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: createAboutDependencyDto.answer_id,
-    });
-
-    await this.dependencyService.validateOne({
-      type: 'existing',
-      column: 'id',
-      value: createAboutDependencyDto.dependency_id,
-    });
-
-    const { id } = await this.aboutProgrammRepository.create(
-      createAboutDependencyDto,
-    );
-    return { id };
+    // await this.answerService.validateOne({
+    //   type: 'existing',
+    //   column: 'id',
+    //   value: createAboutDependencyDto.answer_id,
+    // });
+    // await this.dependencyService.validateOne({
+    //   type: 'existing',
+    //   column: 'id',
+    //   value: createAboutDependencyDto.dependency_id,
+    // });
+    // const { id } = await this.aboutProgrammRepository.create(
+    //   createAboutDependencyDto,
+    // );
+    // return { id };
   }
 
   findAll(option: FindOptions<AboutDependency> = {}) {
@@ -64,13 +62,13 @@ export class AboutDependencyService {
         value: updateAboutDependencyDto.answer_id,
       });
     if (entity.dependency_id !== updateAboutDependencyDto.dependency_id)
-      await this.dependencyService.validateOne({
-        type: 'existing',
-        column: 'id',
-        value: updateAboutDependencyDto.dependency_id,
-      });
+      // await this.dependencyService.validateOne({
+      //   type: 'existing',
+      //   column: 'id',
+      //   value: updateAboutDependencyDto.dependency_id,
+      // });
 
-    await entity.update(updateAboutDependencyDto);
+      await entity.update(updateAboutDependencyDto);
     return entity;
   }
 

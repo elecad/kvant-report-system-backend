@@ -8,6 +8,7 @@ import {
 } from 'src/validators/dataBase.validator';
 import { AboutDependencyService } from '../about_dependency/about_dependency.service';
 import { DependencyTypeService } from '../dependency_type/dependency_type.service';
+import { TaskService } from '../task/task.service';
 import { CreateDependencyDto } from './dto/create-dependency.dto';
 import { UpdateDependencyDto } from './dto/update-dependency.dto';
 import { Dependency } from './entities/dependency.entity';
@@ -18,7 +19,8 @@ export class DependencyService {
     @InjectModel(Dependency) private dependencyRepository: typeof Dependency,
     private dependencyTypeService: DependencyTypeService,
     private aboutDependencyService: AboutDependencyService,
-  ) {}
+  ) // private taskService: TaskService,
+  {}
 
   private entityName = 'Зависимость';
 
