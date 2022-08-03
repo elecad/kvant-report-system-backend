@@ -1,13 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   AuthDependency,
   AuthUser,
 } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { STRINGS } from 'src/res/strings';
+import { validationArray } from 'src/utils/validation-array.util';
 import { AboutDependencyService } from '../about_dependency/about_dependency.service';
 import { AccountService } from '../account/account.service';
-import { Account } from '../account/entities/account.entity';
-import { Answer } from '../answer/entities/answer.entity';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
 import { DependencyService } from '../dependency/dependency.service';
 import { ProgrammService } from '../programm/programm.service';
@@ -18,13 +17,12 @@ import {
   AddAnswerDependency,
   AddAnswerDto,
 } from './dto/add-answer.dto';
-import { ValidationArrayProps } from './interfaces/validaton-array.interface';
 
 @Injectable()
 export class ProfileService {
   constructor(
     private taskService: TaskService,
-    private aboutDependencyService: AboutDependencyService,
+    // private aboutDependencyService: AboutDependencyService,
     private reportService: ReportService,
     private programmService: ProgrammService,
     private accountService: AccountService,
@@ -44,12 +42,6 @@ export class ProfileService {
   }
 
   async addAnswer(user: AuthUser, addAnswerDto: AddAnswerDto) {
-    await this.taskService.validateOne({
-      column: 'id',
-      type: 'existing',
-      value: addAnswerDto.task_id,
-    });
-
     const usersDependencies = await this.getDependencyByTaskId(
       addAnswerDto.task_id,
       user,
@@ -61,16 +53,22 @@ export class ProfileService {
   }
 
   private async validationAnswerDto(
-    addAnswerDto: AddAnswerDto,
+    { dependencies: clientDependency, task_id }: AddAnswerDto,
     usersDependencies: AuthDependency[],
   ) {
+    //! task-check
+    await this.taskService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: task_id,
+    });
+
     //! dependencies-check
-    this.validationArray<AddAnswerDependency, AuthDependency>({
-      validate: { array: addAnswerDto.dependencies, key: 'dependency_id' },
+    validationArray<AddAnswerDependency, AuthDependency>({
+      validate: { array: clientDependency, key: 'dependency_id' },
       messages: {
-        IsRepeatError: 'Обнаружены повторения в Зависимостях',
-        IsNotMatchingExemple:
-          'Обнаружено несоответсвие с Зависимостями, требуемыми для Отчёта',
+        IsRepeatError: STRINGS.IsRepeatDependencyError,
+        IsNotMatchingExempleError: STRINGS.IsNotMatchingDependencyError,
       },
       exemple: {
         array: usersDependencies,
@@ -82,69 +80,72 @@ export class ProfileService {
 
     //! Hello sync in forEach
     for (const d of usersDependencies) {
-      const currenAnswerDependency = addAnswerDto.dependencies.find(
+      const currenAnswerDependency = clientDependency.find(
         (el) => d.id === el.dependency_id,
       );
 
       if (!currenAnswerDependency)
-        this.throwBadRequestException(
-          'Ошибка при поиске Dependency в запросе при валидации',
-        );
+        throw new BadRequestException(STRINGS.DependencySearchError);
 
       switch (d.dependency_type.name) {
-        case 'Район':
-          this.validationArray<AddAnswerAbout, DataOfType>({
+        case STRINGS.AreaDependencyType:
+          validationArray<AddAnswerAbout, DataOfType>({
             validate: {
               array: currenAnswerDependency.about_dependency,
               key: 'data_of_type_id',
             },
             messages: {
-              IsRepeatError: 'Обнаружены повторения в Типах Данных Зависимости',
-              IsNotMatchingExemple:
-                'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях, Тип: Район)',
+              IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
+              IsNotMatchingExempleError:
+                STRINGS.IsNotMatchingAboutDependencyError(
+                  STRINGS.AreaDependencyType,
+                ),
             },
             exemple: {
-              array: templates.area.data_of_type,
+              array: templates.area,
               key: 'id',
             },
           });
           break;
-        case 'Учереждение дополнительного образования':
-          this.validationArray<AddAnswerAbout, DataOfType>({
+        case STRINGS.SchoolDependencyType:
+          validationArray<AddAnswerAbout, DataOfType>({
             validate: {
               array: currenAnswerDependency.about_dependency,
               key: 'data_of_type_id',
             },
             messages: {
-              IsRepeatError: 'Обнаружены повторения в Типах Данных Зависимости',
-              IsNotMatchingExemple:
-                'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях, Тип: Учереждение дополнительного образования)',
+              IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
+              IsNotMatchingExempleError:
+                STRINGS.IsNotMatchingAboutDependencyError(
+                  STRINGS.AreaDependencyType,
+                ),
             },
             exemple: {
-              array: templates.school.data_of_type,
+              array: templates.school,
               key: 'id',
             },
           });
           break;
         default:
-          this.throwBadRequestException(
-            'Ошибка при проверке данных в about_dependency',
-          );
+          throw new BadRequestException(STRINGS.CheckAboutDependencyTypeError);
       }
 
-      for (const p of currenAnswerDependency.programms) {
-        this.validationArray<AddAnswerAbout, DataOfType>({
+      for (const {
+        programm_id,
+        about_programm,
+      } of currenAnswerDependency.programms) {
+        validationArray<AddAnswerAbout, DataOfType>({
           validate: {
-            array: p.about_programm,
+            array: about_programm,
             key: 'data_of_type_id',
           },
           messages: {
-            IsRepeatError: 'Обнаружены повторения в Типах Данных Программы',
-            IsNotMatchingExemple:
-              'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Программах)',
+            IsRepeatError: STRINGS.IsRepeatDataOfTypeProgrammError,
+            IsNotMatchingExempleError:
+              STRINGS.IsNotMatchingDataOfTypeProgrammError,
           },
           exemple: {
-            array: templates.programm.data_of_type,
+            array: templates.programm,
             key: 'id',
           },
         });
@@ -152,51 +153,10 @@ export class ProfileService {
         await this.programmService.validateOne({
           column: 'id',
           type: 'existing',
-          value: p.programm_id,
+          value: programm_id,
         });
       }
     }
-  }
-
-  private throwBadRequestException(message: string) {
-    throw new HttpException(
-      {
-        statusCode: 400,
-        message,
-      },
-      HttpStatus.BAD_REQUEST,
-    );
-  }
-
-  private validationArray<T, E = any>({
-    messages,
-    validate,
-    exemple,
-  }: ValidationArrayProps<T, E>) {
-    // console.log(
-    //   'validate',
-    //   validate.array.map((el) => el[validate.key]),
-    // );
-    // console.log(
-    //   'exemple',
-    //   exemple.array.map((el) => el[exemple.key]),
-    // );
-
-    const unique = new Set(validate.array.map((el) => el[validate.key]));
-
-    if (unique.size != validate.array.length)
-      this.throwBadRequestException(messages.IsRepeatError ?? '');
-
-    if (!exemple) return;
-
-    if (unique.size != exemple.array.length)
-      this.throwBadRequestException(messages.IsNotMatchingExemple ?? '');
-
-    const exempleArray = exemple.array.map((el) => el[exemple.key]);
-    unique.forEach((u) => {
-      if (!exempleArray.includes(u))
-        this.throwBadRequestException(messages.IsNotMatchingExemple ?? '');
-    });
   }
 
   private async getReportTemplate() {
@@ -211,9 +171,9 @@ export class ProfileService {
     );
     const [area, school, programm] = templates;
     return {
-      area,
-      school,
-      programm,
+      area: area.data_of_type,
+      school: school.data_of_type,
+      programm: programm.data_of_type,
     };
   }
 }

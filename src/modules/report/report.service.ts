@@ -6,6 +6,7 @@ import {
   databaseValidateOne,
   ValidateOption,
 } from 'src/validators/dataBase.validator';
+import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { Report } from './entities/report.entity';
@@ -48,6 +49,24 @@ export class ReportService {
     });
 
     await entity.destroy();
+  }
+
+  private async getTemplate() {
+    const names = ['Таблица №2', 'Таблица №7.1', 'Таблица №7.2'];
+    const templates = await Promise.all(
+      names.map((name) =>
+        this.findOne({
+          where: { name },
+          include: DataOfType,
+        }),
+      ),
+    );
+    const [area, school, programm] = templates;
+    return {
+      area: area.data_of_type,
+      school: school.data_of_type,
+      programm: programm.data_of_type,
+    };
   }
 
   async validateOne(props: ValidateOption<Report>) {

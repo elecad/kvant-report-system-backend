@@ -5,6 +5,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Answer } from './entities/answer.entity';
 import { AccountModule } from '../account/account.module';
 import { TaskModule } from '../task/task.module';
+import { ReportModule } from '../report/report.module';
+import { ProgrammModule } from '../programm/programm.module';
 
 @Module({
   controllers: [AnswerController],
@@ -13,6 +15,8 @@ import { TaskModule } from '../task/task.module';
     SequelizeModule.forFeature([Answer]),
     forwardRef(() => AccountModule),
     TaskModule,
+    ReportModule,
+    forwardRef(() => ProgrammModule),
   ],
   exports: [AnswerService],
 })
