@@ -21,6 +21,8 @@ import {
   AddAnswerDependency,
   AddAnswerDto,
 } from '../profile/dto/add-answer.dto';
+import { ProgrammService } from '../programm/programm.service';
+import { ReportService } from '../report/report.service';
 import { TaskService } from '../task/task.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
@@ -34,6 +36,9 @@ export class AnswerService {
     @Inject(forwardRef(() => AccountService))
     private accountService: AccountService,
     private taskService: TaskService,
+    private reportService: ReportService,
+    @Inject(forwardRef(() => ProgrammService))
+    private programmService: ProgrammService,
   ) {}
 
   private entityName = 'Ответ';
@@ -120,87 +125,87 @@ export class AnswerService {
       },
     });
 
-    // const templates = await this.getReportTemplate();
+    const templates = await this.reportService.getTemplate();
 
-    // //! Hello sync in forEach
-    // for (const d of usersDependencies) {
-    //   const currenAnswerDependency = clientDependency.find(
-    //     (el) => d.id === el.dependency_id,
-    //   );
+    //! Hello sync in forEach
+    for (const d of usersDependencies) {
+      const currenAnswerDependency = clientDependency.find(
+        (el) => d.id === el.dependency_id,
+      );
 
-    //   if (!currenAnswerDependency)
-    //     throw new BadRequestException(STRINGS.DependencySearchError);
+      if (!currenAnswerDependency)
+        throw new BadRequestException(STRINGS.DependencySearchError);
 
-    //   switch (d.dependency_type.name) {
-    //     case STRINGS.AreaDependencyType:
-    //       validationArray<AddAnswerAbout, DataOfType>({
-    //         validate: {
-    //           array: currenAnswerDependency.about_dependency,
-    //           key: 'data_of_type_id',
-    //         },
-    //         messages: {
-    //           IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
-    //           IsNotMatchingExempleError:
-    //             STRINGS.IsNotMatchingAboutDependencyError(
-    //               STRINGS.AreaDependencyType,
-    //             ),
-    //         },
-    //         exemple: {
-    //           array: templates.area,
-    //           key: 'id',
-    //         },
-    //       });
-    //       break;
-    //     case STRINGS.SchoolDependencyType:
-    //       validationArray<AddAnswerAbout, DataOfType>({
-    //         validate: {
-    //           array: currenAnswerDependency.about_dependency,
-    //           key: 'data_of_type_id',
-    //         },
-    //         messages: {
-    //           IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
-    //           IsNotMatchingExempleError:
-    //             STRINGS.IsNotMatchingAboutDependencyError(
-    //               STRINGS.AreaDependencyType,
-    //             ),
-    //         },
-    //         exemple: {
-    //           array: templates.school,
-    //           key: 'id',
-    //         },
-    //       });
-    //       break;
-    //     default:
-    //       throw new BadRequestException(STRINGS.CheckAboutDependencyTypeError);
-    //   }
+      switch (d.dependency_type.name) {
+        case STRINGS.AreaDependencyType:
+          validationArray<AddAnswerAbout, DataOfType>({
+            validate: {
+              array: currenAnswerDependency.about_dependency,
+              key: 'data_of_type_id',
+            },
+            messages: {
+              IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
+              IsNotMatchingExempleError:
+                STRINGS.IsNotMatchingAboutDependencyError(
+                  STRINGS.AreaDependencyType,
+                ),
+            },
+            exemple: {
+              array: templates.area,
+              key: 'id',
+            },
+          });
+          break;
+        case STRINGS.SchoolDependencyType:
+          validationArray<AddAnswerAbout, DataOfType>({
+            validate: {
+              array: currenAnswerDependency.about_dependency,
+              key: 'data_of_type_id',
+            },
+            messages: {
+              IsRepeatError: STRINGS.IsRepeatAboutDependencyError,
+              IsNotMatchingExempleError:
+                STRINGS.IsNotMatchingAboutDependencyError(
+                  STRINGS.AreaDependencyType,
+                ),
+            },
+            exemple: {
+              array: templates.school,
+              key: 'id',
+            },
+          });
+          break;
+        default:
+          throw new BadRequestException(STRINGS.CheckAboutDependencyTypeError);
+      }
 
-    //   for (const {
-    //     programm_id,
-    //     about_programm,
-    //   } of currenAnswerDependency.programms) {
-    //     validationArray<AddAnswerAbout, DataOfType>({
-    //       validate: {
-    //         array: about_programm,
-    //         key: 'data_of_type_id',
-    //       },
-    //       messages: {
-    //         IsRepeatError: STRINGS.IsRepeatDataOfTypeProgrammError,
-    //         IsNotMatchingExempleError:
-    //           STRINGS.IsNotMatchingDataOfTypeProgrammError,
-    //       },
-    //       exemple: {
-    //         array: templates.programm,
-    //         key: 'id',
-    //       },
-    //     });
+      for (const {
+        programm_id,
+        about_programm,
+      } of currenAnswerDependency.programms) {
+        validationArray<AddAnswerAbout, DataOfType>({
+          validate: {
+            array: about_programm,
+            key: 'data_of_type_id',
+          },
+          messages: {
+            IsRepeatError: STRINGS.IsRepeatDataOfTypeProgrammError,
+            IsNotMatchingExempleError:
+              STRINGS.IsNotMatchingDataOfTypeProgrammError,
+          },
+          exemple: {
+            array: templates.programm,
+            key: 'id',
+          },
+        });
 
-    //     await this.programmService.validateOne({
-    //       column: 'id',
-    //       type: 'existing',
-    //       value: programm_id,
-    //     });
-    //   }
-    // }
+        await this.programmService.validateOne({
+          column: 'id',
+          type: 'existing',
+          value: programm_id,
+        });
+      }
+    }
   }
 
   async validateOne(props: ValidateOption<Answer>) {

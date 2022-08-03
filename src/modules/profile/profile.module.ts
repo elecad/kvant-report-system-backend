@@ -8,6 +8,7 @@ import { ReportModule } from '../report/report.module';
 import { ProgrammModule } from '../programm/programm.module';
 import { AccountModule } from '../account/account.module';
 import { DependencyModule } from '../dependency/dependency.module';
+import { AnswerModule } from '../answer/answer.module';
 
 @Module({
   controllers: [ProfileController],
@@ -15,11 +16,12 @@ import { DependencyModule } from '../dependency/dependency.module';
   imports: [
     SessionModule,
     TaskModule,
-    AboutDependencyModule,
-    ReportModule,
-    ProgrammModule,
+    // AboutDependencyModule,
+    // ReportModule,
+    // ProgrammModule,
     AccountModule,
     DependencyModule,
+    AnswerModule,
   ],
 })
 export class ProfileModule {}

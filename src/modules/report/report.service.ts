@@ -51,7 +51,7 @@ export class ReportService {
     await entity.destroy();
   }
 
-  private async getTemplate() {
+  async getTemplate() {
     const names = ['Таблица №2', 'Таблица №7.1', 'Таблица №7.2'];
     const templates = await Promise.all(
       names.map((name) =>
