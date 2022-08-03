@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AnswerModule } from '../answer/answer.module';
 import { DependencyModule } from '../dependency/dependency.module';
@@ -12,7 +12,7 @@ import { AboutDependency } from './entities/about_dependency.entity';
   imports: [
     SequelizeModule.forFeature([AboutDependency]),
     AnswerModule,
-    DependencyModule,
+    forwardRef(() => DependencyModule),
   ],
   exports: [AboutDependencyService],
 })

@@ -6,6 +6,7 @@ import {
   databaseValidateOne,
   ValidateOption,
 } from 'src/validators/dataBase.validator';
+import { AboutDependencyService } from '../about_dependency/about_dependency.service';
 import { DependencyTypeService } from '../dependency_type/dependency_type.service';
 import { CreateDependencyDto } from './dto/create-dependency.dto';
 import { UpdateDependencyDto } from './dto/update-dependency.dto';
@@ -16,6 +17,7 @@ export class DependencyService {
   constructor(
     @InjectModel(Dependency) private dependencyRepository: typeof Dependency,
     private dependencyTypeService: DependencyTypeService,
+    private aboutDependencyService: AboutDependencyService,
   ) {}
 
   private entityName = 'Зависимость';
