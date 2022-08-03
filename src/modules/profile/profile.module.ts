@@ -6,6 +6,7 @@ import { TaskModule } from '../task/task.module';
 import { AboutDependencyModule } from '../about_dependency/about_dependency.module';
 import { ReportModule } from '../report/report.module';
 import { ProgrammModule } from '../programm/programm.module';
+import { AccountModule } from '../account/account.module';
 
 @Module({
   controllers: [ProfileController],
@@ -16,6 +17,7 @@ import { ProgrammModule } from '../programm/programm.module';
     AboutDependencyModule,
     ReportModule,
     ProgrammModule,
+    AccountModule,
   ],
 })
 export class ProfileModule {}

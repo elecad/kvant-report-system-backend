@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
+import { AuthUser } from 'src/guards/auth-guard/interfaces/auth.interface';
 import {
   databaseValidateAll,
   databaseValidateOne,
@@ -118,6 +119,23 @@ export class AccountService {
     });
 
     await entity.destroy();
+  }
+
+  getProfile({ surname, name, middlename, roles, dependencies }: AuthUser) {
+    return {
+      surname,
+      name,
+      middlename,
+      roles,
+      dependencies: dependencies.map(
+        ({ id, name, dependency_type, short_name }) => ({
+          id,
+          name,
+          dependency_type,
+          short_name,
+        }),
+      ),
+    };
   }
 
   async validateOne(props: ValidateOption<Account>) {

@@ -5,6 +5,7 @@ import {
 } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { STRINGS } from 'src/res/strings';
 import { AboutDependencyService } from '../about_dependency/about_dependency.service';
+import { AccountService } from '../account/account.service';
 import { Account } from '../account/entities/account.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
@@ -25,49 +26,15 @@ export class ProfileService {
     private aboutDependencyService: AboutDependencyService,
     private reportService: ReportService,
     private programmService: ProgrammService,
+    private accountService: AccountService,
   ) {}
 
-  async getProfileInfo({
-    surname,
-    name,
-    middlename,
-    roles,
-    dependencies,
-  }: AuthUser) {
-    return {
-      surname,
-      name,
-      middlename,
-      roles,
-      dependencies: dependencies.map(
-        ({ id, name, dependency_type, short_name }) => ({
-          id,
-          name,
-          dependency_type,
-          short_name,
-        }),
-      ),
-    };
+  async getProfileInfo(user: AuthUser) {
+    return this.accountService.getProfile(user);
   }
 
-  async getTasksByUser(user: AuthUser) {
-    const tasks = await this.taskService.findAll({
-      attributes: ['id', 'year', 'half_year'],
-      include: [
-        {
-          model: Answer,
-          include: [{ model: Account, where: { id: user.id } }],
-        },
-        { model: Account, attributes: ['surname', 'name', 'middlename'] },
-      ],
-    });
-    return tasks.map(({ id, year, half_year, author, answers }) => ({
-      id,
-      year,
-      half_year,
-      author,
-      completed: answers.length !== 0,
-    }));
+  async getTasksByUser({ id }: AuthUser) {
+    return this.taskService.getTasksByUserID(id);
   }
 
   async getDependencyByTaskId(task_id: number, user: AuthUser) {

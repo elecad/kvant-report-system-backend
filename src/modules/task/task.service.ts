@@ -7,6 +7,8 @@ import {
   ValidateOption,
 } from 'src/validators/dataBase.validator';
 import { AccountService } from '../account/account.service';
+import { Account } from '../account/entities/account.entity';
+import { Answer } from '../answer/entities/answer.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './entities/task.entity';
@@ -65,6 +67,27 @@ export class TaskService {
     });
 
     await entity.destroy();
+  }
+
+  async getTasksByUserID(id: number) {
+    const tasks = await this.findAll({
+      attributes: ['id', 'year', 'half_year'],
+      include: [
+        {
+          model: Answer,
+          include: [{ model: Account, where: { id: id } }],
+        },
+        { model: Account, attributes: ['surname', 'name', 'middlename'] },
+      ],
+    });
+    return tasks.map(({ id, year, half_year, author, answers }) => ({
+      id,
+      year,
+      half_year,
+      author,
+      completed: answers.length !== 0,
+      answer_id: answers && answers[0] ? answers[0].id : null,
+    }));
   }
 
   async validateOne(props: ValidateOption<Task>) {
