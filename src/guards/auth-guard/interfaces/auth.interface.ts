@@ -1,27 +1,43 @@
-export interface IUser {
+export interface BasePropertyDB {
+  id: number;
+  name: string;
+}
+
+export interface AuthUser {
   id: number;
   surname: string;
   name: string;
   middlename: string;
-  roles: IRole[];
-  dependencies: IDependency[];
+  roles: AuthRole[];
+  dependencies: AuthDependency[];
 }
 
-export interface IRole {
-  id: number;
-  name: string;
+export interface AuthRole extends BasePropertyDB {
   code_name: string;
   description: string;
 }
 
-export interface IDependency {
-  id: number;
-  name: string;
+export interface AuthDependency extends BasePropertyDB {
   short_name: string;
-  dependency_type: IDependencyType;
+  dependency_type: AuthDependencyType;
+  programms: AuthProgramm[];
 }
 
-export interface IDependencyType {
-  id: number;
-  name: string;
+export interface AuthDependencyType extends BasePropertyDB {}
+
+export interface AuthDirection extends BasePropertyDB {}
+
+export interface AuthSchoolType extends BasePropertyDB {}
+
+export interface AuthSchool extends BasePropertyDB {
+  adress: string;
+  school_type: AuthSchoolType;
+}
+
+export interface AuthProgramm extends BasePropertyDB {
+  navigator_id: number;
+  start_age: number;
+  end_age: number;
+  direction: AuthDirection;
+  school: AuthSchool;
 }

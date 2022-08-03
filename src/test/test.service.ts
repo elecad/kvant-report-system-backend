@@ -335,7 +335,7 @@ export class TestService {
       report_id: 2,
     });
     await DataOfType.create({
-      code_name: 't7_1_c2',
+      code_name: 't7_1_c3',
       description: 'Всего детей технической направленности (Итого)',
       report_id: 2,
     });

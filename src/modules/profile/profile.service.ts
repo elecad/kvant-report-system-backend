@@ -1,13 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
-  IDependency,
-  IUser,
+  AuthDependency,
+  AuthUser,
 } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { STRINGS } from 'src/res/strings';
 import { AboutDependencyService } from '../about_dependency/about_dependency.service';
 import { Account } from '../account/entities/account.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
+import { ProgrammService } from '../programm/programm.service';
 import { ReportService } from '../report/report.service';
 import { TaskService } from '../task/task.service';
 import {
@@ -23,13 +24,33 @@ export class ProfileService {
     private taskService: TaskService,
     private aboutDependencyService: AboutDependencyService,
     private reportService: ReportService,
+    private programmService: ProgrammService,
   ) {}
 
-  async getProfileInfo(user: IUser) {
-    return user;
+  async getProfileInfo({
+    surname,
+    name,
+    middlename,
+    roles,
+    dependencies,
+  }: AuthUser) {
+    return {
+      surname,
+      name,
+      middlename,
+      roles,
+      dependencies: dependencies.map(
+        ({ id, name, dependency_type, short_name }) => ({
+          id,
+          name,
+          dependency_type,
+          short_name,
+        }),
+      ),
+    };
   }
 
-  async getTasksByUser(user: IUser) {
+  async getTasksByUser(user: AuthUser) {
     const tasks = await this.taskService.findAll({
       attributes: ['id', 'year', 'half_year'],
       include: [
@@ -49,7 +70,7 @@ export class ProfileService {
     }));
   }
 
-  async getDependencyByTaskId(task_id: number, user: IUser) {
+  async getDependencyByTaskId(task_id: number, user: AuthUser) {
     await this.taskService.validateOne({
       column: 'id',
       type: 'existing',
@@ -76,7 +97,7 @@ export class ProfileService {
     return user.dependencies.filter((_, index) => !aboutDependecies[index]);
   }
 
-  async addAnswer(user: IUser, addAnswerDto: AddAnswerDto) {
+  async addAnswer(user: AuthUser, addAnswerDto: AddAnswerDto) {
     await this.taskService.validateOne({
       column: 'id',
       type: 'existing',
@@ -95,10 +116,10 @@ export class ProfileService {
 
   private async validationAnswerDto(
     addAnswerDto: AddAnswerDto,
-    usersDependencies: IDependency[],
+    usersDependencies: AuthDependency[],
   ) {
     //! dependencies-check
-    this.validationArray<AddAnswerDependency, IDependency>({
+    this.validationArray<AddAnswerDependency, AuthDependency>({
       validate: { array: addAnswerDto.dependencies, key: 'dependency_id' },
       messages: {
         IsRepeatError: 'Обнаружены повторения в Зависимостях',
@@ -113,21 +134,82 @@ export class ProfileService {
 
     const templates = await this.getReportTemplate();
 
-    //! about_dependency-check
-    addAnswerDto.dependencies.forEach((d) => {
-      this.validationArray<AddAnswerAbout, DataOfType>({
-        validate: { array: d.about_dependency, key: 'data_of_type_id' },
-        messages: {
-          IsRepeatError: 'Обнаружены повторения в Типах Данных Зависимости',
-          IsNotMatchingExemple:
-            'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях)',
-        },
-        exemple: {
-          array: templates.area.data_of_type,
-          key: 'id',
-        },
-      });
-    });
+    //! Hello sync in forEach
+    for (const d of usersDependencies) {
+      const currenAnswerDependency = addAnswerDto.dependencies.find(
+        (el) => d.id === el.dependency_id,
+      );
+
+      if (!currenAnswerDependency)
+        this.throwBadRequestException(
+          'Ошибка при поиске Dependency в запросе при валидации',
+        );
+
+      switch (d.dependency_type.name) {
+        case 'Район':
+          this.validationArray<AddAnswerAbout, DataOfType>({
+            validate: {
+              array: currenAnswerDependency.about_dependency,
+              key: 'data_of_type_id',
+            },
+            messages: {
+              IsRepeatError: 'Обнаружены повторения в Типах Данных Зависимости',
+              IsNotMatchingExemple:
+                'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях, Тип: Район)',
+            },
+            exemple: {
+              array: templates.area.data_of_type,
+              key: 'id',
+            },
+          });
+          break;
+        case 'Учереждение дополнительного образования':
+          this.validationArray<AddAnswerAbout, DataOfType>({
+            validate: {
+              array: currenAnswerDependency.about_dependency,
+              key: 'data_of_type_id',
+            },
+            messages: {
+              IsRepeatError: 'Обнаружены повторения в Типах Данных Зависимости',
+              IsNotMatchingExemple:
+                'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях, Тип: Учереждение дополнительного образования)',
+            },
+            exemple: {
+              array: templates.school.data_of_type,
+              key: 'id',
+            },
+          });
+          break;
+        default:
+          this.throwBadRequestException(
+            'Ошибка при проверке данных в about_dependency',
+          );
+      }
+
+      for (const p of currenAnswerDependency.programms) {
+        this.validationArray<AddAnswerAbout, DataOfType>({
+          validate: {
+            array: p.about_programm,
+            key: 'data_of_type_id',
+          },
+          messages: {
+            IsRepeatError: 'Обнаружены повторения в Типах Данных Программы',
+            IsNotMatchingExemple:
+              'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Программах)',
+          },
+          exemple: {
+            array: templates.programm.data_of_type,
+            key: 'id',
+          },
+        });
+
+        await this.programmService.validateOne({
+          column: 'id',
+          type: 'existing',
+          value: p.programm_id,
+        });
+      }
+    }
   }
 
   private throwBadRequestException(message: string) {
@@ -145,9 +227,16 @@ export class ProfileService {
     validate,
     exemple,
   }: ValidationArrayProps<T, E>) {
-    const unique = new Set(validate.array.map((el) => el[validate.key]));
+    // console.log(
+    //   'validate',
+    //   validate.array.map((el) => el[validate.key]),
+    // );
+    // console.log(
+    //   'exemple',
+    //   exemple.array.map((el) => el[exemple.key]),
+    // );
 
-    console.log(unique.size, validate.array.length);
+    const unique = new Set(validate.array.map((el) => el[validate.key]));
 
     if (unique.size != validate.array.length)
       this.throwBadRequestException(messages.IsRepeatError ?? '');

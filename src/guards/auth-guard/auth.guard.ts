@@ -9,7 +9,11 @@ import { Reflector } from '@nestjs/core';
 import { Account } from 'src/modules/account/entities/account.entity';
 import { Dependency } from 'src/modules/dependency/entities/dependency.entity';
 import { DependencyType } from 'src/modules/dependency_type/entities/dependency_type.entity';
+import { Direction } from 'src/modules/direction/entities/direction.entity';
+import { Programm } from 'src/modules/programm/entities/programm.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
+import { School } from 'src/modules/school/entities/school.entity';
+import { SchoolType } from 'src/modules/school_type/entities/school_type.entity';
 import { SessionService } from 'src/modules/session/session.service';
 import { STRINGS } from 'src/res/strings';
 import { validate as uuidValidate } from 'uuid';
@@ -43,7 +47,27 @@ export class AuthGuard implements CanActivate {
           {
             model: Dependency,
             attributes: ['id', 'name', 'short_name'],
-            include: [DependencyType],
+            include: [
+              DependencyType,
+              {
+                model: Programm,
+                include: [
+                  Direction,
+                  {
+                    model: School,
+                    include: [SchoolType],
+                    attributes: ['id', 'name', 'adress'],
+                  },
+                ],
+                attributes: [
+                  'id',
+                  'name',
+                  'navigator_id',
+                  'start_age',
+                  'end_age',
+                ],
+              },
+            ],
             through: { attributes: [] },
           },
         ],
