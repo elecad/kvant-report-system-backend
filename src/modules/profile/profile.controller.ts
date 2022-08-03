@@ -39,6 +39,6 @@ export class ProfileController {
 
   @Post('answer')
   addAnswer(@User() user: IUser, @Body() addAnswerDto: AddAnswerDto) {
-    return 1;
+    return this.profileService.addAnswer(user, addAnswerDto);
   }
 }
