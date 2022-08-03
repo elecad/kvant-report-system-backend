@@ -19,8 +19,8 @@ export class DependencyService {
     @InjectModel(Dependency) private dependencyRepository: typeof Dependency,
     private dependencyTypeService: DependencyTypeService,
     private aboutDependencyService: AboutDependencyService,
-  ) // private taskService: TaskService,
-  {}
+    private taskService: TaskService,
+  ) {}
 
   private entityName = 'Зависимость';
 

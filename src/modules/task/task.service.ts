@@ -17,8 +17,8 @@ import { Task } from './entities/task.entity';
 export class TaskService {
   constructor(
     @InjectModel(Task) private taskRepository: typeof Task,
-    private accountService: AccountService,
-  ) {}
+  ) // private accountService: AccountService,
+  {}
 
   private entityName = 'Задание';
 
@@ -49,13 +49,13 @@ export class TaskService {
     });
 
     if (entity.author_id !== updateTaskDto.author_id)
-      await this.accountService.validateOne({
-        type: 'existing',
-        column: 'id',
-        value: updateTaskDto.author_id,
-      });
+      // await this.accountService.validateOne({
+      //   type: 'existing',
+      //   column: 'id',
+      //   value: updateTaskDto.author_id,
+      // });
 
-    await entity.update(updateTaskDto);
+      await entity.update(updateTaskDto);
     return entity;
   }
 

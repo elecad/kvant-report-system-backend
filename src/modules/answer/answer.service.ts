@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 import {
@@ -16,6 +16,8 @@ import { Answer } from './entities/answer.entity';
 export class AnswerService {
   constructor(
     @InjectModel(Answer) private answerRepository: typeof Answer,
+
+    @Inject(forwardRef(() => AccountService))
     private accountService: AccountService,
     private taskService: TaskService,
   ) {}
