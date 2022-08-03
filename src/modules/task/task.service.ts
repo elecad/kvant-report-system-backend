@@ -69,7 +69,7 @@ export class TaskService {
     await entity.destroy();
   }
 
-  async getTasksByUserID(id: number) {
+  async getByUserID(id: number) {
     const tasks = await this.findAll({
       attributes: ['id', 'year', 'half_year'],
       include: [

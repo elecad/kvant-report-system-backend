@@ -34,7 +34,7 @@ export class ProfileService {
   }
 
   async getTasksByUser({ id }: AuthUser) {
-    return this.taskService.getTasksByUserID(id);
+    return this.taskService.getByUserID(id);
   }
 
   async getDependencyByTaskId(task_id: number, user: AuthUser) {
