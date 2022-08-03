@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DependencyModule } from '../dependency/dependency.module';
 import { SchoolTypeModule } from '../school_type/school_type.module';
@@ -11,7 +11,8 @@ import { SchoolService } from './school.service';
   providers: [SchoolService],
   imports: [
     SequelizeModule.forFeature([School]),
-    DependencyModule,
+    forwardRef(() => DependencyModule),
+    // DependencyModule,
     SchoolTypeModule,
   ],
   exports: [SchoolService],

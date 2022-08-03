@@ -14,7 +14,7 @@ import { DependencyModule } from '../dependency/dependency.module';
     SequelizeModule.forFeature([Programm]),
     SchoolModule,
     DirectionModule,
-    DependencyModule,
+    forwardRef(() => DependencyModule),
   ],
   exports: [ProgrammService],
 })
