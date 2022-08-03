@@ -7,6 +7,7 @@ import { AboutDependencyModule } from '../about_dependency/about_dependency.modu
 import { ReportModule } from '../report/report.module';
 import { ProgrammModule } from '../programm/programm.module';
 import { AccountModule } from '../account/account.module';
+import { DependencyModule } from '../dependency/dependency.module';
 
 @Module({
   controllers: [ProfileController],
@@ -18,6 +19,7 @@ import { AccountModule } from '../account/account.module';
     ReportModule,
     ProgrammModule,
     AccountModule,
+    DependencyModule,
   ],
 })
 export class ProfileModule {}

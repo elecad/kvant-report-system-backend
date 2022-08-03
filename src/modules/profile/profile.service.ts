@@ -9,6 +9,7 @@ import { AccountService } from '../account/account.service';
 import { Account } from '../account/entities/account.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
+import { DependencyService } from '../dependency/dependency.service';
 import { ProgrammService } from '../programm/programm.service';
 import { ReportService } from '../report/report.service';
 import { TaskService } from '../task/task.service';
@@ -27,6 +28,7 @@ export class ProfileService {
     private reportService: ReportService,
     private programmService: ProgrammService,
     private accountService: AccountService,
+    private dependencyService: DependencyService,
   ) {}
 
   async getProfileInfo(user: AuthUser) {
@@ -38,30 +40,7 @@ export class ProfileService {
   }
 
   async getDependencyByTaskId(task_id: number, user: AuthUser) {
-    await this.taskService.validateOne({
-      column: 'id',
-      type: 'existing',
-      value: task_id,
-    });
-
-    const tasks = await this.getTasksByUser(user);
-
-    const currentTask = tasks.find(
-      (t) => t.id === task_id && t.completed === false,
-    );
-
-    if (!currentTask) this.throwBadRequestException(STRINGS.IsBadTaskRequest);
-
-    const aboutDependecies = await Promise.all(
-      user.dependencies.map((d) =>
-        this.aboutDependencyService.findOne({
-          where: { dependency_id: d.id },
-          include: { model: Answer, where: { task_id } },
-        }),
-      ),
-    );
-
-    return user.dependencies.filter((_, index) => !aboutDependecies[index]);
+    return this.dependencyService.getByTaskId(task_id, user);
   }
 
   async addAnswer(user: AuthUser, addAnswerDto: AddAnswerDto) {
