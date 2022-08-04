@@ -18,23 +18,4 @@ export const STRINGS = {
   IsIntError: 'Это поле должно быть целым числом',
   IsIntArrayError: 'Это поле должно быть массивом целых чисел',
   IsArrayError: 'Это поле должно быть массивом',
-  IsBadTaskRequest:
-    'Данное задание не нуждается в ответе текущего пользователя',
-  IsRepeatDependencyError: 'Обнаружены повторения в Зависимостях',
-  IsNotMatchingDependencyError:
-    'Обнаружено несоответсвие с Зависимостями, требуемыми для Отчёта',
-  DependencySearchError: 'Ошибка при поиске Dependency в запросе при валидации',
-  IsRepeatAboutDependencyError:
-    'Обнаружены повторения в Типах Данных Зависимости',
-  IsNotMatchingAboutDependencyError: (type: string) =>
-    `Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Зависимостях, Тип: ${type})`,
-  AreaDependencyType: 'Район',
-  SchoolDependencyType: 'Учереждение дополнительного образования',
-  CheckAboutDependencyTypeError:
-    'Ошибка при проверке данных в about_dependency',
-  IsRepeatDataOfTypeProgrammError:
-    'Обнаружены повторения в Типах Данных Программы',
-  IsNotMatchingDataOfTypeProgrammError:
-    'Обнаружено несоответсвие с Типами данных, требуемыми для Отчёта (О Программах)',
-  IsForbiddenError: 'У текущего аккаунта нет доступа к этому ресурсу',
 };

@@ -1,25 +1,19 @@
 import { BadRequestException } from '@nestjs/common';
 
-export interface ValidationArrayProps<T, E = any> {
-  validate: {
-    array: any[];
-    key: keyof T;
-  };
+export interface ValidationArrayProps {
+  validate: any[];
   messages: {
     IsRepeatError: string;
     IsNotMatchingExempleError?: string;
   };
-  exemple?: {
-    array: any[];
-    key: keyof E;
-  };
+  exemple: any[];
 }
 
 export function validationArray<T, E = any>({
   messages,
   validate,
   exemple,
-}: ValidationArrayProps<T, E>) {
+}: ValidationArrayProps) {
   // console.log(
   //   'validate',
   //   validate.array.map((el) => el[validate.key]),
@@ -29,19 +23,18 @@ export function validationArray<T, E = any>({
   //   exemple.array.map((el) => el[exemple.key]),
   // );
 
-  const unique = new Set(validate.array.map((el) => el[validate.key]));
+  const unique = new Set(exemple);
 
-  if (unique.size != validate.array.length)
+  if (unique.size != validate.length)
     throw new BadRequestException(messages.IsRepeatError ?? '');
 
   if (!exemple) return;
 
-  if (unique.size != exemple.array.length)
+  if (unique.size != exemple.length)
     throw new BadRequestException(messages.IsNotMatchingExempleError ?? '');
 
-  const exempleArray = exemple.array.map((el) => el[exemple.key]);
   unique.forEach((u) => {
-    if (!exempleArray.includes(u))
+    if (!exemple.includes(u))
       throw new BadRequestException(messages.IsNotMatchingExempleError ?? '');
   });
 }
