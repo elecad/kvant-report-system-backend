@@ -222,47 +222,46 @@ export class AnswerService {
   }
 
   async getByID(answer_id: number, user: AuthUser) {
-    const answer = await this.validateOne({
-      column: 'id',
-      type: 'existing',
-      value: answer_id,
-      findOptions: {
-        include: [
-          AboutDependency,
-          { model: AboutProgramm, include: [Programm] },
-        ],
-      },
-    });
+    const { id, task_id, responder_id, about_dependencies, about_programms } =
+      await this.validateOne({
+        column: 'id',
+        type: 'existing',
+        value: answer_id,
+        findOptions: {
+          include: [
+            AboutDependency,
+            { model: AboutProgramm, include: [Programm] },
+          ],
+        },
+      });
 
-    if (answer.responder_id !== user.id)
-      throw new ForbiddenException(
-        'У текущего аккаунта нет доступа к этому ресурсу',
-      );
+    if (responder_id !== user.id)
+      throw new ForbiddenException(STRINGS.IsForbiddenError);
 
     const result: GetAnswerDto = {
-      id: answer.id,
-      task_id: answer.task_id,
+      id: id,
+      task_id: task_id,
       dependencies: [],
     };
 
     const uniqueDependency = new Set(
-      answer.about_dependencies.map((d) => d.dependency_id),
+      about_dependencies.map((d) => d.dependency_id),
     );
 
     uniqueDependency.forEach((u) => {
-      const dependencies = answer.about_dependencies.filter(
+      const dependencies = about_dependencies.filter(
         (a) => a.dependency_id === u,
       );
 
-      const programm = answer.about_programms.filter(
+      const programm = about_programms.filter(
         (a) => a.programm.dependency_id === u,
       );
 
       result.dependencies.push({
         dependency_id: u,
-        about_dependency: dependencies.map((d) => ({
-          value: d.value,
-          data_of_type_id: d.data_of_type_id,
+        about_dependency: dependencies.map(({ value, data_of_type_id }) => ({
+          value,
+          data_of_type_id,
         })),
         programms: [],
       });
@@ -271,9 +270,9 @@ export class AnswerService {
 
       result.dependencies[result.dependencies.length - 1].programms.push({
         programm_id: programm[0].programm_id,
-        about_programm: programm.map((p) => ({
-          data_of_type_id: p.data_of_type_id,
-          value: p.value,
+        about_programm: programm.map(({ data_of_type_id, value }) => ({
+          value,
+          data_of_type_id,
         })),
       });
     });
