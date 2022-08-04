@@ -220,25 +220,25 @@ export class AnswerService {
     { id: responder_id }: AuthUser,
     { dependencies, task_id }: AddAnswerDto,
   ) {
-    const answer = await this.create({ task_id, responder_id });
+    const { id: answer_id } = await this.create({ task_id, responder_id });
 
-    for (const dependency of dependencies) {
+    for (const { about_dependency, dependency_id, programms } of dependencies) {
       //! added about_dependency
-      for (const about of dependency.about_dependency) {
+      for (const { data_of_type_id, value } of about_dependency) {
         await this.aboutDependencyService.create({
-          answer_id: answer.id,
-          data_of_type_id: about.data_of_type_id,
-          dependency_id: dependency.dependency_id,
-          value: about.value,
+          answer_id: answer_id,
+          data_of_type_id: data_of_type_id,
+          dependency_id: dependency_id,
+          value: value,
         });
       }
       //! added about_programm
-      for (const programm of dependency.programms) {
-        for (const about of programm.about_programm) {
+      for (const { about_programm, programm_id } of programms) {
+        for (const about of about_programm) {
           await this.aboutProgrammService.create({
-            answer_id: answer.id,
+            answer_id: answer_id,
             data_of_type_id: about.data_of_type_id,
-            programm_id: programm.programm_id,
+            programm_id: programm_id,
             value: about.value,
           });
         }
