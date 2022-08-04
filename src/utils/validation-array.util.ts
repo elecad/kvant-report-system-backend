@@ -14,15 +14,6 @@ export function validationArray<T, E = any>({
   validate,
   exemple,
 }: ValidationArrayProps) {
-  // console.log(
-  //   'validate',
-  //   validate.array.map((el) => el[validate.key]),
-  // );
-  // console.log(
-  //   'exemple',
-  //   exemple.array.map((el) => el[exemple.key]),
-  // );
-
   const unique = new Set(exemple);
 
   if (unique.size != validate.length)
