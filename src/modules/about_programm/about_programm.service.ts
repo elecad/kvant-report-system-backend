@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 import {
@@ -17,6 +17,7 @@ export class AboutProgrammService {
   constructor(
     @InjectModel(AboutProgramm)
     private aboutProgrammRepository: typeof AboutProgramm,
+    @Inject(forwardRef(() => AnswerService))
     private answerService: AnswerService,
     private programmService: ProgrammService,
   ) {}

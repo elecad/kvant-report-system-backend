@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AnswerModule } from '../answer/answer.module';
 import { ProgrammModule } from '../programm/programm.module';
@@ -11,7 +11,7 @@ import { AboutProgramm } from './entities/about_programm.entity';
   providers: [AboutProgrammService],
   imports: [
     SequelizeModule.forFeature([AboutProgramm]),
-    AnswerModule,
+    forwardRef(() => AnswerModule),
     ProgrammModule,
   ],
   exports: [AboutProgrammService],

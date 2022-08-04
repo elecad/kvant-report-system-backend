@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
-import { AuthDependency } from 'src/guards/auth-guard/interfaces/auth.interface';
+import {
+  AuthDependency,
+  AuthUser,
+} from 'src/guards/auth-guard/interfaces/auth.interface';
 import { STRINGS } from 'src/res/strings';
 import { validationArray } from 'src/utils/validation-array.util';
 import {
@@ -14,6 +17,8 @@ import {
   databaseValidateOne,
   ValidateOption,
 } from 'src/validators/dataBase.validator';
+import { AboutDependencyService } from '../about_dependency/about_dependency.service';
+import { AboutProgrammService } from '../about_programm/about_programm.service';
 import { AccountService } from '../account/account.service';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
 import {
@@ -39,6 +44,9 @@ export class AnswerService {
     private reportService: ReportService,
     @Inject(forwardRef(() => ProgrammService))
     private programmService: ProgrammService,
+    private aboutProgrammService: AboutProgrammService,
+    @Inject(forwardRef(() => AboutDependencyService))
+    private aboutDependencyService: AboutDependencyService,
   ) {}
 
   private entityName = 'Ответ';
@@ -204,6 +212,36 @@ export class AnswerService {
           type: 'existing',
           value: programm_id,
         });
+      }
+    }
+  }
+
+  async add(
+    { id: responder_id }: AuthUser,
+    { dependencies, task_id }: AddAnswerDto,
+  ) {
+    const answer = await this.create({ task_id, responder_id });
+
+    for (const dependency of dependencies) {
+      //! added about_dependency
+      for (const about of dependency.about_dependency) {
+        await this.aboutDependencyService.create({
+          answer_id: answer.id,
+          data_of_type_id: about.data_of_type_id,
+          dependency_id: dependency.dependency_id,
+          value: about.value,
+        });
+      }
+      //! added about_programm
+      for (const programm of dependency.programms) {
+        for (const about of programm.about_programm) {
+          await this.aboutProgrammService.create({
+            answer_id: answer.id,
+            data_of_type_id: about.data_of_type_id,
+            programm_id: programm.programm_id,
+            value: about.value,
+          });
+        }
       }
     }
   }

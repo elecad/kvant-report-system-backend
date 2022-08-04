@@ -54,6 +54,8 @@ export class ProfileService {
       usersDependencies,
     );
 
+    await this.answerService.add(user, addAnswerDto);
+
     return usersDependencies;
   }
 }

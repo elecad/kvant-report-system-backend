@@ -28,4 +28,13 @@ export class CreateAboutProgrammDto {
   })
   @IsInt({ message: STRINGS.IsIntError })
   data_of_type_id: number;
+
+  @IsNotEmpty({
+    message: STRINGS.IsNotEmptyError,
+  })
+  @IsPositive({
+    message: STRINGS.IsPositiveError,
+  })
+  @IsInt({ message: STRINGS.IsIntError })
+  value: number;
 }

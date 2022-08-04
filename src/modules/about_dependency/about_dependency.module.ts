@@ -11,7 +11,7 @@ import { AboutDependency } from './entities/about_dependency.entity';
   providers: [AboutDependencyService],
   imports: [
     SequelizeModule.forFeature([AboutDependency]),
-    AnswerModule,
+    forwardRef(() => AnswerModule),
     forwardRef(() => DependencyModule),
   ],
   exports: [AboutDependencyService],
