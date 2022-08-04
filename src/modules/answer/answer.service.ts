@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   forwardRef,
   Inject,
   Injectable,
@@ -18,7 +19,9 @@ import {
   ValidateOption,
 } from 'src/validators/dataBase.validator';
 import { AboutDependencyService } from '../about_dependency/about_dependency.service';
+import { AboutDependency } from '../about_dependency/entities/about_dependency.entity';
 import { AboutProgrammService } from '../about_programm/about_programm.service';
+import { AboutProgramm } from '../about_programm/entities/about_programm.entity';
 import { AccountService } from '../account/account.service';
 import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
 import {
@@ -26,10 +29,12 @@ import {
   AddAnswerDependency,
   AddAnswerDto,
 } from '../profile/dto/add-answer.dto';
+import { Programm } from '../programm/entities/programm.entity';
 import { ProgrammService } from '../programm/programm.service';
 import { ReportService } from '../report/report.service';
 import { TaskService } from '../task/task.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { GetAnswerDto } from './dto/get-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { Answer } from './entities/answer.entity';
 
@@ -214,6 +219,66 @@ export class AnswerService {
         });
       }
     }
+  }
+
+  async getByID(answer_id: number, user: AuthUser) {
+    const answer = await this.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: answer_id,
+      findOptions: {
+        include: [
+          AboutDependency,
+          { model: AboutProgramm, include: [Programm] },
+        ],
+      },
+    });
+
+    if (answer.responder_id !== user.id)
+      throw new ForbiddenException(
+        'У текущего аккаунта нет доступа к этому ресурсу',
+      );
+
+    const result: GetAnswerDto = {
+      id: answer.id,
+      task_id: answer.task_id,
+      dependencies: [],
+    };
+
+    const uniqueDependency = new Set(
+      answer.about_dependencies.map((d) => d.dependency_id),
+    );
+
+    uniqueDependency.forEach((u) => {
+      const dependencies = answer.about_dependencies.filter(
+        (a) => a.dependency_id === u,
+      );
+
+      const programm = answer.about_programms.filter(
+        (a) => a.programm.dependency_id === u,
+      );
+
+      result.dependencies.push({
+        dependency_id: u,
+        about_dependency: dependencies.map((d) => ({
+          value: d.value,
+          data_of_type_id: d.data_of_type_id,
+        })),
+        programms: [],
+      });
+
+      if (programm.length === 0) return;
+
+      result.dependencies[result.dependencies.length - 1].programms.push({
+        programm_id: programm[0].programm_id,
+        about_programm: programm.map((p) => ({
+          data_of_type_id: p.data_of_type_id,
+          value: p.value,
+        })),
+      });
+    });
+
+    return result;
   }
 
   async add(

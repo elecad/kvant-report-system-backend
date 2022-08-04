@@ -1,23 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import {
-  AuthDependency,
-  AuthUser,
-} from 'src/guards/auth-guard/interfaces/auth.interface';
-import { STRINGS } from 'src/res/strings';
-import { validationArray } from 'src/utils/validation-array.util';
-import { AboutDependencyService } from '../about_dependency/about_dependency.service';
+import { Injectable } from '@nestjs/common';
+import { AuthUser } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { AccountService } from '../account/account.service';
 import { AnswerService } from '../answer/answer.service';
-import { DataOfType } from '../data_of_type/entities/data_of_type.entity';
 import { DependencyService } from '../dependency/dependency.service';
-import { ProgrammService } from '../programm/programm.service';
-import { ReportService } from '../report/report.service';
 import { TaskService } from '../task/task.service';
-import {
-  AddAnswerAbout,
-  AddAnswerDependency,
-  AddAnswerDto,
-} from './dto/add-answer.dto';
+import { AddAnswerDto } from './dto/add-answer.dto';
 
 @Injectable()
 export class ProfileService {
@@ -55,5 +42,9 @@ export class ProfileService {
     );
 
     await this.answerService.add(user, addAnswerDto);
+  }
+
+  async getAnswerByID(id: number, user: AuthUser) {
+    return this.answerService.getByID(id, user);
   }
 }

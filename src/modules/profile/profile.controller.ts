@@ -41,4 +41,12 @@ export class ProfileController {
   addAnswer(@User() user: AuthUser, @Body() addAnswerDto: AddAnswerDto) {
     return this.profileService.addAnswer(user, addAnswerDto);
   }
+
+  @Get('answer/:id')
+  getAnswer(
+    @User() user: AuthUser,
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+  ) {
+    return this.profileService.getAnswerByID(id, user);
+  }
 }
