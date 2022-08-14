@@ -20,6 +20,9 @@ export class SchoolTypeTable extends Model<
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
+  @Column({ type: DataType.STRING, allowNull: false })
+  code_name: string;
+
   @HasMany(() => SchoolTable)
   schools: SchoolTable[];
 }

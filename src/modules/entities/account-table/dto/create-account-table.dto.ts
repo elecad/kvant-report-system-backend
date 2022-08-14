@@ -51,12 +51,4 @@ export class CreateAccountTableDto {
     message: STRINGS.IsStringError,
   })
   middlename: string;
-
-  @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
-  @IsInt({ message: STRINGS.IsIntArrayError, each: true })
-  roles: number[];
-
-  @IsPositive({ message: STRINGS.IsPositiveArrayError, each: true })
-  @IsInt({ message: STRINGS.IsIntArrayError, each: true })
-  dependencies: number[];
 }
