@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { AnswerTableService } from './answer-table.service';
 import { CreateAnswerTableDto } from './dto/create-answer-table.dto';
 import { UpdateAnswerTableDto } from './dto/update-answer-table.dto';
@@ -18,17 +28,24 @@ export class AnswerTableController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.answerTableService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.answerTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnswerTableDto: UpdateAnswerTableDto) {
-    return this.answerTableService.update(+id, updateAnswerTableDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateAnswerTableDto: UpdateAnswerTableDto,
+  ) {
+    return this.answerTableService.update(id, updateAnswerTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.answerTableService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.answerTableService.remove(id);
   }
 }
