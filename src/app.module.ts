@@ -27,6 +27,8 @@ import { FileTableModule } from './modules/entities/file-table/file-table.module
 import { TaskTableModule } from './modules/entities/task-table/task-table.module';
 import { FileTable } from './modules/entities/file-table/entities/file-table.entity';
 import { TaskTable } from './modules/entities/task-table/entities/task-table.entity';
+import { AnswerTableModule } from './modules/entities/answer-table/answer-table.module';
+import { AnswerTable } from './modules/entities/answer-table/entities/answer-table.entity';
 
 @Module({
   controllers: [],
@@ -57,6 +59,7 @@ import { TaskTable } from './modules/entities/task-table/entities/task-table.ent
         ProgrammTable,
         FileTable,
         TaskTable,
+        AnswerTable,
       ],
       autoLoadModels: true,
     }),
@@ -72,6 +75,7 @@ import { TaskTable } from './modules/entities/task-table/entities/task-table.ent
     ProgrammTableModule,
     FileTableModule,
     TaskTableModule,
+    AnswerTableModule,
   ],
 })
 export class AppModule {}
