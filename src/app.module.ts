@@ -15,6 +15,10 @@ import { Account_DependencyTable } from './modules/entities/account-table/entiti
 import { Account_RoleTable } from './modules/entities/account-table/entities/account_role-table.entity';
 import { EventTableModule } from './modules/entities/event-table/event-table.module';
 import { EventTable } from './modules/entities/event-table/entities/event-table.entity';
+import { SchoolTypeTableModule } from './modules/entities/school-type-table/school-type-table.module';
+import { SchoolTypeTable } from './modules/entities/school-type-table/entities/school-type-table.entity';
+import { SchoolTableModule } from './modules/entities/school-table/school-table.module';
+import { SchoolTable } from './modules/entities/school-table/entities/school-table.entity';
 
 @Module({
   controllers: [],
@@ -39,6 +43,8 @@ import { EventTable } from './modules/entities/event-table/entities/event-table.
         Account_DependencyTable,
         Account_RoleTable,
         EventTable,
+        SchoolTypeTable,
+        SchoolTable,
       ],
       autoLoadModels: true,
     }),
@@ -48,6 +54,8 @@ import { EventTable } from './modules/entities/event-table/entities/event-table.
     DependencyTypeTableModule,
     DependencyTableModule,
     EventTableModule,
+    SchoolTypeTableModule,
+    SchoolTableModule,
   ],
 })
 export class AppModule {}
