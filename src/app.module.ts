@@ -13,6 +13,8 @@ import { DependencyTableModule } from './modules/entities/dependency-table/depen
 import { DependencyTable } from './modules/entities/dependency-table/entities/dependency-table.entity';
 import { Account_DependencyTable } from './modules/entities/account-table/entities/account_dependency-table.entity';
 import { Account_RoleTable } from './modules/entities/account-table/entities/account_role-table.entity';
+import { EventTableModule } from './modules/entities/event-table/event-table.module';
+import { EventTable } from './modules/entities/event-table/entities/event-table.entity';
 
 @Module({
   controllers: [],
@@ -36,6 +38,7 @@ import { Account_RoleTable } from './modules/entities/account-table/entities/acc
         DependencyTable,
         Account_DependencyTable,
         Account_RoleTable,
+        EventTable,
       ],
       autoLoadModels: true,
     }),
@@ -44,6 +47,7 @@ import { Account_RoleTable } from './modules/entities/account-table/entities/acc
     RoleTableModule,
     DependencyTypeTableModule,
     DependencyTableModule,
+    EventTableModule,
   ],
 })
 export class AppModule {}
