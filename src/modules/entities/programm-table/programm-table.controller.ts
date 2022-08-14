@@ -1,28 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseIntPipe,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { ProgrammTableService } from './programm-table.service';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 import { CreateProgrammTableDto } from './dto/create-programm-table.dto';
 import { UpdateProgrammTableDto } from './dto/update-programm-table.dto';
-import { FindOptions } from 'sequelize';
-import { ProgrammTable } from './entities/programm-table.entity';
-import { InjectModel } from '@nestjs/sequelize';
-import { DirectionTableService } from '../direction-table/direction-table.service';
-import {
-  databaseValidateAll,
-  databaseValidateOne,
-  ValidateOption,
-} from 'src/validators/database.validator';
-import { DependencyTableService } from '../dependency-table/dependency-table.service';
-import { SchoolTableService } from '../school-table/school-table.service';
-import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
+import { ProgrammTableService } from './programm-table.service';
 
 @Controller('programm-table')
 export class ProgrammTableController {
