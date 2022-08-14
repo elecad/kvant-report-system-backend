@@ -21,6 +21,7 @@ import { SchoolTableModule } from './modules/entities/school-table/school-table.
 import { SchoolTable } from './modules/entities/school-table/entities/school-table.entity';
 import { DirectionTableModule } from './modules/entities/direction-table/direction-table.module';
 import { DirectionTable } from './modules/entities/direction-table/entities/direction-table.entity';
+import { ProgrammTableModule } from './modules/entities/programm-table/programm-table.module';
 
 @Module({
   controllers: [],
@@ -60,6 +61,7 @@ import { DirectionTable } from './modules/entities/direction-table/entities/dire
     SchoolTypeTableModule,
     SchoolTableModule,
     DirectionTableModule,
+    ProgrammTableModule,
   ],
 })
 export class AppModule {}
