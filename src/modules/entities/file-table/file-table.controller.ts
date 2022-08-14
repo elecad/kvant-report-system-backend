@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { FileTableService } from './file-table.service';
 import { CreateFileTableDto } from './dto/create-file-table.dto';
 import { UpdateFileTableDto } from './dto/update-file-table.dto';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 
 @Controller('file-table')
 export class FileTableController {
@@ -18,17 +28,24 @@ export class FileTableController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.fileTableService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.fileTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFileTableDto: UpdateFileTableDto) {
-    return this.fileTableService.update(+id, updateFileTableDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateFileTableDto: UpdateFileTableDto,
+  ) {
+    return this.fileTableService.update(id, updateFileTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fileTableService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.fileTableService.remove(id);
   }
 }
