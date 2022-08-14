@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DependencyTypeTableService } from './dependency-type-table.service';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { DependencyTypeTableController } from './dependency-type-table.controller';
+import { DependencyTypeTableService } from './dependency-type-table.service';
+import { DependencyTypeTable } from './entities/dependency-type-table.entity';
 
 @Module({
   controllers: [DependencyTypeTableController],
-  providers: [DependencyTypeTableService]
+  providers: [DependencyTypeTableService],
+  imports: [SequelizeModule.forFeature([DependencyTypeTable])],
 })
 export class DependencyTypeTableModule {}
