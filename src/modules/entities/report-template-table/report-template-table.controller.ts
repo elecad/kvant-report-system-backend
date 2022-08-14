@@ -1,11 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ReportTemplateTableService } from './report-template-table.service';
 import { CreateReportTemplateTableDto } from './dto/create-report-template-table.dto';
 import { UpdateReportTemplateTableDto } from './dto/update-report-template-table.dto';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 
 @Controller('report-template-table')
 export class ReportTemplateTableController {
-  constructor(private readonly reportTemplateTableService: ReportTemplateTableService) {}
+  constructor(
+    private readonly reportTemplateTableService: ReportTemplateTableService,
+  ) {}
 
   @Post()
   create(@Body() createReportTemplateTableDto: CreateReportTemplateTableDto) {
@@ -18,17 +30,27 @@ export class ReportTemplateTableController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reportTemplateTableService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.reportTemplateTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReportTemplateTableDto: UpdateReportTemplateTableDto) {
-    return this.reportTemplateTableService.update(+id, updateReportTemplateTableDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateReportTemplateTableDto: UpdateReportTemplateTableDto,
+  ) {
+    return this.reportTemplateTableService.update(
+      id,
+      updateReportTemplateTableDto,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reportTemplateTableService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.reportTemplateTableService.remove(id);
   }
 }
