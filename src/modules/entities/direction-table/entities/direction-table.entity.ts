@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { ProgrammTable } from '../../programm-table/entities/programm-table.entity';
 
 export interface DirectionTableCreateAttr {
   name: string;
@@ -19,6 +20,6 @@ export class DirectionTable extends Model<
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  // @HasMany(() => Programm)
-  // programms: Programm[];
+  @HasMany(() => ProgrammTable)
+  programms: ProgrammTable[];
 }

@@ -8,6 +8,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { AccountTable } from '../../account-table/entities/account-table.entity';
+import { AnswerTable } from '../../answer-table/entities/answer-table.entity';
 import { FileTable } from '../../file-table/entities/file-table.entity';
 
 export interface TaskTableCreateAttr {
@@ -41,6 +42,6 @@ export class TaskTable extends Model<TaskTable, TaskTableCreateAttr> {
   @HasMany(() => FileTable)
   files: FileTable[];
 
-  // @HasMany(() => Answer)
-  // answers: Answer[];
+  @HasMany(() => AnswerTable)
+  answers: AnswerTable[];
 }

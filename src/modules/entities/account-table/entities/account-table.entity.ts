@@ -6,9 +6,11 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { AnswerTable } from '../../answer-table/entities/answer-table.entity';
 import { DependencyTable } from '../../dependency-table/entities/dependency-table.entity';
 import { RoleTable } from '../../role-table/entities/role-table.entity';
 import { SessionTable } from '../../session-table/entities/session-table.entity';
+import { TaskTable } from '../../task-table/entities/task-table.entity';
 import { Account_DependencyTable } from './account_dependency-table.entity';
 import { Account_RoleTable } from './account_role-table.entity';
 
@@ -53,9 +55,9 @@ export class AccountTable extends Model<AccountTable, AccountTableCreateAttr> {
   @HasMany(() => SessionTable)
   sessions: SessionTable[];
 
-  // @HasMany(() => Task)
-  // created_tasks: Task[];
+  @HasMany(() => TaskTable)
+  created_tasks: TaskTable[];
 
-  // @HasMany(() => Answer)
-  // created_answers: Answer[];
+  @HasMany(() => AnswerTable)
+  created_answers: AnswerTable[];
 }

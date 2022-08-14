@@ -3,9 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { AboutDependencyTable } from '../../about-dependency-table/entities/about-dependency-table.entity';
+import { AboutProgrammTable } from '../../about-programm-table/entities/about-programm-table.entity';
 import { AccountTable } from '../../account-table/entities/account-table.entity';
 import { TaskTable } from '../../task-table/entities/task-table.entity';
 
@@ -37,9 +40,9 @@ export class AnswerTable extends Model<AnswerTable, AnswerTableCreateAttr> {
   @BelongsTo(() => TaskTable)
   task: TaskTable;
 
-  // @HasMany(() => AboutDependency)
-  // about_dependencies: AboutDependency[];
+  @HasMany(() => AboutDependencyTable)
+  about_dependencies: AboutDependencyTable[];
 
-  // @HasMany(() => AboutProgramm)
-  // about_programms: AboutProgramm[];
+  @HasMany(() => AboutProgrammTable)
+  about_programms: AboutProgrammTable[];
 }

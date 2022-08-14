@@ -1,13 +1,21 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { AboutDependencyTable } from '../../about-dependency-table/entities/about-dependency-table.entity';
+import { AccountTable } from '../../account-table/entities/account-table.entity';
+import { Account_DependencyTable } from '../../account-table/entities/account_dependency-table.entity';
 
 import { DependencyTypeTable } from '../../dependency-type-table/entities/dependency-type-table.entity';
+import { EventTable } from '../../event-table/entities/event-table.entity';
+import { ProgrammTable } from '../../programm-table/entities/programm-table.entity';
+import { SchoolTable } from '../../school-table/entities/school-table.entity';
 
 export interface DependencyTableCreateAttr {
   name: string;
@@ -40,18 +48,18 @@ export class DependencyTable extends Model<
   @BelongsTo(() => DependencyTypeTable)
   dependency_type: DependencyTypeTable;
 
-  // @BelongsToMany(() => Account, () => Account_Dependency)
-  // accounts: Account[];
+  @BelongsToMany(() => AccountTable, () => Account_DependencyTable)
+  accounts: AccountTable[];
 
-  // @HasMany(() => School)
-  // schools: School[];
+  @HasMany(() => SchoolTable)
+  schools: SchoolTable[];
 
-  // @HasMany(() => Event)
-  // events: Event[];
+  @HasMany(() => EventTable)
+  events: Event[];
 
-  // @HasMany(() => Programm)
-  // programms: Programm[];
+  @HasMany(() => ProgrammTable)
+  programms: ProgrammTable[];
 
-  // @HasMany(() => AboutDependency)
-  // about_dependencies: AboutDependency[];
+  @HasMany(() => AboutDependencyTable)
+  about_dependencies: AboutDependencyTable[];
 }

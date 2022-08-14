@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { DependencyTable } from '../../dependency-table/entities/dependency-table.entity';
+import { ProgrammTable } from '../../programm-table/entities/programm-table.entity';
 import { SchoolTypeTable } from '../../school-type-table/entities/school-type-table.entity';
 
 export interface SchoolTableCreateAttr {
@@ -45,6 +47,6 @@ export class SchoolTable extends Model<SchoolTable, SchoolTableCreateAttr> {
   @BelongsTo(() => DependencyTable)
   dependency: DependencyTable;
 
-  // @HasMany(() => Programm)
-  // programms: Programm[];
+  @HasMany(() => ProgrammTable)
+  programms: ProgrammTable[];
 }
