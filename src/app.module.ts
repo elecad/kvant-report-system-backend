@@ -19,6 +19,8 @@ import { SchoolTypeTableModule } from './modules/entities/school-type-table/scho
 import { SchoolTypeTable } from './modules/entities/school-type-table/entities/school-type-table.entity';
 import { SchoolTableModule } from './modules/entities/school-table/school-table.module';
 import { SchoolTable } from './modules/entities/school-table/entities/school-table.entity';
+import { DirectionTableModule } from './modules/entities/direction-table/direction-table.module';
+import { DirectionTable } from './modules/entities/direction-table/entities/direction-table.entity';
 
 @Module({
   controllers: [],
@@ -45,6 +47,7 @@ import { SchoolTable } from './modules/entities/school-table/entities/school-tab
         EventTable,
         SchoolTypeTable,
         SchoolTable,
+        DirectionTable,
       ],
       autoLoadModels: true,
     }),
@@ -56,6 +59,7 @@ import { SchoolTable } from './modules/entities/school-table/entities/school-tab
     EventTableModule,
     SchoolTypeTableModule,
     SchoolTableModule,
+    DirectionTableModule,
   ],
 })
 export class AppModule {}
