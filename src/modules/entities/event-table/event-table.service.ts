@@ -1,26 +1,60 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
+import {
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/validators/database.validator';
 import { CreateEventTableDto } from './dto/create-event-table.dto';
 import { UpdateEventTableDto } from './dto/update-event-table.dto';
+import { EventTable } from './entities/event-table.entity';
 
 @Injectable()
 export class EventTableService {
-  create(createEventTableDto: CreateEventTableDto) {
-    return 'This action adds a new eventTable';
+  constructor(@InjectModel(EventTable) private repository: typeof EventTable) {}
+
+  entityName = 'Мероприятие';
+
+  async create(createEventTableDto: CreateEventTableDto) {
+    return this.repository.create(createEventTableDto);
   }
 
-  findAll() {
-    return `This action returns all eventTable`;
+  findAll(option: FindOptions<EventTable> = {}) {
+    return this.repository.findAll(option);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} eventTable`;
+  findOne(option: FindOptions<EventTable> = {}) {
+    return this.repository.findOne(option);
   }
 
-  update(id: number, updateEventTableDto: UpdateEventTableDto) {
-    return `This action updates a #${id} eventTable`;
+  async update(id: number, updateEventTableDto: UpdateEventTableDto) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    return entity.update(updateEventTableDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} eventTable`;
+  async remove(id: number) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    await entity.destroy();
+  }
+
+  async validateOne(props: ValidateOption<EventTable>) {
+    //? Одиночный валидатор
+    return databaseValidateOne(EventTable, this.entityName, props);
+  }
+
+  async validateAll(props: ValidateOption<EventTable>[]) {
+    //? Групповой валидатор
+    return databaseValidateAll(EventTable, this.entityName, props);
   }
 }
