@@ -22,6 +22,8 @@ import { SchoolTable } from './modules/entities/school-table/entities/school-tab
 import { DirectionTableModule } from './modules/entities/direction-table/direction-table.module';
 import { DirectionTable } from './modules/entities/direction-table/entities/direction-table.entity';
 import { ProgrammTableModule } from './modules/entities/programm-table/programm-table.module';
+import { ProgrammTable } from './modules/entities/programm-table/entities/programm-table.entity';
+import { FileTableModule } from './modules/entities/file-table/file-table.module';
 
 @Module({
   controllers: [],
@@ -49,6 +51,7 @@ import { ProgrammTableModule } from './modules/entities/programm-table/programm-
         SchoolTypeTable,
         SchoolTable,
         DirectionTable,
+        ProgrammTable,
       ],
       autoLoadModels: true,
     }),
@@ -62,6 +65,7 @@ import { ProgrammTableModule } from './modules/entities/programm-table/programm-
     SchoolTableModule,
     DirectionTableModule,
     ProgrammTableModule,
+    FileTableModule,
   ],
 })
 export class AppModule {}
