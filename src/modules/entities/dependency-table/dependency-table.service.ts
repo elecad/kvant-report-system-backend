@@ -1,26 +1,62 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize';
+import {
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/validators/database.validator';
 import { CreateDependencyTableDto } from './dto/create-dependency-table.dto';
 import { UpdateDependencyTableDto } from './dto/update-dependency-table.dto';
+import { DependencyTable } from './entities/dependency-table.entity';
 
 @Injectable()
 export class DependencyTableService {
-  create(createDependencyTableDto: CreateDependencyTableDto) {
-    return 'This action adds a new dependencyTable';
+  constructor(
+    @InjectModel(DependencyTable) private repository: typeof DependencyTable,
+  ) {}
+
+  entityName = 'Зависимость';
+
+  async create(createDependencyTableDto: CreateDependencyTableDto) {
+    return this.repository.create(createDependencyTableDto);
   }
 
-  findAll() {
-    return `This action returns all dependencyTable`;
+  findAll(option: FindOptions<DependencyTable> = {}) {
+    return this.repository.findAll(option);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dependencyTable`;
+  findOne(option: FindOptions<DependencyTable> = {}) {
+    return this.repository.findOne(option);
   }
 
-  update(id: number, updateDependencyTableDto: UpdateDependencyTableDto) {
-    return `This action updates a #${id} dependencyTable`;
+  async update(id: number, updateDependencyTableDto: UpdateDependencyTableDto) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    return entity.update(updateDependencyTableDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dependencyTable`;
+  async remove(id: number) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    await entity.destroy();
+  }
+
+  async validateOne(props: ValidateOption<DependencyTable>) {
+    //? Одиночный валидатор
+    return databaseValidateOne(DependencyTable, this.entityName, props);
+  }
+
+  async validateAll(props: ValidateOption<DependencyTable>[]) {
+    //? Групповой валидатор
+    return databaseValidateAll(DependencyTable, this.entityName, props);
   }
 }
