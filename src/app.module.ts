@@ -29,6 +29,8 @@ import { FileTable } from './modules/entities/file-table/entities/file-table.ent
 import { TaskTable } from './modules/entities/task-table/entities/task-table.entity';
 import { AnswerTableModule } from './modules/entities/answer-table/answer-table.module';
 import { AnswerTable } from './modules/entities/answer-table/entities/answer-table.entity';
+import { ReportTemplateTableModule } from './modules/entities/report-template-table/report-template-table.module';
+import { ReportTemplateTable } from './modules/entities/report-template-table/entities/report-template-table.entity';
 
 @Module({
   controllers: [],
@@ -60,6 +62,7 @@ import { AnswerTable } from './modules/entities/answer-table/entities/answer-tab
         FileTable,
         TaskTable,
         AnswerTable,
+        ReportTemplateTable,
       ],
       autoLoadModels: true,
     }),
@@ -76,6 +79,7 @@ import { AnswerTable } from './modules/entities/answer-table/entities/answer-tab
     FileTableModule,
     TaskTableModule,
     AnswerTableModule,
+    ReportTemplateTableModule,
   ],
 })
 export class AppModule {}
