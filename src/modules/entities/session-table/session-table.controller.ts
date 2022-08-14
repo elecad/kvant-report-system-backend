@@ -1,15 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { SessionTableService } from './session-table.service';
 import { CreateSessionTableDto } from './dto/create-session-table.dto';
 import { UpdateSessionTableDto } from './dto/update-session-table.dto';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 
 @Controller('session-table')
 export class SessionTableController {
   constructor(private readonly sessionTableService: SessionTableService) {}
 
   @Post()
-  create(@Body() createSessionTableDto: CreateSessionTableDto) {
-    return this.sessionTableService.create(createSessionTableDto);
+  create(@Body() сreateSessionTableDto: CreateSessionTableDto) {
+    return this.sessionTableService.create(сreateSessionTableDto);
   }
 
   @Get()
@@ -18,17 +28,24 @@ export class SessionTableController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sessionTableService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.sessionTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSessionTableDto: UpdateSessionTableDto) {
-    return this.sessionTableService.update(+id, updateSessionTableDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateSessionTableDto: UpdateSessionTableDto,
+  ) {
+    return this.sessionTableService.update(id, updateSessionTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sessionTableService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.sessionTableService.remove(id);
   }
 }
