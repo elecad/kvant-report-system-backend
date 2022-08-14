@@ -25,5 +25,5 @@ export class CreateDataOfTypeTableDto {
     message: STRINGS.IsPositiveError,
   })
   @IsInt({ message: STRINGS.IsIntError })
-  report_id: number;
+  template_id: number;
 }
