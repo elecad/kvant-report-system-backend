@@ -1,15 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { RoleTableService } from './role-table.service';
 import { CreateRoleTableDto } from './dto/create-role-table.dto';
 import { UpdateRoleTableDto } from './dto/update-role-table.dto';
+import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
 
 @Controller('role-table')
 export class RoleTableController {
   constructor(private readonly roleTableService: RoleTableService) {}
 
   @Post()
-  create(@Body() createRoleTableDto: CreateRoleTableDto) {
-    return this.roleTableService.create(createRoleTableDto);
+  create(@Body() сreateRoleTableDto: CreateRoleTableDto) {
+    return this.roleTableService.create(сreateRoleTableDto);
   }
 
   @Get()
@@ -18,17 +28,24 @@ export class RoleTableController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roleTableService.findOne(+id);
+  findOne(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.roleTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+    });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleTableDto: UpdateRoleTableDto) {
-    return this.roleTableService.update(+id, updateRoleTableDto);
+  update(
+    @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
+    @Body() updateRoleTableDto: UpdateRoleTableDto,
+  ) {
+    return this.roleTableService.update(id, updateRoleTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roleTableService.remove(+id);
+  remove(@Param('id', new ParseIntPipe(parseIntOptions)) id: number) {
+    return this.roleTableService.remove(id);
   }
 }
