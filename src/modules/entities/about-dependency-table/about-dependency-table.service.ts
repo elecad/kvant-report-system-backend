@@ -1,26 +1,117 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { FindOptions } from 'sequelize/types';
+import {
+  databaseValidateAll,
+  databaseValidateOne,
+  ValidateOption,
+} from 'src/validators/database.validator';
+import { AnswerTableService } from '../answer-table/answer-table.service';
+import { DataOfTypeTableService } from '../data-of-type-table/data-of-type-table.service';
+import { DependencyTableService } from '../dependency-table/dependency-table.service';
 import { CreateAboutDependencyTableDto } from './dto/create-about-dependency-table.dto';
 import { UpdateAboutDependencyTableDto } from './dto/update-about-dependency-table.dto';
+import { AboutDependencyTable } from './entities/about-dependency-table.entity';
 
 @Injectable()
 export class AboutDependencyTableService {
-  create(createAboutDependencyTableDto: CreateAboutDependencyTableDto) {
-    return 'This action adds a new aboutDependencyTable';
+  constructor(
+    @InjectModel(AboutDependencyTable)
+    private repository: typeof AboutDependencyTable,
+    private readonly answerTableService: AnswerTableService,
+    private readonly dataOfTypeTableService: DataOfTypeTableService,
+    private readonly dependencyTableService: DependencyTableService,
+  ) {}
+
+  entityName = 'О Зависимостях';
+
+  async create(createAboutDependencyTableDto: CreateAboutDependencyTableDto) {
+    const { answer_id, data_of_type_id, dependency_id } =
+      createAboutDependencyTableDto;
+
+    await this.answerTableService.validateOne({
+      column: 'id',
+      type: 'unique',
+      value: answer_id,
+    });
+
+    await this.dataOfTypeTableService.validateOne({
+      column: 'id',
+      type: 'unique',
+      value: data_of_type_id,
+    });
+
+    await this.dependencyTableService.validateOne({
+      column: 'id',
+      type: 'unique',
+      value: dependency_id,
+    });
+
+    return this.repository.create(createAboutDependencyTableDto);
   }
 
-  findAll() {
-    return `This action returns all aboutDependencyTable`;
+  findAll(option: FindOptions<AboutDependencyTable> = {}) {
+    return this.repository.findAll(option);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} aboutDependencyTable`;
+  findOne(option: FindOptions<AboutDependencyTable> = {}) {
+    return this.repository.findOne(option);
   }
 
-  update(id: number, updateAboutDependencyTableDto: UpdateAboutDependencyTableDto) {
-    return `This action updates a #${id} aboutDependencyTable`;
+  async update(
+    id: number,
+    updateAboutDependencyTableDto: UpdateAboutDependencyTableDto,
+  ) {
+    const { answer_id, data_of_type_id, dependency_id } =
+      updateAboutDependencyTableDto;
+
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    if (entity.answer_id !== answer_id)
+      await this.answerTableService.validateOne({
+        column: 'id',
+        type: 'unique',
+        value: answer_id,
+      });
+
+    if (entity.data_of_type_id !== data_of_type_id)
+      await this.dataOfTypeTableService.validateOne({
+        column: 'id',
+        type: 'unique',
+        value: data_of_type_id,
+      });
+
+    if (entity.dependency_id !== dependency_id)
+      await this.dependencyTableService.validateOne({
+        column: 'id',
+        type: 'unique',
+        value: dependency_id,
+      });
+
+    return entity.update(updateAboutDependencyTableDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} aboutDependencyTable`;
+  async remove(id: number) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'id',
+      value: id,
+    });
+
+    await entity.destroy();
+  }
+
+  async validateOne(props: ValidateOption<AboutDependencyTable>) {
+    //? Одиночный валидатор
+    return databaseValidateOne(AboutDependencyTable, this.entityName, props);
+  }
+
+  async validateAll(props: ValidateOption<AboutDependencyTable>[]) {
+    //? Групповой валидатор
+    return databaseValidateAll(AboutDependencyTable, this.entityName, props);
   }
 }
