@@ -8,5 +8,6 @@ import { DependencyTypeTable } from './entities/dependency-type-table.entity';
   controllers: [DependencyTypeTableController],
   providers: [DependencyTypeTableService],
   imports: [SequelizeModule.forFeature([DependencyTypeTable])],
+  exports: [DependencyTypeTableService],
 })
 export class DependencyTypeTableModule {}

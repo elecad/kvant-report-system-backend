@@ -8,5 +8,6 @@ import { AccountTable } from './entities/account-table.entity';
   controllers: [AccountTableController],
   providers: [AccountTableService],
   imports: [SequelizeModule.forFeature([AccountTable])],
+  exports: [AccountTableService],
 })
 export class AccountTableModule {}

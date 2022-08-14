@@ -8,5 +8,6 @@ import { EventTable } from './entities/event-table.entity';
   controllers: [EventTableController],
   providers: [EventTableService],
   imports: [SequelizeModule.forFeature([EventTable])],
+  exports: [EventTableService],
 })
 export class EventTableModule {}

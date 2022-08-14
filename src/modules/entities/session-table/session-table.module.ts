@@ -8,5 +8,6 @@ import { SessionTableService } from './session-table.service';
   controllers: [SessionTableController],
   providers: [SessionTableService],
   imports: [SequelizeModule.forFeature([SessionTable])],
+  exports: [SessionTableService],
 })
 export class SessionTableModule {}
