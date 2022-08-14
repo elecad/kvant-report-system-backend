@@ -33,6 +33,8 @@ import { ReportTemplateTableModule } from './modules/entities/report-template-ta
 import { ReportTemplateTable } from './modules/entities/report-template-table/entities/report-template-table.entity';
 import { DataOfTypeTableModule } from './modules/entities/data-of-type-table/data-of-type-table.module';
 import { DataOfTypeTable } from './modules/entities/data-of-type-table/entities/data-of-type-table.entity';
+import { AboutDependencyTableModule } from './modules/entities/about-dependency-table/about-dependency-table.module';
+import { AboutDependencyTable } from './modules/entities/about-dependency-table/entities/about-dependency-table.entity';
 
 @Module({
   controllers: [],
@@ -66,6 +68,7 @@ import { DataOfTypeTable } from './modules/entities/data-of-type-table/entities/
         AnswerTable,
         ReportTemplateTable,
         DataOfTypeTable,
+        AboutDependencyTable,
       ],
       autoLoadModels: true,
     }),
@@ -84,6 +87,7 @@ import { DataOfTypeTable } from './modules/entities/data-of-type-table/entities/
     AnswerTableModule,
     ReportTemplateTableModule,
     DataOfTypeTableModule,
+    AboutDependencyTableModule,
   ],
 })
 export class AppModule {}
