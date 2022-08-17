@@ -39,6 +39,8 @@ import { AboutProgrammTableModule } from './modules/entities/about-programm-tabl
 import { AboutProgrammTable } from './modules/entities/about-programm-table/entities/about-programm-table.entity';
 import { TestModule } from './test/test.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { AccountModule } from './modules/account/account.module';
 
 @Module({
   controllers: [],
@@ -96,6 +98,8 @@ import { AuthModule } from './modules/auth/auth.module';
     AboutProgrammTableModule,
     TestModule,
     AuthModule,
+    ProfileModule,
+    AccountModule,
   ],
 })
 export class AppModule {}
