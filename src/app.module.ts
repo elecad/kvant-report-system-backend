@@ -38,6 +38,7 @@ import { AboutDependencyTable } from './modules/entities/about-dependency-table/
 import { AboutProgrammTableModule } from './modules/entities/about-programm-table/about-programm-table.module';
 import { AboutProgrammTable } from './modules/entities/about-programm-table/entities/about-programm-table.entity';
 import { TestModule } from './test/test.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   controllers: [],
@@ -94,6 +95,7 @@ import { TestModule } from './test/test.module';
     AboutDependencyTableModule,
     AboutProgrammTableModule,
     TestModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

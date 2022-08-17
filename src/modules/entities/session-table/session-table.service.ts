@@ -50,6 +50,16 @@ export class SessionTableService {
     await entity.destroy();
   }
 
+  async removeByToken(token: string) {
+    const entity = await this.validateOne({
+      type: 'existing',
+      column: 'token',
+      value: token,
+    });
+
+    await entity.destroy();
+  }
+
   async validateOne(props: ValidateOption<SessionTable>) {
     //? Одиночный валидатор
     return databaseValidateOne(SessionTable, this.entityName, props);
