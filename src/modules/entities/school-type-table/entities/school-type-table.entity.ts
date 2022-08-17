@@ -3,6 +3,7 @@ import { SchoolTable } from '../../school-table/entities/school-table.entity';
 
 export interface SchoolTypeTableCreateAttr {
   name: string;
+  code_name: string;
 }
 
 @Table({ tableName: 'school_type', createdAt: false, updatedAt: false })

@@ -37,6 +37,7 @@ import { AboutDependencyTableModule } from './modules/entities/about-dependency-
 import { AboutDependencyTable } from './modules/entities/about-dependency-table/entities/about-dependency-table.entity';
 import { AboutProgrammTableModule } from './modules/entities/about-programm-table/about-programm-table.module';
 import { AboutProgrammTable } from './modules/entities/about-programm-table/entities/about-programm-table.entity';
+import { TestModule } from './test/test.module';
 
 @Module({
   controllers: [],
@@ -92,6 +93,7 @@ import { AboutProgrammTable } from './modules/entities/about-programm-table/enti
     DataOfTypeTableModule,
     AboutDependencyTableModule,
     AboutProgrammTableModule,
+    TestModule,
   ],
 })
 export class AppModule {}

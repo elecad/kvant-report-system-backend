@@ -11,7 +11,7 @@ import { ReportTemplateTable } from '../../report-template-table/entities/report
 export interface DataOfTypeTableCreateAttr {
   description: string;
   code_name: string;
-  report_template_id: number;
+  template_id: number;
 }
 
 @Table({ tableName: 'data_of_type', createdAt: false, updatedAt: false })
