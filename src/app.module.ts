@@ -41,6 +41,7 @@ import { TestModule } from './test/test.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { AccountModule } from './modules/account/account.module';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   controllers: [],
@@ -100,6 +101,7 @@ import { AccountModule } from './modules/account/account.module';
     AuthModule,
     ProfileModule,
     AccountModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
