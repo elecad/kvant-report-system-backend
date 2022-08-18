@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AuthUser } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { ValidateOption } from 'src/validators/database.validator';
 import { AccountTableService } from '../entities/account-table/account-table.service';
 import { DependencyTableService } from '../entities/dependency-table/dependency-table.service';
@@ -94,5 +95,14 @@ export class AccountService {
     account.$set('dependencies', findDependencies);
 
     return account;
+  }
+
+  getProfile({ id, dependencies, ...profile }: AuthUser) {
+    return {
+      ...profile,
+      dependencies: dependencies.map(
+        ({ programms, ...dependency }) => dependency,
+      ),
+    };
   }
 }

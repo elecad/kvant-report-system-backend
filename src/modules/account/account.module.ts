@@ -10,5 +10,6 @@ import { DependencyTableModule } from '../entities/dependency-table/dependency-t
   controllers: [AccountController],
   providers: [AccountService],
   imports: [AccountTableModule, RoleTableModule, DependencyTableModule],
+  exports: [AccountService],
 })
 export class AccountModule {}
