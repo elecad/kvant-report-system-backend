@@ -14,9 +14,9 @@ import { Roles } from 'src/guards/auth-guard/decorators/roles.decorator';
 import { User } from 'src/guards/auth-guard/decorators/user.decorator';
 import { AuthUser } from 'src/guards/auth-guard/interfaces/auth.interface';
 import { parseIntOptions } from 'src/validators/options/parseIntPipe.option';
+import { CreateTaskTableDto } from '../entities/task-table/dto/create-task-table.dto';
+import { UpdateTaskTableDto } from '../entities/task-table/dto/update-task-table.dto';
 import { TaskTableService } from '../entities/task-table/task-table.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
@@ -29,8 +29,11 @@ export class TaskController {
   ) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto, @User() user: AuthUser) {
-    return this.taskService.create({ ...createTaskDto, author_id: user.id });
+  create(@Body() createTaskDto: CreateTaskTableDto, @User() user: AuthUser) {
+    return this.taskTableService.create({
+      ...createTaskDto,
+      author_id: user.id,
+    });
   }
 
   @Get()
@@ -50,10 +53,10 @@ export class TaskController {
   @Patch(':id')
   update(
     @Param('id', new ParseIntPipe(parseIntOptions)) id: number,
-    @Body() updateTaskDto: UpdateTaskDto,
+    @Body() updateTaskDto: UpdateTaskTableDto,
     @User() user: AuthUser,
   ) {
-    return this.taskService.update(id, {
+    return this.taskTableService.update(id, {
       ...updateTaskDto,
       author_id: user.id,
     });
