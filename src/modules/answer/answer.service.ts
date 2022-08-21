@@ -151,66 +151,67 @@ export class AnswerService {
     });
 
     if (answer.responder_id !== user.id)
-      throw new ForbiddenException(
-        'Пользователь имеет доступ только к своим Ответам',
-      );
+      throw new ForbiddenException(STRINGS.ForbiddenAnswerError);
 
     const result: AnswerDependency[] = [];
 
-    for (const aboutDependency of answer.about_dependencies) {
-      const index = result.findIndex(
-        (d) => d.dependency_id === aboutDependency.dependency_id,
-      );
+    for (const {
+      dependency_id,
+      value,
+      data_of_type_id,
+    } of answer.about_dependencies) {
+      const i = result.findIndex((d) => d.dependency_id === dependency_id);
 
-      if (index === -1) {
-        result.push({
-          about_dependency: [
-            {
-              data_of_type_id: aboutDependency.data_of_type_id,
-              value: aboutDependency.value,
-            },
-          ],
-          dependency_id: aboutDependency.dependency_id,
-          programms: [],
-        });
-      } else {
-        result[index].about_dependency.push({
-          data_of_type_id: aboutDependency.data_of_type_id,
-          value: aboutDependency.value,
-        });
-      }
+      i === -1
+        ? result.push({
+            about_dependency: [
+              {
+                data_of_type_id,
+                value,
+              },
+            ],
+            dependency_id: dependency_id,
+            programms: [],
+          })
+        : result[i].about_dependency.push({
+            data_of_type_id,
+            value,
+          });
     }
 
-    for (const aboutProgramm of answer.about_programms) {
-      const index = result.findIndex(
-        (d) => d.dependency_id === aboutProgramm.programm.dependency_id,
+    for (const {
+      programm_id,
+      value,
+      data_of_type_id,
+      programm,
+    } of answer.about_programms) {
+      const i = result.findIndex(
+        (d) => d.dependency_id === programm.dependency_id,
       );
 
-      if (index === -1)
+      if (i === -1)
         throw new BadRequestException(
           'Программа была добавлена для отсутсвующей в AboutDependency Зависимости',
         );
 
-      const programmIndex = result[index].programms.findIndex(
-        (p) => p.programm_id === aboutProgramm.programm_id,
+      const j = result[i].programms.findIndex(
+        (p) => p.programm_id === programm_id,
       );
 
-      if (programmIndex === -1) {
-        result[index].programms.push({
-          programm_id: aboutProgramm.programm_id,
-          about_programm: [
-            {
-              data_of_type_id: aboutProgramm.data_of_type_id,
-              value: aboutProgramm.value,
-            },
-          ],
-        });
-      } else {
-        result[index].programms[programmIndex].about_programm.push({
-          data_of_type_id: aboutProgramm.data_of_type_id,
-          value: aboutProgramm.value,
-        });
-      }
+      j === -1
+        ? result[i].programms.push({
+            programm_id: programm_id,
+            about_programm: [
+              {
+                data_of_type_id: data_of_type_id,
+                value: value,
+              },
+            ],
+          })
+        : result[i].programms[j].about_programm.push({
+            data_of_type_id: data_of_type_id,
+            value: value,
+          });
     }
 
     return result;

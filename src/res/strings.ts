@@ -39,4 +39,6 @@ export const STRINGS = {
     `В Данных о Программах у Зависимости с id ${dependency_id} обнаружены повторения`,
   DataOfTypeProgrammNotMatchingTemplateError: (dependency_id: number) =>
     `Данные о Программах у Зависимости с id ${dependency_id} не соотвествуют шаблону`,
+
+  ForbiddenAnswerError: 'Пользователь имеет доступ только к своим Ответам',
 };
