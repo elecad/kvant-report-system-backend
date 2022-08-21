@@ -19,6 +19,7 @@ import { DependencyTable } from '../entities/dependency-table/entities/dependenc
 import { ProgrammTable } from '../entities/programm-table/entities/programm-table.entity';
 import { ReportService } from '../report/report.service';
 import { AnswerDependency, CreateAnswerDto } from './dto/create-answer.dto';
+import { GetAnswerDependency } from './dto/get-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Injectable()
@@ -153,12 +154,13 @@ export class AnswerService {
     if (answer.responder_id !== user.id)
       throw new ForbiddenException(STRINGS.ForbiddenAnswerError);
 
-    const result: AnswerDependency[] = [];
+    const result: GetAnswerDependency[] = [];
 
     for (const {
       dependency_id,
       value,
       data_of_type_id,
+      id: about_id,
     } of answer.about_dependencies) {
       const i = result.findIndex((d) => d.dependency_id === dependency_id);
 
@@ -168,6 +170,7 @@ export class AnswerService {
               {
                 data_of_type_id,
                 value,
+                about_id,
               },
             ],
             dependency_id: dependency_id,
@@ -176,6 +179,7 @@ export class AnswerService {
         : result[i].about_dependency.push({
             data_of_type_id,
             value,
+            about_id,
           });
     }
 
@@ -184,6 +188,7 @@ export class AnswerService {
       value,
       data_of_type_id,
       programm,
+      id: about_id,
     } of answer.about_programms) {
       const i = result.findIndex(
         (d) => d.dependency_id === programm.dependency_id,
@@ -203,14 +208,16 @@ export class AnswerService {
             programm_id: programm_id,
             about_programm: [
               {
-                data_of_type_id: data_of_type_id,
-                value: value,
+                data_of_type_id,
+                value,
+                about_id,
               },
             ],
           })
         : result[i].programms[j].about_programm.push({
-            data_of_type_id: data_of_type_id,
-            value: value,
+            data_of_type_id,
+            value,
+            about_id,
           });
     }
 
