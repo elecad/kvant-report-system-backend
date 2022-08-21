@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import {
   AuthDependency,
   AuthUser,
@@ -6,10 +10,15 @@ import {
 import { STRINGS } from 'src/res/strings';
 import { validationArray } from 'src/utils/validation-array.util';
 import { AboutDependencyTableService } from '../entities/about-dependency-table/about-dependency-table.service';
+import { AboutDependencyTable } from '../entities/about-dependency-table/entities/about-dependency-table.entity';
 import { AboutProgrammTableService } from '../entities/about-programm-table/about-programm-table.service';
+import { AboutProgrammTable } from '../entities/about-programm-table/entities/about-programm-table.entity';
 import { AnswerTableService } from '../entities/answer-table/answer-table.service';
+import { DataOfTypeTable } from '../entities/data-of-type-table/entities/data-of-type-table.entity';
+import { DependencyTable } from '../entities/dependency-table/entities/dependency-table.entity';
+import { ProgrammTable } from '../entities/programm-table/entities/programm-table.entity';
 import { ReportService } from '../report/report.service';
-import { CreateAnswerDto } from './dto/create-answer.dto';
+import { AnswerDependency, CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Injectable()
@@ -120,5 +129,90 @@ export class AnswerService {
 
   update(id: number, updateAnswerDto: UpdateAnswerDto) {
     return `This action updates a #${id} answer`;
+  }
+
+  async getByIdAndAuthor(id: number, user: AuthUser) {
+    const answer = await this.answerTableService.validateOne({
+      column: 'id',
+      type: 'existing',
+      value: id,
+      findOptions: {
+        include: [
+          {
+            model: AboutDependencyTable,
+            include: [DependencyTable, DataOfTypeTable],
+          },
+          {
+            model: AboutProgrammTable,
+            include: [ProgrammTable, DataOfTypeTable],
+          },
+        ],
+      },
+    });
+
+    if (answer.responder_id !== user.id)
+      throw new ForbiddenException(
+        'Пользователь имеет доступ только к своим Ответам',
+      );
+
+    const result: AnswerDependency[] = [];
+
+    for (const aboutDependency of answer.about_dependencies) {
+      const index = result.findIndex(
+        (d) => d.dependency_id === aboutDependency.dependency_id,
+      );
+
+      if (index === -1) {
+        result.push({
+          about_dependency: [
+            {
+              data_of_type_id: aboutDependency.data_of_type_id,
+              value: aboutDependency.value,
+            },
+          ],
+          dependency_id: aboutDependency.dependency_id,
+          programms: [],
+        });
+      } else {
+        result[index].about_dependency.push({
+          data_of_type_id: aboutDependency.data_of_type_id,
+          value: aboutDependency.value,
+        });
+      }
+    }
+
+    for (const aboutProgramm of answer.about_programms) {
+      const index = result.findIndex(
+        (d) => d.dependency_id === aboutProgramm.programm.dependency_id,
+      );
+
+      if (index === -1)
+        throw new BadRequestException(
+          'Программа была добавлена для отсутсвующей в AboutDependency Зависимости',
+        );
+
+      const programmIndex = result[index].programms.findIndex(
+        (p) => p.programm_id === aboutProgramm.programm_id,
+      );
+
+      if (programmIndex === -1) {
+        result[index].programms.push({
+          programm_id: aboutProgramm.programm_id,
+          about_programm: [
+            {
+              data_of_type_id: aboutProgramm.data_of_type_id,
+              value: aboutProgramm.value,
+            },
+          ],
+        });
+      } else {
+        result[index].programms[programmIndex].about_programm.push({
+          data_of_type_id: aboutProgramm.data_of_type_id,
+          value: aboutProgramm.value,
+        });
+      }
+    }
+
+    return result;
   }
 }

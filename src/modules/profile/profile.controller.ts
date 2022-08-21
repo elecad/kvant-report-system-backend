@@ -58,4 +58,12 @@ export class ProfileController {
     );
     return this.answerService.create(createAnswerDto, user, dependencies);
   }
+
+  @Get('answer/:id')
+  async getAnswer(
+    @User() user: AuthUser,
+    @Param('id', new ParseIntPipe(parseIntOptions)) answer_id: number,
+  ) {
+    return this.answerService.getByIdAndAuthor(answer_id, user);
+  }
 }
