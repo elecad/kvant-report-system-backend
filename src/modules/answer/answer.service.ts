@@ -42,7 +42,10 @@ export class AnswerService {
         (d) => clientDependency.dependency_id === d.id,
       );
 
-      if (!template[dependency.dependency_type.code_name])
+      const currentDependencyType =
+        template[dependency.dependency_type.code_name];
+
+      if (!currentDependencyType)
         throw new BadRequestException(STRINGS.TemplateDependencyTypeError);
 
       //! about-dependency check
@@ -50,9 +53,7 @@ export class AnswerService {
         validate: clientDependency.about_dependency.map(
           (d) => d.data_of_type_id,
         ),
-        exemple: template[dependency.dependency_type.code_name].map(
-          (t) => t.id,
-        ),
+        exemple: currentDependencyType.map((t) => t.id),
         messages: {
           IsRepeatError: STRINGS.DataOfTypeDependencyRepeatError(dependency.id),
           IsNotMatchingExempleError:
@@ -85,28 +86,32 @@ export class AnswerService {
       }
     }
 
-    const answer = await this.answerTableService.create({
+    const { id: answer_id } = await this.answerTableService.create({
       task_id: createAnswerDto.task_id,
       responder_id: user.id,
     });
 
-    for (const dependency of createAnswerDto.dependencies) {
-      for (const aboutDependency of dependency.about_dependency) {
+    for (const {
+      dependency_id,
+      about_dependency,
+      programms,
+    } of createAnswerDto.dependencies) {
+      for (const { data_of_type_id, value } of about_dependency) {
         await this.aboutDependencyTableService.create({
-          answer_id: answer.id,
-          data_of_type_id: aboutDependency.data_of_type_id,
-          dependency_id: dependency.dependency_id,
-          value: aboutDependency.value,
+          answer_id,
+          data_of_type_id,
+          dependency_id,
+          value,
         });
       }
 
-      for (const programm of dependency.programms) {
-        for (const aboutProgramm of programm.about_programm) {
+      for (const { programm_id, about_programm } of programms) {
+        for (const { data_of_type_id, value } of about_programm) {
           await this.aboutProgrammTableService.create({
-            answer_id: answer.id,
-            data_of_type_id: aboutProgramm.data_of_type_id,
-            programm_id: programm.programm_id,
-            value: aboutProgramm.value,
+            answer_id,
+            data_of_type_id,
+            programm_id,
+            value,
           });
         }
       }
