@@ -3,6 +3,7 @@ import {
   AuthDependency,
   AuthUser,
 } from 'src/guards/auth-guard/interfaces/auth.interface';
+import { STRINGS } from 'src/res/strings';
 import { validationArray } from 'src/utils/validation-array.util';
 import { AboutDependencyTableService } from '../entities/about-dependency-table/about-dependency-table.service';
 import { AboutProgrammTableService } from '../entities/about-programm-table/about-programm-table.service';
@@ -29,9 +30,8 @@ export class AnswerService {
       validate: createAnswerDto.dependencies.map((d) => d.dependency_id),
       exemple: validDependencies.map((d) => d.id),
       messages: {
-        IsRepeatError: 'В Зависимостях обнаружены повторения',
-        IsNotMatchingExempleError:
-          'Зависимости не соотвествуют необходимому шаблону',
+        IsRepeatError: STRINGS.DependencyRepeatError,
+        IsNotMatchingExempleError: STRINGS.DependencyNotMatchingTemplateError,
       },
     });
 
@@ -43,9 +43,7 @@ export class AnswerService {
       );
 
       if (!template[dependency.dependency_type.code_name])
-        throw new BadRequestException(
-          'Шаблон для такого Типа Зависимости не найден',
-        );
+        throw new BadRequestException(STRINGS.TemplateDependencyTypeError);
 
       //! about-dependency check
       validationArray({
@@ -56,8 +54,9 @@ export class AnswerService {
           (t) => t.id,
         ),
         messages: {
-          IsRepeatError: `В Типах Данных Зависимости с id ${dependency.id} обнаружено повторение`,
-          IsNotMatchingExempleError: `Типы данных Зависимости с id ${dependency.id} не соответсвуют шаблону`,
+          IsRepeatError: STRINGS.DataOfTypeDependencyRepeatError(dependency.id),
+          IsNotMatchingExempleError:
+            STRINGS.DataOfTypeDependencyNotMatchingTemplateError(dependency.id),
         },
       });
 
@@ -66,8 +65,9 @@ export class AnswerService {
         validate: clientDependency.programms.map((p) => p.programm_id),
         exemple: dependency.programms.map((p) => p.id),
         messages: {
-          IsRepeatError: `В Программах Зависимости с id ${dependency.id} обнаружены повторения`,
-          IsNotMatchingExempleError: `Программы Зависимости с id ${dependency.id} не соответсвуют шаблону`,
+          IsRepeatError: STRINGS.ProgrammDependencyRepeatError(dependency.id),
+          IsNotMatchingExempleError:
+            STRINGS.ProgrammDependencyNotMatchingTemplateError(dependency.id),
         },
       });
 
@@ -77,8 +77,9 @@ export class AnswerService {
           validate: clientProgramm.about_programm.map((a) => a.data_of_type_id),
           exemple: template.programm.map((a) => a.id),
           messages: {
-            IsRepeatError: `В Данных о Программах у Зависимости с id ${dependency.id} обнаружены повторения`,
-            IsNotMatchingExempleError: `Данные о Программах у Зависимости с id ${dependency.id} не соотвествуют шаблону`,
+            IsRepeatError: STRINGS.DataOfTypeProgrammRepeatError(dependency.id),
+            IsNotMatchingExempleError:
+              STRINGS.DataOfTypeProgrammNotMatchingTemplateError(dependency.id),
           },
         });
       }

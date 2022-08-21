@@ -20,4 +20,23 @@ export const STRINGS = {
   IsArrayError: 'Это поле должно быть массивом',
   IsBadTaskRequest:
     'Данное задание не нуждается в ответе текущего пользователя',
+  DependencyRepeatError: 'В Зависимостях обнаружены повторения',
+  DependencyNotMatchingTemplateError:
+    'Зависимости не соотвествуют необходимому шаблону',
+  TemplateDependencyTypeError: 'Шаблон для такого Типа Зависимости не найден',
+
+  DataOfTypeDependencyRepeatError: (dependency_id: number) =>
+    `В Типах Данных Зависимости с id ${dependency_id} обнаружено повторение`,
+  DataOfTypeDependencyNotMatchingTemplateError: (dependency_id: number) =>
+    `Типы данных Зависимости с id ${dependency_id} не соответсвуют шаблону`,
+
+  ProgrammDependencyRepeatError: (dependency_id: number) =>
+    `В Программах Зависимости с id ${dependency_id} обнаружены повторения`,
+  ProgrammDependencyNotMatchingTemplateError: (dependency_id: number) =>
+    `Программы Зависимости с id ${dependency_id} не соответсвуют шаблону`,
+
+  DataOfTypeProgrammRepeatError: (dependency_id: number) =>
+    `В Данных о Программах у Зависимости с id ${dependency_id} обнаружены повторения`,
+  DataOfTypeProgrammNotMatchingTemplateError: (dependency_id: number) =>
+    `Данные о Программах у Зависимости с id ${dependency_id} не соотвествуют шаблону`,
 };
