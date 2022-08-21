@@ -23,7 +23,9 @@ export interface AuthDependency extends BasePropertyDB {
   programms: AuthProgramm[];
 }
 
-export interface AuthDependencyType extends BasePropertyDB {}
+export interface AuthDependencyType extends BasePropertyDB {
+  code_name: string;
+}
 
 export interface AuthDirection extends BasePropertyDB {}
 

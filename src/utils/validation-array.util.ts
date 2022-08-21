@@ -9,12 +9,14 @@ export interface ValidationArrayProps {
   exemple: any[];
 }
 
-export function validationArray<T, E = any>({
+export function validationArray({
   messages,
   validate,
   exemple,
 }: ValidationArrayProps) {
-  const unique = new Set(exemple);
+  const unique = new Set(validate);
+
+  // console.log(validate, exemple);
 
   if (unique.size != validate.length)
     throw new BadRequestException(messages.IsRepeatError ?? '');

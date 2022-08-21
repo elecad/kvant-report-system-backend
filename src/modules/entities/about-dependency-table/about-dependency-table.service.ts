@@ -31,19 +31,19 @@ export class AboutDependencyTableService {
 
     await this.answerTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: answer_id,
     });
 
     await this.dataOfTypeTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: data_of_type_id,
     });
 
     await this.dependencyTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: dependency_id,
     });
 
@@ -74,21 +74,21 @@ export class AboutDependencyTableService {
     if (entity.answer_id !== answer_id)
       await this.answerTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: answer_id,
       });
 
     if (entity.data_of_type_id !== data_of_type_id)
       await this.dataOfTypeTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: data_of_type_id,
       });
 
     if (entity.dependency_id !== dependency_id)
       await this.dependencyTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: dependency_id,
       });
 

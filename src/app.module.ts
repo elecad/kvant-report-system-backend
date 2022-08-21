@@ -43,6 +43,8 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { AccountModule } from './modules/account/account.module';
 import { TaskModule } from './modules/task/task.module';
 import { DependencyModule } from './modules/dependency/dependency.module';
+import { AnswerModule } from './modules/answer/answer.module';
+import { ReportModule } from './modules/report/report.module';
 
 @Module({
   controllers: [],
@@ -104,6 +106,8 @@ import { DependencyModule } from './modules/dependency/dependency.module';
     AccountModule,
     TaskModule,
     DependencyModule,
+    AnswerModule,
+    ReportModule,
   ],
 })
 export class AppModule {}

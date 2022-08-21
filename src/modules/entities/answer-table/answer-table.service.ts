@@ -27,13 +27,13 @@ export class AnswerTableService {
 
     await this.accountTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: responder_id,
     });
 
     await this.taskTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: task_id,
     });
 
@@ -60,14 +60,14 @@ export class AnswerTableService {
     if (entity.responder_id !== responder_id)
       await this.accountTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: responder_id,
       });
 
     if (entity.task_id !== task_id)
       await this.taskTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: task_id,
       });
 

@@ -31,19 +31,19 @@ export class AboutProgrammTableService {
 
     await this.answerTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: answer_id,
     });
 
     await this.dataOfTypeTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: data_of_type_id,
     });
 
     await this.programmTableService.validateOne({
       column: 'id',
-      type: 'unique',
+      type: 'existing',
       value: programm_id,
     });
 
@@ -74,21 +74,21 @@ export class AboutProgrammTableService {
     if (entity.answer_id !== answer_id)
       await this.answerTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: answer_id,
       });
 
     if (entity.data_of_type_id !== data_of_type_id)
       await this.dataOfTypeTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: data_of_type_id,
       });
 
     if (entity.programm_id !== programm_id)
       await this.programmTableService.validateOne({
         column: 'id',
-        type: 'unique',
+        type: 'existing',
         value: programm_id,
       });
 
