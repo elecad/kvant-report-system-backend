@@ -191,7 +191,7 @@ export class AnswerService {
 
       if (i === -1)
         throw new BadRequestException(
-          'Программа была добавлена для отсутсвующей в AboutDependency Зависимости',
+          STRINGS.AbsenceDependencyIdAboutDependencies,
         );
 
       const j = result[i].programms.findIndex(
