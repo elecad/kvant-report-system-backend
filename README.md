@@ -11,7 +11,7 @@
 
 Nest JS + SequelizeORM + PostgreSQL. Пооект доделан до MVP.
 
-## Installation
+## Установка
 
 ```bash
 $ npm install
