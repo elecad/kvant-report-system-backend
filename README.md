@@ -7,9 +7,10 @@
 
   <h1 align="center">kvant-report-system-backend</h1>
 
-## Description
+## Описание
 
 Nest JS + SequelizeORM + PostgreSQL
+Пооект доделан др MVP.
 
 ## Installation
 
@@ -17,7 +18,7 @@ Nest JS + SequelizeORM + PostgreSQL
 $ npm install
 ```
 
-## Running the app
+## Запуск
 
 ```bash
 # development
@@ -28,17 +29,4 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
