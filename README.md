@@ -9,8 +9,7 @@
 
 ## Описание
 
-Nest JS + SequelizeORM + PostgreSQL
-Пооект доделан др MVP.
+Nest JS + SequelizeORM + PostgreSQL. Пооект доделан до MVP.
 
 ## Installation
 
